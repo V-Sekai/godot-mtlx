@@ -589,9 +589,9 @@ class MX_CORE_API Matrix33 : public MatrixN<Matrix33, float, 3>
              float m20, float m21, float m22) :
         MatrixN(Uninit{})
     {
-        _arr = { m00, m01, m02,
-                 m10, m11, m12,
-                 m20, m21, m22 };
+        _arr = { std::array<float, 3>({m00, m01, m02}),
+                 std::array<float, 3>({m10, m11, m12}),
+                 std::array<float, 3>({m20, m21, m22}) };
     }
 
     /// @name Matrix Operations
@@ -660,10 +660,10 @@ class MX_CORE_API Matrix44 : public MatrixN<Matrix44, float, 4>
              float m30, float m31, float m32, float m33) :
         MatrixN(Uninit{})
     {
-        _arr = { m00, m01, m02, m03,
-                 m10, m11, m12, m13,
-                 m20, m21, m22, m23,
-                 m30, m31, m32, m33 };
+        _arr = { std::array<float, 4>({m00, m01, m02, m03}),
+                 std::array<float, 4>({m10, m11, m12, m13}),
+                 std::array<float, 4>({m20, m21, m22, m23}),
+                 std::array<float, 4>({m30, m31, m32, m33}) };
     }
 
     /// @name Matrix Operations

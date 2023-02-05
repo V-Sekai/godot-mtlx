@@ -226,8 +226,9 @@ class MX_RENDER_API MeshPartition
     size_t _faceCount;
 };
 
+class Mesh;
 /// Shared pointer to a mesh
-using MeshPtr = shared_ptr<class Mesh>;
+using MeshPtr = shared_ptr<Mesh>;
 
 /// List of meshes
 using MeshList = vector<MeshPtr>;
