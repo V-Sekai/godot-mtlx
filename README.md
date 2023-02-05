@@ -17,6 +17,16 @@ MaterialX is an open standard for representing rich material and look-developmen
 - Point CMake to the root of the MaterialX library and generate C++ projects for your platform and compiler.
 - Select the `MATERIALX_BUILD_PYTHON` option to build Python bindings.
 - Select the `MATERIALX_BUILD_VIEWER` option to build the MaterialX viewer.
+- Select the `MATERIALX_BUILD_BAKER` option to build the MaterialX baker.
+
+Here is a command line example to build the baker starting from a fresh checkout:
+
+```bash
+mkdir build
+cd build
+cmake -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/output -DMATERIALX_BUILD_BAKER=ON .. -G"Unix Makefiles" 
+make install -j8
+```
 
 ### Supported Platforms
 

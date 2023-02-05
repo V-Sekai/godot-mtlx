@@ -12,6 +12,8 @@
     #pragma warning(disable: 4800)
 #endif
 
+#if defined(MATERIALX_OIIO)
+
 #include <OpenImageIO/imageio.h>
 
 #if defined(_WIN32)
@@ -121,3 +123,4 @@ ImagePtr OiioImageLoader::loadImage(const FilePath& filePath)
 }
 
 MATERIALX_NAMESPACE_END
+#endif
