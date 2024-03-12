@@ -46,7 +46,7 @@ void bindPyImage(py::module& mod)
         .def("setResourceBufferDeallocator", &mx::Image::setResourceBufferDeallocator)
         .def("getResourceBufferDeallocator", &mx::Image::getResourceBufferDeallocator);
 
-        mod.def("createUniformImage", &mx::createUniformImage);
-        mod.def("createImageStrip", &mx::createImageStrip);
-        mod.def("getMaxDimensions", &mx::getMaxDimensions);
+    mod.def("createUniformImage", &mx::createUniformImage);
+    mod.def("createImageStrip", &mx::createImageStrip);
+    mod.def("getMaxDimensions", &mx::getMaxDimensions);
 }

@@ -23,14 +23,14 @@ void mx_dielectric_bsdf_reflection(vec3 L, vec3 V, vec3 P, float occlusion, floa
 
     FresnelData fd;
     if (thinfilm_thickness > 0.0)
-    { 
+    {
         fd = mx_init_fresnel_dielectric_airy(ior, thinfilm_thickness, thinfilm_ior);
     }
     else
     {
         fd = mx_init_fresnel_dielectric(ior);
     }
-    vec3  F = mx_compute_fresnel(VdotH, fd);
+    vec3 F = mx_compute_fresnel(VdotH, fd);
     float D = mx_ggx_NDF(Ht, safeAlpha);
     float G = mx_ggx_smith_G2(NdotL, NdotV, avgAlpha);
 
@@ -55,7 +55,7 @@ void mx_dielectric_bsdf_transmission(vec3 V, float weight, vec3 tint, float ior,
 
     FresnelData fd;
     if (thinfilm_thickness > 0.0)
-    { 
+    {
         fd = mx_init_fresnel_dielectric_airy(ior, thinfilm_thickness, thinfilm_ior);
     }
     else
@@ -91,7 +91,7 @@ void mx_dielectric_bsdf_indirect(vec3 V, float weight, vec3 tint, float ior, vec
 
     FresnelData fd;
     if (thinfilm_thickness > 0.0)
-    { 
+    {
         fd = mx_init_fresnel_dielectric_airy(ior, thinfilm_thickness, thinfilm_ior);
     }
     else

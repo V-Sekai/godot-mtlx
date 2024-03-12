@@ -22,6 +22,5 @@ EMSCRIPTEN_BINDINGS(ShaderPort)
         .function("getPath", &mx::ShaderPort::getPath)
         .function("getUnit", &mx::ShaderPort::getUnit)
         .function("getColorSpace", &mx::ShaderPort::getColorSpace)
-        .function("setGeomProp", &mx::ShaderPort::setGeomProp)        
-        ;
+        .function("setGeomProp", &mx::ShaderPort::setGeomProp);
 }

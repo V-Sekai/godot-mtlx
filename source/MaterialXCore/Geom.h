@@ -176,9 +176,7 @@ class MX_CORE_API GeomElement : public Element
     /// string substitutions at this scope into account.
     string getActiveGeom() const
     {
-        return hasGeom() ?
-               createStringResolver()->resolve(getGeom(), GEOMNAME_TYPE_STRING) :
-               EMPTY_STRING;
+        return hasGeom() ? createStringResolver()->resolve(getGeom(), GEOMNAME_TYPE_STRING) : EMPTY_STRING;
     }
 
     /// @}
@@ -467,9 +465,7 @@ class MX_CORE_API Collection : public Element
     /// geometry string substitutions at this scope into account.
     string getActiveIncludeGeom() const
     {
-        return hasIncludeGeom() ?
-               createStringResolver()->resolve(getIncludeGeom(), GEOMNAME_TYPE_STRING) :
-               EMPTY_STRING;
+        return hasIncludeGeom() ? createStringResolver()->resolve(getIncludeGeom(), GEOMNAME_TYPE_STRING) : EMPTY_STRING;
     }
 
     /// @}
@@ -498,9 +494,7 @@ class MX_CORE_API Collection : public Element
     /// geometry string substitutions at this scope into account.
     string getActiveExcludeGeom() const
     {
-        return hasExcludeGeom() ?
-               createStringResolver()->resolve(getExcludeGeom(), GEOMNAME_TYPE_STRING) :
-               EMPTY_STRING;
+        return hasExcludeGeom() ? createStringResolver()->resolve(getExcludeGeom(), GEOMNAME_TYPE_STRING) : EMPTY_STRING;
     }
 
     /// @}

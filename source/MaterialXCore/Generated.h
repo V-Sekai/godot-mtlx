@@ -20,7 +20,9 @@ namespace MaterialX = MaterialX_v1_38_5;
 
 // All code in this project must use these macros for opening and closing the
 // global MaterialX namespace:
-#define MATERIALX_NAMESPACE_BEGIN namespace MaterialX_v1_38_5 {
+#define MATERIALX_NAMESPACE_BEGIN \
+    namespace MaterialX_v1_38_5   \
+    {
 #define MATERIALX_NAMESPACE_END }
 
 #endif

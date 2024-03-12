@@ -23,8 +23,12 @@ template <class T> using enable_if_mx_vector_t =
 template <class T> using enable_if_mx_matrix_t =
     typename std::enable_if<std::is_base_of<MatrixBase, T>::value, T>::type;
 
-template <class T> class is_std_vector : public std::false_type { };
-template <class T> class is_std_vector<vector<T>> : public std::true_type { };
+template <class T> class is_std_vector : public std::false_type
+{
+};
+template <class T> class is_std_vector<vector<T>> : public std::true_type
+{
+};
 template <class T> using enable_if_std_vector_t =
     typename std::enable_if<is_std_vector<T>::value, T>::type;
 
@@ -103,9 +107,8 @@ template <class T> void dataToString(const T& data, string& str)
     // Set float format and precision for the stream
     const Value::FloatFormat fmt = Value::getFloatFormat();
     ss.setf(std::ios_base::fmtflags(
-            (fmt == Value::FloatFormatFixed ? std::ios_base::fixed :
-            (fmt == Value::FloatFormatScientific ? std::ios_base::scientific : 0))),
-        std::ios_base::floatfield);
+                (fmt == Value::FloatFormatFixed ? std::ios_base::fixed : (fmt == Value::FloatFormatScientific ? std::ios_base::scientific : 0))),
+            std::ios_base::floatfield);
     ss.precision(Value::getFloatPrecision());
 
     ss << data;
@@ -275,15 +278,21 @@ template <class T> class ValueRegistry
 // Template instantiations
 //
 
-#define INSTANTIATE_TYPE(T, name)                                                                \
-    template <> const string TypedValue<T>::TYPE = name;                                         \
-    template <> const string& TypedValue<T>::getTypeString() const { return TYPE; }              \
-    template <> string TypedValue<T>::getValueString() const { return toValueString<T>(_data); } \
-    template MX_CORE_API bool Value::isA<T>() const;                                             \
-    template MX_CORE_API const T& Value::asA<T>() const;                                         \
-    template MX_CORE_API const string& getTypeString<T>();                                       \
-    template MX_CORE_API string toValueString(const T& data);                                    \
-    template MX_CORE_API T fromValueString(const string& value);                                 \
+#define INSTANTIATE_TYPE(T, name)                                  \
+    template <> const string TypedValue<T>::TYPE = name;           \
+    template <> const string& TypedValue<T>::getTypeString() const \
+    {                                                              \
+        return TYPE;                                               \
+    }                                                              \
+    template <> string TypedValue<T>::getValueString() const       \
+    {                                                              \
+        return toValueString<T>(_data);                            \
+    }                                                              \
+    template MX_CORE_API bool Value::isA<T>() const;               \
+    template MX_CORE_API const T& Value::asA<T>() const;           \
+    template MX_CORE_API const string& getTypeString<T>();         \
+    template MX_CORE_API string toValueString(const T& data);      \
+    template MX_CORE_API T fromValueString(const string& value);   \
     ValueRegistry<T> registry##T;
 
 // Base types

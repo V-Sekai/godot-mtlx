@@ -58,17 +58,17 @@ GlslShaderGenerator::GlslShaderGenerator() :
     //
 
     StringVec elementNames;
-    
+
     // <!-- <switch> -->
     elementNames = {
         // <!-- 'which' type : float -->
-        "IM_switch_float_"   + GlslShaderGenerator::TARGET,
-        "IM_switch_color3_"  + GlslShaderGenerator::TARGET,
-        "IM_switch_color4_"  + GlslShaderGenerator::TARGET,
+        "IM_switch_float_" + GlslShaderGenerator::TARGET,
+        "IM_switch_color3_" + GlslShaderGenerator::TARGET,
+        "IM_switch_color4_" + GlslShaderGenerator::TARGET,
         "IM_switch_vector2_" + GlslShaderGenerator::TARGET,
         "IM_switch_vector3_" + GlslShaderGenerator::TARGET,
         "IM_switch_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- 'which' type : integer -->
         "IM_switch_floatI_" + GlslShaderGenerator::TARGET,
         "IM_switch_color3I_" + GlslShaderGenerator::TARGET,
@@ -87,7 +87,7 @@ GlslShaderGenerator::GlslShaderGenerator() :
         "IM_swizzle_float_vector2_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_float_vector3_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_float_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- from type : color3 -->
         "IM_swizzle_color3_float_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color3_color3_" + GlslShaderGenerator::TARGET,
@@ -95,7 +95,7 @@ GlslShaderGenerator::GlslShaderGenerator() :
         "IM_swizzle_color3_vector2_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color3_vector3_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color3_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- from type : color4 -->
         "IM_swizzle_color4_float_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color4_color3_" + GlslShaderGenerator::TARGET,
@@ -103,7 +103,7 @@ GlslShaderGenerator::GlslShaderGenerator() :
         "IM_swizzle_color4_vector2_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color4_vector3_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_color4_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- from type : vector2 -->
         "IM_swizzle_vector2_float_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector2_color3_" + GlslShaderGenerator::TARGET,
@@ -111,7 +111,7 @@ GlslShaderGenerator::GlslShaderGenerator() :
         "IM_swizzle_vector2_vector2_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector2_vector3_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector2_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- from type : vector3 -->
         "IM_swizzle_vector3_float_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector3_color3_" + GlslShaderGenerator::TARGET,
@@ -119,7 +119,7 @@ GlslShaderGenerator::GlslShaderGenerator() :
         "IM_swizzle_vector3_vector2_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector3_vector3_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector3_vector4_" + GlslShaderGenerator::TARGET,
-        
+
         // <!-- from type : vector4 -->
         "IM_swizzle_vector4_float_" + GlslShaderGenerator::TARGET,
         "IM_swizzle_vector4_color3_" + GlslShaderGenerator::TARGET,
@@ -710,9 +710,7 @@ void GlslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& c
         }
         else
         {
-            string outputValue = outputSocket->getValue() ?
-                                 _syntax->getValue(outputSocket->getType(), *outputSocket->getValue()) :
-                                 _syntax->getDefaultValue(outputSocket->getType());
+            string outputValue = outputSocket->getValue() ? _syntax->getValue(outputSocket->getType(), *outputSocket->getValue()) : _syntax->getDefaultValue(outputSocket->getType());
             if (!outputSocket->getType()->isFloat4())
             {
                 string finalOutput = outputSocket->getVariable() + "_tmp";
@@ -820,9 +818,7 @@ void GlslShaderGenerator::emitVariableDeclaration(const ShaderPort* variable, co
 
         if (assignValue)
         {
-            const string valueStr = (variable->getValue() ?
-                                    _syntax->getValue(variable->getType(), *variable->getValue(), true) :
-                                    _syntax->getDefaultValue(variable->getType(), true));
+            const string valueStr = (variable->getValue() ? _syntax->getValue(variable->getType(), *variable->getValue(), true) : _syntax->getDefaultValue(variable->getType(), true));
             str += valueStr.empty() ? EMPTY_STRING : " = " + valueStr;
         }
 
@@ -915,8 +911,7 @@ namespace
 
 // List name of inputs that are not to be editable and
 // published as shader uniforms in GLSL.
-const std::set<string> IMMUTABLE_INPUTS =
-{
+const std::set<string> IMMUTABLE_INPUTS = {
     // Geometric node inputs are immutable since a shader needs regeneration if they change.
     "index", "space", "attrname"
 };

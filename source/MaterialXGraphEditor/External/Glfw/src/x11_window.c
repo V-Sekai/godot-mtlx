@@ -42,20 +42,19 @@
 #include <assert.h>
 
 // Action for EWMH client messages
-#define _NET_WM_STATE_REMOVE        0
-#define _NET_WM_STATE_ADD           1
-#define _NET_WM_STATE_TOGGLE        2
+#define _NET_WM_STATE_REMOVE 0
+#define _NET_WM_STATE_ADD 1
+#define _NET_WM_STATE_TOGGLE 2
 
 // Additional mouse button names for XButtonEvent
-#define Button6            6
-#define Button7            7
+#define Button6 6
+#define Button7 7
 
 // Motif WM hints flags
-#define MWM_HINTS_DECORATIONS   2
-#define MWM_DECOR_ALL           1
+#define MWM_HINTS_DECORATIONS 2
+#define MWM_DECOR_ALL 1
 
 #define _GLFW_XDND_VERSION 5
-
 
 // Wait for data to arrive using select
 // This avoids blocking other threads via the per-display Xlib lock that also
@@ -91,7 +90,7 @@ static GLFWbool waitForEvent(double* timeout)
             const int error = errno;
 
             *timeout -= (_glfwPlatformGetTimerValue() - base) /
-                (double) _glfwPlatformGetTimerFrequency();
+                        (double) _glfwPlatformGetTimerFrequency();
 
             if (result > 0)
                 return GLFW_TRUE;
@@ -128,10 +127,11 @@ static GLFWbool waitForVisibilityNotify(_GLFWwindow* window)
 static int getWindowState(_GLFWwindow* window)
 {
     int result = WithdrawnState;
-    struct {
+    struct
+    {
         CARD32 state;
         Window icon;
-    } *state = NULL;
+    }* state = NULL;
 
     if (_glfwGetWindowPropertyX11(window->x11.handle,
                                   _glfw.x11.WM_STATE,
@@ -272,7 +272,7 @@ static void updateNormalHints(_GLFWwindow* window, int width, int height)
         else
         {
             hints->flags |= (PMinSize | PMaxSize);
-            hints->min_width  = hints->max_width  = width;
+            hints->min_width = hints->max_width = width;
             hints->min_height = hints->max_height = height;
         }
     }
@@ -335,7 +335,7 @@ static void updateWindowMode(_GLFWwindow* window)
         {
             const unsigned long value = 1;
 
-            XChangeProperty(_glfw.x11.display,  window->x11.handle,
+            XChangeProperty(_glfw.x11.display, window->x11.handle,
                             _glfw.x11.NET_WM_BYPASS_COMPOSITOR, XA_CARDINAL, 32,
                             PropModeReplace, (unsigned char*) &value, 1);
         }
@@ -467,8 +467,7 @@ static size_t encodeUTF8(char* s, unsigned int ch)
 static unsigned int decodeUTF8(const char** s)
 {
     unsigned int ch = 0, count = 0;
-    static const unsigned int offsets[] =
-    {
+    static const unsigned int offsets[] = {
         0x00000000u, 0x00003080u, 0x000e2080u,
         0x03c82080u, 0xfa082080u, 0x82082080u
     };
@@ -492,13 +491,13 @@ static char* convertLatin1toUTF8(const char* source)
     size_t size = 1;
     const char* sp;
 
-    for (sp = source;  *sp;  sp++)
+    for (sp = source; *sp; sp++)
         size += (*sp & 0x80) ? 2 : 1;
 
     char* target = calloc(size, 1);
     char* tp = target;
 
-    for (sp = source;  *sp;  sp++)
+    for (sp = source; *sp; sp++)
         tp += encodeUTF8(tp, *sp);
 
     return target;
@@ -625,10 +624,10 @@ static GLFWbool createNativeWindow(_GLFWwindow* window,
     window->x11.parent = _glfw.x11.root;
     window->x11.handle = XCreateWindow(_glfw.x11.display,
                                        _glfw.x11.root,
-                                       0, 0,   // Position
+                                       0, 0, // Position
                                        width, height,
-                                       0,      // Border width
-                                       depth,  // Color depth
+                                       0,     // Border width
+                                       depth, // Color depth
                                        InputOutput,
                                        visual,
                                        CWBorderPixel | CWColormap | CWEventMask,
@@ -683,8 +682,7 @@ static GLFWbool createNativeWindow(_GLFWwindow* window,
 
     // Declare the WM protocols supported by GLFW
     {
-        Atom protocols[] =
-        {
+        Atom protocols[] = {
             _glfw.x11.WM_DELETE_WINDOW,
             _glfw.x11.NET_WM_PING
         };
@@ -697,7 +695,7 @@ static GLFWbool createNativeWindow(_GLFWwindow* window,
     {
         const long pid = getpid();
 
-        XChangeProperty(_glfw.x11.display,  window->x11.handle,
+        XChangeProperty(_glfw.x11.display, window->x11.handle,
                         _glfw.x11.NET_WM_PID, XA_CARDINAL, 32,
                         PropModeReplace,
                         (unsigned char*) &pid, 1);
@@ -706,7 +704,7 @@ static GLFWbool createNativeWindow(_GLFWwindow* window,
     if (_glfw.x11.NET_WM_WINDOW_TYPE && _glfw.x11.NET_WM_WINDOW_TYPE_NORMAL)
     {
         Atom type = _glfw.x11.NET_WM_WINDOW_TYPE_NORMAL;
-        XChangeProperty(_glfw.x11.display,  window->x11.handle,
+        XChangeProperty(_glfw.x11.display, window->x11.handle,
                         _glfw.x11.NET_WM_WINDOW_TYPE, XA_ATOM, 32,
                         PropModeReplace, (unsigned char*) &type, 1);
     }
@@ -849,11 +847,11 @@ static Atom writeTargetToProperty(const XSelectionRequestEvent* request)
                                           _glfw.x11.ATOM_PAIR,
                                           (unsigned char**) &targets);
 
-        for (i = 0;  i < count;  i += 2)
+        for (i = 0; i < count; i += 2)
         {
             int j;
 
-            for (j = 0;  j < formatCount;  j++)
+            for (j = 0; j < formatCount; j++)
             {
                 if (targets[i] == formats[j])
                     break;
@@ -867,7 +865,7 @@ static Atom writeTargetToProperty(const XSelectionRequestEvent* request)
                                 targets[i],
                                 8,
                                 PropModeReplace,
-                                (unsigned char *) selectionString,
+                                (unsigned char*) selectionString,
                                 strlen(selectionString));
             }
             else
@@ -907,7 +905,7 @@ static Atom writeTargetToProperty(const XSelectionRequestEvent* request)
 
     // Conversion to a data target was requested
 
-    for (i = 0;  i < formatCount;  i++)
+    for (i = 0; i < formatCount; i++)
     {
         if (request->target == formats[i])
         {
@@ -919,7 +917,7 @@ static Atom writeTargetToProperty(const XSelectionRequestEvent* request)
                             request->target,
                             8,
                             PropModeReplace,
-                            (unsigned char *) selectionString,
+                            (unsigned char*) selectionString,
                             strlen(selectionString));
 
             return request->property;
@@ -982,7 +980,7 @@ static const char* getSelectionString(Atom selection)
     free(*selectionString);
     *selectionString = NULL;
 
-    for (size_t i = 0;  i < targetCount;  i++)
+    for (size_t i = 0; i < targetCount; i++)
     {
         char* data;
         Atom actualType;
@@ -1164,7 +1162,7 @@ static void releaseMonitor(_GLFWwindow* window)
 
 // Process the specified X event
 //
-static void processEvent(XEvent *event)
+static void processEvent(XEvent* event)
 {
     int keycode = 0;
     Bool filtered = False;
@@ -1314,7 +1312,7 @@ static void processEvent(XEvent *event)
                         while (c - chars < count)
                             _glfwInputChar(window, decodeUTF8(&c), mods, plain);
                     }
-#else /*X_HAVE_UTF8_STRING*/
+#else  /*X_HAVE_UTF8_STRING*/
                     wchar_t buffer[16];
                     wchar_t* chars = buffer;
 
@@ -1337,7 +1335,7 @@ static void processEvent(XEvent *event)
                     if (status == XLookupChars || status == XLookupBoth)
                     {
                         int i;
-                        for (i = 0;  i < count;  i++)
+                        for (i = 0; i < count; i++)
                             _glfwInputChar(window, chars[i], mods, plain);
                     }
 #endif /*X_HAVE_UTF8_STRING*/
@@ -1620,9 +1618,9 @@ static void processEvent(XEvent *event)
                 Atom* formats = NULL;
                 const GLFWbool list = event->xclient.data.l[1] & 1;
 
-                _glfw.x11.xdnd.source  = event->xclient.data.l[0];
+                _glfw.x11.xdnd.source = event->xclient.data.l[0];
                 _glfw.x11.xdnd.version = event->xclient.data.l[1] >> 24;
-                _glfw.x11.xdnd.format  = None;
+                _glfw.x11.xdnd.format = None;
 
                 if (_glfw.x11.xdnd.version > _GLFW_XDND_VERSION)
                     return;
@@ -1640,7 +1638,7 @@ static void processEvent(XEvent *event)
                     formats = (Atom*) event->xclient.data.l + 2;
                 }
 
-                for (i = 0;  i < count;  i++)
+                for (i = 0; i < count; i++)
                 {
                     if (formats[i] == _glfw.x11.text_uri_list)
                     {
@@ -1751,7 +1749,7 @@ static void processEvent(XEvent *event)
 
                     _glfwInputDrop(window, count, (const char**) paths);
 
-                    for (i = 0;  i < count;  i++)
+                    for (i = 0; i < count; i++)
                         free(paths[i]);
                     free(paths);
                 }
@@ -1871,7 +1869,6 @@ static void processEvent(XEvent *event)
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -1960,7 +1957,6 @@ void _glfwPushSelectionToManagerX11(void)
         waitForEvent(NULL);
     }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -2089,12 +2085,12 @@ void _glfwPlatformSetWindowTitle(_GLFWwindow* window, const char* title)
                        NULL, NULL, NULL);
 #endif
 
-    XChangeProperty(_glfw.x11.display,  window->x11.handle,
+    XChangeProperty(_glfw.x11.display, window->x11.handle,
                     _glfw.x11.NET_WM_NAME, _glfw.x11.UTF8_STRING, 8,
                     PropModeReplace,
                     (unsigned char*) title, strlen(title));
 
-    XChangeProperty(_glfw.x11.display,  window->x11.handle,
+    XChangeProperty(_glfw.x11.display, window->x11.handle,
                     _glfw.x11.NET_WM_ICON_NAME, _glfw.x11.UTF8_STRING, 8,
                     PropModeReplace,
                     (unsigned char*) title, strlen(title));
@@ -2109,22 +2105,22 @@ void _glfwPlatformSetWindowIcon(_GLFWwindow* window,
     {
         int i, j, longCount = 0;
 
-        for (i = 0;  i < count;  i++)
+        for (i = 0; i < count; i++)
             longCount += 2 + images[i].width * images[i].height;
 
         long* icon = calloc(longCount, sizeof(long));
         long* target = icon;
 
-        for (i = 0;  i < count;  i++)
+        for (i = 0; i < count; i++)
         {
             *target++ = images[i].width;
             *target++ = images[i].height;
 
-            for (j = 0;  j < images[i].width * images[i].height;  j++)
+            for (j = 0; j < images[i].width * images[i].height; j++)
             {
                 *target++ = (images[i].pixels[j * 4 + 0] << 16) |
-                            (images[i].pixels[j * 4 + 1] <<  8) |
-                            (images[i].pixels[j * 4 + 2] <<  0) |
+                            (images[i].pixels[j * 4 + 1] << 8) |
+                            (images[i].pixels[j * 4 + 2] << 0) |
                             (images[i].pixels[j * 4 + 3] << 24);
             }
         }
@@ -2368,11 +2364,11 @@ void _glfwPlatformMaximizeWindow(_GLFWwindow* window)
     if (_glfwPlatformWindowVisible(window))
     {
         sendEventToWM(window,
-                    _glfw.x11.NET_WM_STATE,
-                    _NET_WM_STATE_ADD,
-                    _glfw.x11.NET_WM_STATE_MAXIMIZED_VERT,
-                    _glfw.x11.NET_WM_STATE_MAXIMIZED_HORZ,
-                    1, 0);
+                      _glfw.x11.NET_WM_STATE,
+                      _NET_WM_STATE_ADD,
+                      _glfw.x11.NET_WM_STATE_MAXIMIZED_VERT,
+                      _glfw.x11.NET_WM_STATE_MAXIMIZED_HORZ,
+                      1, 0);
     }
     else
     {
@@ -2386,16 +2382,15 @@ void _glfwPlatformMaximizeWindow(_GLFWwindow* window)
         // NOTE: We don't check for failure as this property may not exist yet
         //       and that's fine (and we'll create it implicitly with append)
 
-        Atom missing[2] =
-        {
+        Atom missing[2] = {
             _glfw.x11.NET_WM_STATE_MAXIMIZED_VERT,
             _glfw.x11.NET_WM_STATE_MAXIMIZED_HORZ
         };
         unsigned long missingCount = 2;
 
-        for (unsigned long i = 0;  i < count;  i++)
+        for (unsigned long i = 0; i < count; i++)
         {
-            for (unsigned long j = 0;  j < missingCount;  j++)
+            for (unsigned long j = 0; j < missingCount; j++)
             {
                 if (states[i] == missing[j])
                 {
@@ -2555,7 +2550,7 @@ int _glfwPlatformWindowMaximized(_GLFWwindow* window)
                                   XA_ATOM,
                                   (unsigned char**) &states);
 
-    for (i = 0;  i < count;  i++)
+    for (i = 0; i < count; i++)
     {
         if (states[i] == _glfw.x11.NET_WM_STATE_MAXIMIZED_VERT ||
             states[i] == _glfw.x11.NET_WM_STATE_MAXIMIZED_HORZ)
@@ -2617,7 +2612,7 @@ void _glfwPlatformSetWindowDecorated(_GLFWwindow* window, GLFWbool enabled)
         unsigned long decorations;
         long input_mode;
         unsigned long status;
-    } hints = {0};
+    } hints = { 0 };
 
     hints.flags = MWM_HINTS_DECORATIONS;
     hints.decorations = enabled ? MWM_DECOR_ALL : 0;
@@ -2659,7 +2654,7 @@ void _glfwPlatformSetWindowFloating(_GLFWwindow* window, GLFWbool enabled)
 
         if (enabled)
         {
-            for (i = 0;  i < count;  i++)
+            for (i = 0; i < count; i++)
             {
                 if (states[i] == _glfw.x11.NET_WM_STATE_ABOVE)
                     break;
@@ -2676,7 +2671,7 @@ void _glfwPlatformSetWindowFloating(_GLFWwindow* window, GLFWbool enabled)
         }
         else if (states)
         {
-            for (i = 0;  i < count;  i++)
+            for (i = 0; i < count; i++)
             {
                 if (states[i] == _glfw.x11.NET_WM_STATE_ABOVE)
                     break;
@@ -2731,7 +2726,7 @@ void _glfwPlatformSetWindowOpacity(_GLFWwindow* window, float opacity)
                     PropModeReplace, (unsigned char*) &value, 1);
 }
 
-void _glfwPlatformSetRawMouseMotion(_GLFWwindow *window, GLFWbool enabled)
+void _glfwPlatformSetRawMouseMotion(_GLFWwindow* window, GLFWbool enabled)
 {
     if (!_glfw.x11.xi.available)
         return;
@@ -2838,7 +2833,7 @@ void _glfwPlatformSetCursorPos(_GLFWwindow* window, double x, double y)
     window->x11.warpCursorPosY = (int) y;
 
     XWarpPointer(_glfw.x11.display, None, window->x11.handle,
-                 0,0,0,0, (int) x, (int) y);
+                 0, 0, 0, 0, (int) x, (int) y);
     XFlush(_glfw.x11.display);
 }
 
@@ -3050,8 +3045,8 @@ int _glfwPlatformGetPhysicalDevicePresentationSupport(VkInstance instance,
     {
         PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR
             vkGetPhysicalDeviceXcbPresentationSupportKHR =
-            (PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)
-            vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceXcbPresentationSupportKHR");
+                (PFN_vkGetPhysicalDeviceXcbPresentationSupportKHR)
+                    vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceXcbPresentationSupportKHR");
         if (!vkGetPhysicalDeviceXcbPresentationSupportKHR)
         {
             _glfwInputError(GLFW_API_UNAVAILABLE,
@@ -3076,8 +3071,8 @@ int _glfwPlatformGetPhysicalDevicePresentationSupport(VkInstance instance,
     {
         PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR
             vkGetPhysicalDeviceXlibPresentationSupportKHR =
-            (PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)
-            vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceXlibPresentationSupportKHR");
+                (PFN_vkGetPhysicalDeviceXlibPresentationSupportKHR)
+                    vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceXlibPresentationSupportKHR");
         if (!vkGetPhysicalDeviceXlibPresentationSupportKHR)
         {
             _glfwInputError(GLFW_API_UNAVAILABLE,
@@ -3167,7 +3162,6 @@ VkResult _glfwPlatformCreateWindowSurface(VkInstance instance,
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -3210,4 +3204,3 @@ GLFWAPI const char* glfwGetX11SelectionString(void)
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
     return getSelectionString(_glfw.x11.PRIMARY);
 }
-

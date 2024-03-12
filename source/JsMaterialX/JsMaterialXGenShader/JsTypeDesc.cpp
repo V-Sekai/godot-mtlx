@@ -19,12 +19,10 @@ EMSCRIPTEN_BINDINGS(TypeDesc)
         .value("BASETYPE_FLOAT", mx::TypeDesc::BaseType::BASETYPE_FLOAT)
         .value("BASETYPE_STRING", mx::TypeDesc::BaseType::BASETYPE_STRING)
         .value("BASETYPE_STRUCT", mx::TypeDesc::BaseType::BASETYPE_STRUCT)
-        .value("BASETYPE_LAST", mx::TypeDesc::BaseType::BASETYPE_LAST)
-        ;
+        .value("BASETYPE_LAST", mx::TypeDesc::BaseType::BASETYPE_LAST);
 
     ems::class_<mx::TypeDesc>("TypeDesc")
         .function("getBaseType", &mx::TypeDesc::getBaseType)
         .function("isAggregate", &mx::TypeDesc::isAggregate)
-        .function("getName", &mx::TypeDesc::getName)
-        ;
+        .function("getName", &mx::TypeDesc::getName);
 }

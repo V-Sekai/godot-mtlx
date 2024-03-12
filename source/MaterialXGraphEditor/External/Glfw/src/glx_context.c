@@ -34,9 +34,8 @@
 #include <assert.h>
 
 #ifndef GLXBadProfileARB
- #define GLXBadProfileARB 13
+    #define GLXBadProfileARB 13
 #endif
-
 
 // Returns the specified attribute of the specified GLXFBConfig
 //
@@ -76,7 +75,7 @@ static GLFWbool chooseGLXFBConfig(const _GLFWfbconfig* desired,
     usableConfigs = calloc(nativeCount, sizeof(_GLFWfbconfig));
     usableCount = 0;
 
-    for (i = 0;  i < nativeCount;  i++)
+    for (i = 0; i < nativeCount; i++)
     {
         const GLXFBConfig n = nativeConfigs[i];
         _GLFWfbconfig* u = usableConfigs + usableCount;
@@ -243,7 +242,6 @@ static void destroyContextGLX(_GLFWwindow* window)
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -253,8 +251,7 @@ static void destroyContextGLX(_GLFWwindow* window)
 GLFWbool _glfwInitGLX(void)
 {
     int i;
-    const char* sonames[] =
-    {
+    const char* sonames[] = {
 #if defined(_GLFW_GLX_LIBRARY)
         _GLFW_GLX_LIBRARY,
 #elif defined(__CYGWIN__)
@@ -269,7 +266,7 @@ GLFWbool _glfwInitGLX(void)
     if (_glfw.glx.handle)
         return GLFW_TRUE;
 
-    for (i = 0;  sonames[i];  i++)
+    for (i = 0; sonames[i]; i++)
     {
         _glfw.glx.handle = _glfw_dlopen(sonames[i]);
         if (_glfw.glx.handle)
@@ -433,12 +430,12 @@ void _glfwTerminateGLX(void)
     }
 }
 
-#define setAttrib(a, v) \
-{ \
-    assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[index++] = a; \
-    attribs[index++] = v; \
-}
+#define setAttrib(a, v)                                                      \
+    {                                                                        \
+        assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[index++] = a;                                                \
+        attribs[index++] = v;                                                \
+    }
 
 // Create the OpenGL or OpenGL ES context
 //
@@ -657,12 +654,11 @@ GLFWbool _glfwChooseVisualGLX(const _GLFWwndconfig* wndconfig,
     }
 
     *visual = result->visual;
-    *depth  = result->depth;
+    *depth = result->depth;
 
     XFree(result);
     return GLFW_TRUE;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
@@ -695,4 +691,3 @@ GLFWAPI GLXWindow glfwGetGLXWindow(GLFWwindow* handle)
 
     return window->context.glx.window;
 }
-

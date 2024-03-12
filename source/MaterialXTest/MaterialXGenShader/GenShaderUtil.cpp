@@ -28,24 +28,23 @@ const std::string SOURCE_CODE_STRING("sourcecode");
 
 namespace
 {
-    const std::string& getFileExtensionForTarget(const std::string& target)
-    {
-        static const std::unordered_map<std::string, std::string> _fileExtensions = 
-        {
-            {"genglsl","glsl"},
-            {"genosl","osl"},
-            {"genmdl","mdl"}
-        };
-        auto it = _fileExtensions.find(target);
-        return it != _fileExtensions.end() ? it->second : target;
-    }
+const std::string& getFileExtensionForTarget(const std::string& target)
+{
+    static const std::unordered_map<std::string, std::string> _fileExtensions = {
+        { "genglsl", "glsl" },
+        { "genosl", "osl" },
+        { "genmdl", "mdl" }
+    };
+    auto it = _fileExtensions.find(target);
+    return it != _fileExtensions.end() ? it->second : target;
 }
+} // namespace
 
 bool getShaderSource(mx::GenContext& context,
-                    const mx::ImplementationPtr implementation,
-                    mx::FilePath& sourcePath,
-                    std::string& resolvedSource,
-                    std::string& sourceContents)
+                     const mx::ImplementationPtr implementation,
+                     mx::FilePath& sourcePath,
+                     std::string& resolvedSource,
+                     std::string& sourceContents)
 {
     if (implementation)
     {
@@ -88,8 +87,7 @@ void checkImplementations(mx::GenContext& context,
     context.registerSourceCodeSearchPath(searchPath);
 
     // Node types to explicitly skip temporarily.
-    mx::StringSet skipNodeTypes =
-    {
+    mx::StringSet skipNodeTypes = {
         "ambientocclusion",
         "arrayappend",
         "displacement",
@@ -106,8 +104,7 @@ void checkImplementations(mx::GenContext& context,
     skipNodeTypes.insert(generatorSkipNodeTypes.begin(), generatorSkipNodeTypes.end());
 
     // Explicit set of node defs to skip temporarily
-    mx::StringSet skipNodeDefs =
-    {
+    mx::StringSet skipNodeDefs = {
         "ND_add_vdf",
         "ND_multiply_vdfF",
         "ND_multiply_vdfC",
@@ -221,8 +218,7 @@ void checkImplementations(mx::GenContext& context,
                 // Test if the generator has an interal implementation first
                 if (shadergen.implementationRegistered(impl->getName()))
                 {
-                    found_str += "Found generator impl for nodedef: " + nodeDefName + ", Node: "
-                        + nodeDefName + ". Impl: " + impl->getName() + ".\n";
+                    found_str += "Found generator impl for nodedef: " + nodeDefName + ", Node: " + nodeDefName + ". Impl: " + impl->getName() + ".\n";
                 }
 
                 // Check for an implementation explicitly stored
@@ -234,21 +230,18 @@ void checkImplementations(mx::GenContext& context,
                     if (!getShaderSource(context, impl, sourcePath, resolvedSource, contents))
                     {
                         missing++;
-                        missing_str += "Missing source code: " + sourcePath.asString() + " for nodedef: "
-                            + nodeDefName + ". Impl: " + impl->getName() + ".\n";
+                        missing_str += "Missing source code: " + sourcePath.asString() + " for nodedef: " + nodeDefName + ". Impl: " + impl->getName() + ".\n";
                     }
                     else
                     {
-                        found_str += "Found impl and src for nodedef: " + nodeDefName + ", Node: "
-                            + nodeName + +". Impl: " + impl->getName() + ". Source: " + resolvedSource + ".\n";
+                        found_str += "Found impl and src for nodedef: " + nodeDefName + ", Node: " + nodeName + +". Impl: " + impl->getName() + ". Source: " + resolvedSource + ".\n";
                     }
                 }
             }
             else
             {
                 mx::NodeGraphPtr graph = inter->asA<mx::NodeGraph>();
-                found_str += "Found NodeGraph impl for nodedef: " + nodeDefName + ", Node: "
-                    + nodeName + ". Graph Impl: " + graph->getName();
+                found_str += "Found NodeGraph impl for nodedef: " + nodeDefName + ", Node: " + nodeName + ". Graph Impl: " + graph->getName();
                 mx::InterfaceElementPtr graphNodeDefImpl = graph->getImplementation();
                 if (graphNodeDefImpl)
                 {
@@ -313,7 +306,6 @@ void testUniqueNames(mx::GenContext& context, const std::string& stage)
     const mx::ShaderNode* sgNode1 = shader->getGraph().getNode(node1->getName());
     REQUIRE(sgNode1->getOutput()->getVariable() == "unique_names_out");
 }
-
 
 void ShaderGeneratorTester::checkImplementationUsage(const mx::StringSet& usedImpls,
                                                      const mx::GenContext& context,
@@ -413,7 +405,7 @@ bool ShaderGeneratorTester::generateCode(mx::GenContext& context, const std::str
         log << ">> Failed to generate shader for element: " << element->getNamePath() << std::endl;
         return false;
     }
-    
+
     bool stageFailed = false;
     for (const auto& stage : testStages)
     {
@@ -465,7 +457,7 @@ void ShaderGeneratorTester::addUnitSystem()
             _unitSystem->setUnitConverterRegistry(mx::UnitConverterRegistry::create());
             mx::UnitTypeDefPtr distanceTypeDef = _dependLib->getUnitTypeDef("distance");
             _unitSystem->getUnitConverterRegistry()->addUnitConverter(distanceTypeDef, mx::LinearUnitConverter::create(distanceTypeDef));
-            _defaultDistanceUnit = "meter";            
+            _defaultDistanceUnit = "meter";
             mx::UnitTypeDefPtr angleTypeDef = _dependLib->getUnitTypeDef("angle");
             _unitSystem->getUnitConverterRegistry()->addUnitConverter(angleTypeDef, mx::LinearUnitConverter::create(angleTypeDef));
         }
@@ -515,7 +507,7 @@ void ShaderGeneratorTester::findLights(mx::DocumentPtr doc, std::vector<mx::Node
 void ShaderGeneratorTester::registerLights(mx::DocumentPtr doc, const std::vector<mx::NodePtr>& lights,
                                            mx::GenContext& context)
 {
-    // Clear context light user data which is set when bindLightShader() 
+    // Clear context light user data which is set when bindLightShader()
     // is called. This is necessary in case the light types have already been
     // registered.
     mx::HwShaderGenerator::unbindLightShaders(context);
@@ -583,7 +575,7 @@ void ShaderGeneratorTester::validate(const mx::GenOptions& generateOptions, cons
     mx::StringVec errorLog;
     for (const auto& testRoot : _testRootPaths)
     {
-        mx::loadDocuments(testRoot, _searchPath, _skipFiles, overrideFiles, _documents, _documentPaths, 
+        mx::loadDocuments(testRoot, _searchPath, _skipFiles, overrideFiles, _documents, _documentPaths,
                           nullptr, &errorLog);
     }
     CHECK(errorLog.empty());
@@ -649,9 +641,9 @@ void ShaderGeneratorTester::validate(const mx::GenOptions& generateOptions, cons
         }
         catch (mx::Exception& e)
         {
-            _logFile << "Failed to import library into file: " 
-                    << _documentPaths[documentIndex] << ". Error: "
-                    << e.what() << std::endl;
+            _logFile << "Failed to import library into file: "
+                     << _documentPaths[documentIndex] << ". Error: "
+                     << e.what() << std::endl;
             CHECK(importedLibrary);
             continue;
         }
@@ -674,7 +666,7 @@ void ShaderGeneratorTester::validate(const mx::GenOptions& generateOptions, cons
         if (!elements.empty())
         {
             _logFile << "MTLX Filename :" << _documentPaths[documentIndex] << ". Elements tested: "
-                << std::to_string(elements.size()) << std::endl;
+                     << std::to_string(elements.size()) << std::endl;
             documentIndex++;
         }
 
@@ -767,7 +759,7 @@ void ShaderGeneratorTester::validate(const mx::GenOptions& generateOptions, cons
                         std::vector<mx::FilePath> sourceCodePaths;
                         if (sourceCode.size() > 1)
                         {
-                            for (size_t i=0; i<sourceCode.size(); ++i)
+                            for (size_t i = 0; i < sourceCode.size(); ++i)
                             {
                                 const mx::FilePath filename = path / (elementName + elementNameSuffix + "." + _testStages[i] + "." + getFileExtensionForTarget(_shaderGenerator->getTarget()));
                                 sourceCodePaths.push_back(filename);
@@ -779,10 +771,7 @@ void ShaderGeneratorTester::validate(const mx::GenOptions& generateOptions, cons
                         }
                         else
                         {
-                            path = path / (elementName + "."  
-                                + _shaderGenerator->getTarget() 
-                                + "." + getFileExtensionForTarget(_shaderGenerator->getTarget())
-                                );
+                            path = path / (elementName + "." + _shaderGenerator->getTarget() + "." + getFileExtensionForTarget(_shaderGenerator->getTarget()));
                             sourceCodePaths.push_back(path);
                             std::ofstream file(path.asString());
                             _logFile << "Write source code: " << path.asString() << std::endl;
@@ -830,10 +819,16 @@ void TestSuiteOptions::print(std::ostream& output) const
 {
     output << "Render Test Options:" << std::endl;
     output << "\tOverride Files: { ";
-    for (const auto& overrideFile : overrideFiles) { output << overrideFile << " "; }
+    for (const auto& overrideFile : overrideFiles)
+    {
+        output << overrideFile << " ";
+    }
     output << "} " << std::endl;
     output << "\tLight Setup Files: { ";
-    for (const auto& lightFile : lightFiles) { output << lightFile << " "; }
+    for (const auto& lightFile : lightFiles)
+    {
+        output << lightFile << " ";
+    }
     output << "} " << std::endl;
     output << "\tTargets to run: " << std::endl;
     for (const auto& t : targets)

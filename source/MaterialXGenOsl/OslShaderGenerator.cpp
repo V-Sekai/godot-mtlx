@@ -372,8 +372,7 @@ void OslShaderGenerator::registerShaderMetadata(const DocumentPtr& doc, GenConte
     }
 
     // Rename the standard metadata names to corresponding OSL metadata names.
-    const StringMap nameRemapping =
-    {
+    const StringMap nameRemapping = {
         { ValueElement::UI_NAME_ATTRIBUTE, "label" },
         { ValueElement::UI_FOLDER_ATTRIBUTE, "page" },
         { ValueElement::UI_MIN_ATTRIBUTE, "min" },
@@ -469,8 +468,7 @@ void OslShaderGenerator::emitLibraryIncludes(ShaderStage& stage, GenContext& con
 {
     static const string INCLUDE_PREFIX = "#include \"";
     static const string INCLUDE_SUFFIX = "\"";
-    static const StringVec INCLUDE_FILES =
-    {
+    static const StringVec INCLUDE_FILES = {
         "mx_funcs.h"
     };
 
@@ -492,8 +490,7 @@ void OslShaderGenerator::emitLibraryIncludes(ShaderStage& stage, GenContext& con
 namespace
 {
 
-std::unordered_map<string, string> GEOMPROP_DEFINITIONS =
-{
+std::unordered_map<string, string> GEOMPROP_DEFINITIONS = {
     { "Pobject", "transform(\"object\", P)" },
     { "Pworld", "P" },
     { "Nobject", "transform(\"object\", N)" },
@@ -510,16 +507,14 @@ std::unordered_map<string, string> GEOMPROP_DEFINITIONS =
 
 void OslShaderGenerator::emitShaderInputs(const VariableBlock& inputs, ShaderStage& stage) const
 {
-    const std::unordered_map<const TypeDesc*, ShaderMetadata> UI_WIDGET_METADATA =
-    {
+    const std::unordered_map<const TypeDesc*, ShaderMetadata> UI_WIDGET_METADATA = {
         { Type::FLOAT, ShaderMetadata("widget", Type::STRING, Value::createValueFromStrings("number", Type::STRING->getName())) },
         { Type::INTEGER, ShaderMetadata("widget", Type::STRING, Value::createValueFromStrings("number", Type::STRING->getName())) },
         { Type::FILENAME, ShaderMetadata("widget", Type::STRING, Value::createValueFromStrings("filename", Type::STRING->getName())) },
         { Type::BOOLEAN, ShaderMetadata("widget", Type::STRING, Value::createValueFromStrings("checkBox", Type::STRING->getName())) }
     };
 
-    const std::set<const TypeDesc*> METADATA_TYPE_BLACKLIST =
-    {
+    const std::set<const TypeDesc*> METADATA_TYPE_BLACKLIST = {
         Type::VECTOR2,  // Custom struct types doesn't support metadata declarations.
         Type::VECTOR4,  //
         Type::COLOR4,   //

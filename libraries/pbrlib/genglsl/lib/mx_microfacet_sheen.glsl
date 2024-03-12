@@ -21,7 +21,7 @@ float mx_imageworks_sheen_brdf(float NdotL, float NdotV, float NdotH, float roug
 
     // We use a smoother denominator, as in:
     // https://blog.selfshadow.com/publications/s2013-shading-course/rad/s2013_pbs_rad_notes.pdf
-    return D * F * G / (4.0 * (NdotL + NdotV - NdotL*NdotV));
+    return D * F * G / (4.0 * (NdotL + NdotV - NdotL * NdotV));
 }
 
 // Rational quadratic fit to Monte Carlo data for Imageworks sheen directional albedo.
@@ -61,7 +61,7 @@ float mx_imageworks_sheen_dir_albedo_monte_carlo(float NdotV, float roughness)
         // Compute the incoming light direction and half vector.
         vec3 L = mx_uniform_sample_hemisphere(Xi);
         vec3 H = normalize(L + V);
-        
+
         // Compute dot products for this sample.
         float NdotL = clamp(L.z, M_FLOAT_EPS, 1.0);
         float NdotH = clamp(H.z, M_FLOAT_EPS, 1.0);

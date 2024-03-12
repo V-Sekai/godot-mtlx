@@ -37,7 +37,7 @@ TEST_CASE("Look", "[look]")
 
     // Create a property assignment.
     mx::PropertyAssignPtr propertyAssign = look->addPropertyAssign();
-	propertyAssign->setProperty("twosided");
+    propertyAssign->setProperty("twosided");
     propertyAssign->setGeom("/robot1");
     propertyAssign->setValue(true);
     REQUIRE(propertyAssign->getProperty() == "twosided");
@@ -51,11 +51,11 @@ TEST_CASE("Look", "[look]")
     REQUIRE(propertySet->getPropertyValue("matte")->isA<bool>());
     REQUIRE(propertySet->getPropertyValue("matte")->asA<bool>() == false);
     mx::PropertySetAssignPtr propertySetAssign = look->addPropertySetAssign();
-	propertySetAssign->setPropertySet(propertySet);
+    propertySetAssign->setPropertySet(propertySet);
     propertySetAssign->setGeom("/robot1");
     REQUIRE(propertySetAssign->getPropertySet() == propertySet);
     REQUIRE(propertySetAssign->getGeom() == "/robot1");
-    
+
     // Create a variant set.
     mx::VariantSetPtr variantSet = doc->addVariantSet("damageVars");
     variantSet->addVariant("original");

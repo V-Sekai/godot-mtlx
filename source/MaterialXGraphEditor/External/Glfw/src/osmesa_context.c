@@ -33,7 +33,6 @@
 
 #include "internal.h"
 
-
 static void makeContextCurrentOSMesa(_GLFWwindow* window)
 {
     if (window)
@@ -50,7 +49,7 @@ static void makeContextCurrentOSMesa(_GLFWwindow* window)
 
             // Allocate the new buffer (width * height * 8-bit RGBA)
             window->context.osmesa.buffer = calloc(4, (size_t) width * height);
-            window->context.osmesa.width  = width;
+            window->context.osmesa.width = width;
             window->context.osmesa.height = height;
         }
 
@@ -105,7 +104,6 @@ static int extensionSupportedOSMesa(const char* extension)
     return GLFW_FALSE;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -113,8 +111,7 @@ static int extensionSupportedOSMesa(const char* extension)
 GLFWbool _glfwInitOSMesa(void)
 {
     int i;
-    const char* sonames[] =
-    {
+    const char* sonames[] = {
 #if defined(_GLFW_OSMESA_LIBRARY)
         _GLFW_OSMESA_LIBRARY,
 #elif defined(_WIN32)
@@ -134,7 +131,7 @@ GLFWbool _glfwInitOSMesa(void)
     if (_glfw.osmesa.handle)
         return GLFW_TRUE;
 
-    for (i = 0;  sonames[i];  i++)
+    for (i = 0; sonames[i]; i++)
     {
         _glfw.osmesa.handle = _glfw_dlopen(sonames[i]);
         if (_glfw.osmesa.handle)
@@ -188,12 +185,12 @@ void _glfwTerminateOSMesa(void)
     }
 }
 
-#define setAttrib(a, v) \
-{ \
-    assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[index++] = a; \
-    attribs[index++] = v; \
-}
+#define setAttrib(a, v)                                                      \
+    {                                                                        \
+        assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[index++] = a;                                                \
+        attribs[index++] = v;                                                \
+    }
 
 GLFWbool _glfwCreateContextOSMesa(_GLFWwindow* window,
                                   const _GLFWctxconfig* ctxconfig,
@@ -287,7 +284,6 @@ GLFWbool _glfwCreateContextOSMesa(_GLFWwindow* window,
 
 #undef setAttrib
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -369,4 +365,3 @@ GLFWAPI OSMesaContext glfwGetOSMesaContext(GLFWwindow* handle)
 
     return window->context.osmesa.handle;
 }
-

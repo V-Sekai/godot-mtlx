@@ -34,7 +34,6 @@
 #include <errno.h>
 #include <math.h>
 
-
 static void outputHandleGeometry(void* data,
                                  struct wl_output* output,
                                  int32_t x,
@@ -46,7 +45,7 @@ static void outputHandleGeometry(void* data,
                                  const char* model,
                                  int32_t transform)
 {
-    struct _GLFWmonitor *monitor = data;
+    struct _GLFWmonitor* monitor = data;
     char name[1024];
 
     monitor->wl.x = x;
@@ -65,7 +64,7 @@ static void outputHandleMode(void* data,
                              int32_t height,
                              int32_t refresh)
 {
-    struct _GLFWmonitor *monitor = data;
+    struct _GLFWmonitor* monitor = data;
     GLFWvidmode mode;
 
     mode.width = width;
@@ -86,7 +85,7 @@ static void outputHandleMode(void* data,
 
 static void outputHandleDone(void* data, struct wl_output* output)
 {
-    struct _GLFWmonitor *monitor = data;
+    struct _GLFWmonitor* monitor = data;
 
     _glfwInputMonitor(monitor, GLFW_CONNECTED, _GLFW_INSERT_LAST);
 }
@@ -95,7 +94,7 @@ static void outputHandleScale(void* data,
                               struct wl_output* output,
                               int32_t factor)
 {
-    struct _GLFWmonitor *monitor = data;
+    struct _GLFWmonitor* monitor = data;
 
     monitor->wl.scale = factor;
 }
@@ -107,15 +106,14 @@ static const struct wl_output_listener outputListener = {
     outputHandleScale,
 };
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
 
 void _glfwAddOutputWayland(uint32_t name, uint32_t version)
 {
-    _GLFWmonitor *monitor;
-    struct wl_output *output;
+    _GLFWmonitor* monitor;
+    struct wl_output* output;
 
     if (version < 2)
     {
@@ -143,7 +141,6 @@ void _glfwAddOutputWayland(uint32_t name, uint32_t version)
 
     wl_output_add_listener(output, &outputListener, monitor);
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -211,7 +208,6 @@ void _glfwPlatformSetGammaRamp(_GLFWmonitor* monitor,
                     "Wayland: Gamma ramp access is not available");
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -222,4 +218,3 @@ GLFWAPI struct wl_output* glfwGetWaylandMonitor(GLFWmonitor* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
     return monitor->wl.output;
 }
-

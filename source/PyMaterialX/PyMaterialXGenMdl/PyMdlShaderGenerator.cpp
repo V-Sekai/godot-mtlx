@@ -13,7 +13,6 @@
 namespace py = pybind11;
 namespace mx = MaterialX;
 
-
 void bindPyMdlShaderGenerator(py::module& mod)
 {
     py::class_<mx::MdlShaderGenerator, mx::ShaderGenerator, mx::MdlShaderGeneratorPtr>(mod, "MdlShaderGenerator")

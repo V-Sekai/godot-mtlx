@@ -48,7 +48,7 @@ class MdlFilenameTypeSyntax : public ScalarTypeSyntax
         // assuming it ends with a slash ...
         if (outputValue.back() == '/')
         {
-             return getDefaultValue(true);
+            return getDefaultValue(true);
         }
         // ... or the last segment does not have an extension suffix
         size_t idx_s = outputValue.find_last_of('/');
@@ -482,12 +482,8 @@ const TypeDesc* MdlSyntax::getEnumeratedType(const string& value) const
     return nullptr;
 }
 
-const std::unordered_map<char, char> CHANNELS_TO_XYZW =
-{
-    { 'r', 'x' }, { 'x', 'x' },
-    { 'g', 'y' }, { 'y', 'y' },
-    { 'b', 'z' }, { 'z', 'z' },
-    { 'a', 'w' }, { 'w', 'w' }
+const std::unordered_map<char, char> CHANNELS_TO_XYZW = {
+    { 'r', 'x' }, { 'x', 'x' }, { 'g', 'y' }, { 'y', 'y' }, { 'b', 'z' }, { 'z', 'z' }, { 'a', 'w' }, { 'w', 'w' }
 };
 
 string MdlSyntax::getSwizzledVariable(const string& srcName, const TypeDesc* srcType, const string& channels, const TypeDesc* dstType) const

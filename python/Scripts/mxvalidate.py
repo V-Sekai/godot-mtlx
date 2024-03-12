@@ -1,16 +1,23 @@
 #!/usr/bin/env python
-'''
+"""
 Verify that the given file is a valid MaterialX document.
-'''
+"""
 
 import sys, os, argparse
 import MaterialX as mx
 
+
 def main():
     parser = argparse.ArgumentParser(description="Verify that the given file is a valid MaterialX document.")
-    parser.add_argument("--resolve", dest="resolve", action="store_true", help="Resolve inheritance and string substitutions.")
-    parser.add_argument("--verbose", dest="verbose", action="store_true", help="Print summary of elements found in the document.")
-    parser.add_argument("--stdlib", dest="stdlib", action="store_true", help="Import standard MaterialX libraries into the document.")
+    parser.add_argument(
+        "--resolve", dest="resolve", action="store_true", help="Resolve inheritance and string substitutions."
+    )
+    parser.add_argument(
+        "--verbose", dest="verbose", action="store_true", help="Print summary of elements found in the document."
+    )
+    parser.add_argument(
+        "--stdlib", dest="stdlib", action="store_true", help="Import standard MaterialX libraries into the document."
+    )
     parser.add_argument(dest="inputFilename", help="Filename of the input document.")
     opts = parser.parse_args()
 
@@ -24,14 +31,14 @@ def main():
     if opts.stdlib:
         stdlib = mx.createDocument()
         try:
-            mx.loadLibraries(mx.getDefaultDataLibraryFolders(), mx.getDefaultDataSearchPath(), stdlib)            
+            mx.loadLibraries(mx.getDefaultDataLibraryFolders(), mx.getDefaultDataSearchPath(), stdlib)
         except err:
             print(err)
             sys.exit(0)
         doc.importLibrary(stdlib)
 
     (valid, message) = doc.validate()
-    if (valid):
+    if valid:
         print("%s is a valid MaterialX document in v%s" % (opts.inputFilename, mx.getVersionString()))
     else:
         print("%s is not a valid MaterialX document in v%s" % (opts.inputFilename, mx.getVersionString()))
@@ -55,9 +62,14 @@ def main():
         print("----------------------------------")
         print("Document Version: {}.{:02d}".format(*doc.getVersionIntegers()))
         print("%4d Custom Type%s%s" % (len(typedefs), pl(typedefs), listContents(typedefs, opts.resolve)))
-        print("%4d Custom GeomProp%s%s" % (len(geompropdefs), pl(geompropdefs), listContents(geompropdefs, opts.resolve)))
+        print(
+            "%4d Custom GeomProp%s%s" % (len(geompropdefs), pl(geompropdefs), listContents(geompropdefs, opts.resolve))
+        )
         print("%4d NodeDef%s%s" % (len(nodedefs), pl(nodedefs), listContents(nodedefs, opts.resolve)))
-        print("%4d Implementation%s%s" % (len(implementations), pl(implementations), listContents(implementations, opts.resolve)))
+        print(
+            "%4d Implementation%s%s"
+            % (len(implementations), pl(implementations), listContents(implementations, opts.resolve))
+        )
         print("%4d Nodegraph%s%s" % (len(nodegraphs), pl(nodegraphs), listContents(nodegraphs, opts.resolve)))
         print("%4d VariantSet%s%s" % (len(variantsets), pl(variantsets), listContents(variantsets, opts.resolve)))
         print("%4d Material%s%s" % (len(materials), pl(materials), listContents(materials, opts.resolve)))
@@ -69,9 +81,10 @@ def main():
         print("%4d Top-level backdrop%s%s" % (len(backdrops), pl(backdrops), listContents(backdrops, opts.resolve)))
         print("----------------------------------")
 
+
 def listContents(elemlist, resolve):
     if len(elemlist) == 0:
-        return ''
+        return ""
     names = []
     for elem in elemlist:
 
@@ -80,10 +93,8 @@ def listContents(elemlist, resolve):
             outs = ""
             if outtype == "multioutput":
                 for ot in elem.getOutputs():
-                    outs = outs + \
-                        '\n\t    %s output "%s"' % (ot.getType(), ot.getName())
-            names.append('%s %s "%s"%s' %
-                         (outtype, elem.getNodeString(), elem.getName(), outs))
+                    outs = outs + '\n\t    %s output "%s"' % (ot.getType(), ot.getName())
+            names.append('%s %s "%s"%s' % (outtype, elem.getNodeString(), elem.getName(), outs))
             names.append(listNodedefInterface(elem))
 
         elif elem.isA(mx.Implementation):
@@ -95,8 +106,7 @@ def listContents(elemlist, resolve):
                 impl = "%s (%s)" % (impl, ", ".join(targs))
             if elem.hasFunction():
                 if elem.hasFile():
-                    impl = "%s [%s:%s()]" % (
-                        impl, elem.getFile(), elem.getFunction())
+                    impl = "%s [%s:%s()]" % (impl, elem.getFile(), elem.getFunction())
                 else:
                     impl = "%s [function %s()]" % (impl, elem.getFunction())
             elif elem.hasFile():
@@ -104,8 +114,7 @@ def listContents(elemlist, resolve):
             names.append(impl)
 
         elif elem.isA(mx.Backdrop):
-            names.append('%s: contains "%s"' %
-                         (elem.getName(), elem.getContainsString()))
+            names.append('%s: contains "%s"' % (elem.getName(), elem.getContainsString()))
 
         elif elem.isA(mx.NodeGraph):
             nchildnodes = len(elem.getChildren()) - elem.getOutputCount()
@@ -122,30 +131,40 @@ def listContents(elemlist, resolve):
                     outs = outs + traverseInputs(ot, "", 0)
             nd = elem.getNodeDef()
             if nd:
-                names.append('%s (implementation for nodedef "%s"): %d nodes%s' % (
-                    elem.getName(), nd.getName(), nchildnodes, outs))
+                names.append(
+                    '%s (implementation for nodedef "%s"): %d nodes%s'
+                    % (elem.getName(), nd.getName(), nchildnodes, outs)
+                )
             else:
-                names.append("%s: %d nodes, %d backdrop%s%s" % (
-                    elem.getName(), nchildnodes, nbackdrops, pl(backdrops), outs))
+                names.append(
+                    "%s: %d nodes, %d backdrop%s%s" % (elem.getName(), nchildnodes, nbackdrops, pl(backdrops), outs)
+                )
 
         elif elem.isA(mx.Node, mx.SURFACE_MATERIAL_NODE_STRING):
             shaders = mx.getShaderNodes(elem)
             names.append("%s: %d connected shader node%s" % (elem.getName(), len(shaders), pl(shaders)))
             for shader in shaders:
-                names.append('Shader node "%s" (%s), with bindings:%s' % (shader.getName(), shader.getCategory(), listShaderBindings(shader)))
+                names.append(
+                    'Shader node "%s" (%s), with bindings:%s'
+                    % (shader.getName(), shader.getCategory(), listShaderBindings(shader))
+                )
 
         elif elem.isA(mx.GeomInfo):
             props = elem.getGeomProps()
             if props:
-                propnames = " (Geomprops: " + ", ".join(map(
-                            lambda x: "%s=%s" % (x.getName(), getConvertedValue(x)), props)) + ")"
+                propnames = (
+                    " (Geomprops: "
+                    + ", ".join(map(lambda x: "%s=%s" % (x.getName(), getConvertedValue(x)), props))
+                    + ")"
+                )
             else:
                 propnames = ""
 
             tokens = elem.getTokens()
             if tokens:
-                tokennames = " (Tokens: " + ", ".join(map(
-                             lambda x: "%s=%s" % (x.getName(), x.getValueString()), tokens)) + ")"
+                tokennames = (
+                    " (Tokens: " + ", ".join(map(lambda x: "%s=%s" % (x.getName(), x.getValueString()), tokens)) + ")"
+                )
             else:
                 tokennames = ""
             names.append("%s%s%s" % (elem.getName(), propnames, tokennames))
@@ -153,8 +172,7 @@ def listContents(elemlist, resolve):
         elif elem.isA(mx.VariantSet):
             vars = elem.getVariants()
             if vars:
-                varnames = " (variants " + ", ".join(map(
-                           lambda x: '"' + x.getName()+'"', vars)) + ")"
+                varnames = " (variants " + ", ".join(map(lambda x: '"' + x.getName() + '"', vars)) + ")"
             else:
                 varnames = ""
             names.append("%s%s" % (elem.getName(), varnames))
@@ -162,8 +180,9 @@ def listContents(elemlist, resolve):
         elif elem.isA(mx.PropertySet):
             props = elem.getProperties()
             if props:
-                propnames = " (" + ", ".join(map(
-                           lambda x: "%s %s%s" % (x.getType(), x.getName(), getTarget(x)), props)) + ")"
+                propnames = (
+                    " (" + ", ".join(map(lambda x: "%s %s%s" % (x.getType(), x.getName(), getTarget(x)), props)) + ")"
+                )
             else:
                 propnames = ""
             names.append("%s%s" % (elem.getName(), propnames))
@@ -182,8 +201,7 @@ def listContents(elemlist, resolve):
             else:
                 mtlassns = elem.getMaterialAssigns()
             for mtlassn in mtlassns:
-                mas = mas + "\n\t    MaterialAssign %s to%s" % (
-                    mtlassn.getMaterial(), getGeoms(mtlassn, resolve))
+                mas = mas + "\n\t    MaterialAssign %s to%s" % (mtlassn.getMaterial(), getGeoms(mtlassn, resolve))
             pas = ""
             if resolve:
                 propassns = elem.getActivePropertyAssigns()
@@ -192,7 +210,10 @@ def listContents(elemlist, resolve):
             for propassn in propassns:
                 propertyname = propassn.getAttribute("property")
                 pas = pas + "\n\t    PropertyAssign %s %s to%s" % (
-                    propassn.getType(), propertyname, getGeoms(propassn, resolve))
+                    propassn.getType(),
+                    propertyname,
+                    getGeoms(propassn, resolve),
+                )
 
             psas = ""
             if resolve:
@@ -201,8 +222,7 @@ def listContents(elemlist, resolve):
                 propsetassns = elem.getPropertySetAssigns()
             for propsetassn in propsetassns:
                 propertysetname = propsetassn.getAttribute("propertyset")
-                psas = psas + "\n\t    PropertySetAssign %s to%s" % (
-                    propertysetname, getGeoms(propsetassn, resolve))
+                psas = psas + "\n\t    PropertySetAssign %s to%s" % (propertysetname, getGeoms(propsetassn, resolve))
 
             varas = ""
             if resolve:
@@ -211,7 +231,9 @@ def listContents(elemlist, resolve):
                 variantassns = elem.getVariantAssigns()
             for varassn in variantassns:
                 varas = varas + "\n\t    VariantAssign %s from variantset %s" % (
-                    varassn.getVariantString(), varassn.getVariantSetString())
+                    varassn.getVariantString(),
+                    varassn.getVariantSetString(),
+                )
 
             visas = ""
             if resolve:
@@ -219,19 +241,23 @@ def listContents(elemlist, resolve):
             else:
                 visassns = elem.getVisibilities()
             for vis in visassns:
-                visstr = 'on' if vis.getVisible() else 'off'
+                visstr = "on" if vis.getVisible() else "off"
                 visas = visas + "\n\t    Set %s visibility%s %s to%s" % (
-                    vis.getVisibilityType(), getViewerGeoms(vis), visstr, getGeoms(vis, resolve))
+                    vis.getVisibilityType(),
+                    getViewerGeoms(vis),
+                    visstr,
+                    getGeoms(vis, resolve),
+                )
 
-            names.append("%s%s%s%s%s%s" %
-                         (elem.getName(), mas, pas, psas, varas, visas))
+            names.append("%s%s%s%s%s%s" % (elem.getName(), mas, pas, psas, varas, visas))
 
         else:
             names.append(elem.getName())
     return ":\n\t" + "\n\t".join(names)
 
+
 def listShaderBindings(shader):
-    s = ''
+    s = ""
     for inp in shader.getInputs():
         bname = inp.getName()
         btype = inp.getType()
@@ -247,63 +273,55 @@ def listShaderBindings(shader):
             s = s + '\n\t    %s "%s" = %s' % (btype, bname, bval)
     return s
 
+
 def listNodedefInterface(nodedef):
-    s = ''
+    s = ""
     for inp in nodedef.getActiveInputs():
         iname = inp.getName()
         itype = inp.getType()
         if s:
-            s = s + '\n\t'
+            s = s + "\n\t"
         s = s + '    %s input "%s"' % (itype, iname)
     for tok in nodedef.getActiveTokens():
         tname = tok.getName()
         ttype = tok.getType()
         if s:
-            s = s + '\n\t'
+            s = s + "\n\t"
         s = s + '    %s token "%s"' % (ttype, tname)
     return s
 
+
 def traverseInputs(node, port, depth):
-    s = ''
+    s = ""
     if node.isA(mx.Output):
         parent = node.getConnectedNode()
-        s = s + traverseInputs(parent, "", depth+1)
+        s = s + traverseInputs(parent, "", depth + 1)
     else:
-        s = s + '%s%s -> %s %s "%s"' % (spc(depth), port,
-                                        node.getType(), node.getCategory(), node.getName())
+        s = s + '%s%s -> %s %s "%s"' % (spc(depth), port, node.getType(), node.getCategory(), node.getName())
         ins = node.getActiveInputs()
         for i in ins:
             if i.hasInterfaceName():
                 intname = i.getInterfaceName()
-                s = s + \
-                    '%s%s ^- %s interface "%s"' % (spc(depth+1),
-                                                   i.getName(), i.getType(), intname)
+                s = s + '%s%s ^- %s interface "%s"' % (spc(depth + 1), i.getName(), i.getType(), intname)
             elif i.hasValueString():
                 val = getConvertedValue(i)
-                s = s + \
-                    '%s%s = %s value %s' % (
-                        spc(depth+1), i.getName(), i.getType(), val)
+                s = s + "%s%s = %s value %s" % (spc(depth + 1), i.getName(), i.getType(), val)
             else:
                 parent = i.getConnectedNode()
                 if parent:
-                    s = s + traverseInputs(parent, i.getName(), depth+1)
+                    s = s + traverseInputs(parent, i.getName(), depth + 1)
         toks = node.getActiveTokens()
         for i in toks:
             if i.hasInterfaceName():
                 intname = i.getInterfaceName()
-                s = s + \
-                    '%s[T]%s ^- %s interface "%s"' % (
-                        spc(depth+1), i.getName(), i.getType(), intname)
+                s = s + '%s[T]%s ^- %s interface "%s"' % (spc(depth + 1), i.getName(), i.getType(), intname)
             elif i.hasValueString():
                 val = i.getValueString()
-                s = s + \
-                    '%s[T]%s = %s value "%s"' % (
-                        spc(depth+1), i.getName(), i.getType(), val)
+                s = s + '%s[T]%s = %s value "%s"' % (spc(depth + 1), i.getName(), i.getType(), val)
             else:
-                s = s + \
-                    '%s[T]%s error: no valueString' % (
-                        spc(depth+1), i.getName())
+                s = s + "%s[T]%s error: no valueString" % (spc(depth + 1), i.getName())
     return s
+
 
 def pl(elem):
     if len(elem) == 1:
@@ -311,20 +329,23 @@ def pl(elem):
     else:
         return "s"
 
+
 def spc(depth):
-    return "\n\t    " + ": "*depth
+    return "\n\t    " + ": " * depth
+
 
 # Return a value string for the element, converting units if appropriate
 def getConvertedValue(elem):
     if elem.getType() in ["float", "vector2", "vector3", "vector4"]:
         if elem.hasUnit():
             u = elem.getUnit()
-            print ("[Unit for %s is %s]" % (elem.getName(), u))
+            print("[Unit for %s is %s]" % (elem.getName(), u))
             if elem.hasUnitType():
                 utype = elem.getUnitType()
-                print ("[Unittype for %s is %s]" % (elem.getName(), utype))
+                print("[Unittype for %s is %s]" % (elem.getName(), utype))
             # NOTDONE...
     return elem.getValueString()
+
 
 def getGeoms(elem, resolve):
     s = ""
@@ -337,6 +358,7 @@ def getGeoms(elem, resolve):
         s = s + ' collection "%s"' % elem.getCollectionString()
     return s
 
+
 def getViewerGeoms(elem):
     s = ""
     if elem.hasViewerGeom():
@@ -347,11 +369,13 @@ def getViewerGeoms(elem):
         s = " of" + s
     return s
 
+
 def getTarget(elem):
     if elem.hasTarget():
         return ' [target "%s"]' % elem.getTarget()
     else:
         return ""
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

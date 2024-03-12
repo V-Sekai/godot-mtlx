@@ -12,14 +12,14 @@
 #include <MaterialXCore/Node.h>
 #include <MaterialXCore/Traversal.h>
 
-#define BIND_ELEMENT_FUNC_INSTANCE(T)                                                                           \
-.def("_addChild" #T, &mx::Element::addChild<mx::T>)                                                             \
-.def("_getChildOfType" #T, &mx::Element::getChildOfType<mx::T>)                                                 \
-.def("_getChildrenOfType" #T, &mx::Element::getChildrenOfType<mx::T>, py::arg("category") = mx::EMPTY_STRING)   \
-.def("_removeChildOfType" #T, &mx::Element::removeChildOfType<mx::T>)
+#define BIND_ELEMENT_FUNC_INSTANCE(T)                                                                                 \
+    .def("_addChild" #T, &mx::Element::addChild<mx::T>)                                                               \
+        .def("_getChildOfType" #T, &mx::Element::getChildOfType<mx::T>)                                               \
+        .def("_getChildrenOfType" #T, &mx::Element::getChildrenOfType<mx::T>, py::arg("category") = mx::EMPTY_STRING) \
+        .def("_removeChildOfType" #T, &mx::Element::removeChildOfType<mx::T>)
 
-#define BIND_VALUE_ELEMENT_FUNC_INSTANCE(NAME, T)                                                               \
-.def("_setValue" #NAME, &mx::ValueElement::setValue<T>, py::arg("value"), py::arg("type") = mx::EMPTY_STRING)
+#define BIND_VALUE_ELEMENT_FUNC_INSTANCE(NAME, T) \
+    .def("_setValue" #NAME, &mx::ValueElement::setValue<T>, py::arg("value"), py::arg("type") = mx::EMPTY_STRING)
 
 namespace py = pybind11;
 namespace mx = MaterialX;
@@ -34,7 +34,7 @@ void bindPyElement(py::module& mod)
         .def("setName", &mx::Element::setName)
         .def("getName", &mx::Element::getName)
         .def("getNamePath", &mx::Element::getNamePath,
-            py::arg("relativeTo") = nullptr)
+             py::arg("relativeTo") = nullptr)
         .def("getDescendant", &mx::Element::getDescendant)
         .def("setFilePrefix", &mx::Element::setFilePrefix)
         .def("hasFilePrefix", &mx::Element::hasFilePrefix)
@@ -62,7 +62,7 @@ void bindPyElement(py::module& mod)
         .def("setDocString", &mx::Element::setDocString)
         .def("getDocString", &mx::Element::getDocString)
         .def("addChildOfCategory", &mx::Element::addChildOfCategory,
-            py::arg("category"), py::arg("name") = mx::EMPTY_STRING)
+             py::arg("category"), py::arg("name") = mx::EMPTY_STRING)
         .def("changeChildCategory", &mx::Element::changeChildCategory)
         .def("_getChild", &mx::Element::getChild)
         .def("getChildren", &mx::Element::getChildren)
@@ -75,50 +75,32 @@ void bindPyElement(py::module& mod)
         .def("getAttributeNames", &mx::Element::getAttributeNames)
         .def("removeAttribute", &mx::Element::removeAttribute)
         .def("getSelf", static_cast<mx::ElementPtr (mx::Element::*)()>(&mx::Element::getSelf))
-        .def("getParent", static_cast<mx::ElementPtr(mx::Element::*)()>(&mx::Element::getParent))
-        .def("getRoot", static_cast<mx::ElementPtr(mx::Element::*)()>(&mx::Element::getRoot))
-        .def("getDocument", static_cast<mx::DocumentPtr(mx::Element::*)()>(&mx::Element::getDocument))
+        .def("getParent", static_cast<mx::ElementPtr (mx::Element::*)()>(&mx::Element::getParent))
+        .def("getRoot", static_cast<mx::ElementPtr (mx::Element::*)()>(&mx::Element::getRoot))
+        .def("getDocument", static_cast<mx::DocumentPtr (mx::Element::*)()>(&mx::Element::getDocument))
         .def("traverseTree", &mx::Element::traverseTree)
         .def("traverseGraph", &mx::Element::traverseGraph)
         .def("getUpstreamEdge", &mx::Element::getUpstreamEdge,
-            py::arg("index") = 0)
+             py::arg("index") = 0)
         .def("getUpstreamEdgeCount", &mx::Element::getUpstreamEdgeCount)
         .def("getUpstreamElement", &mx::Element::getUpstreamElement,
-            py::arg("index") = 0)
+             py::arg("index") = 0)
         .def("traverseInheritance", &mx::Element::traverseInheritance)
         .def("setSourceUri", &mx::Element::setSourceUri)
         .def("hasSourceUri", &mx::Element::hasSourceUri)
         .def("getSourceUri", &mx::Element::getSourceUri)
         .def("getActiveSourceUri", &mx::Element::getActiveSourceUri)
         .def("validate", [](const mx::Element& elem)
-            {
-                std::string message;
-                bool res = elem.validate(&message);
-                return std::pair<bool, std::string>(res, message);
-            })
-        .def("copyContentFrom", &mx::Element::copyContentFrom)
+    {
+        std::string message;
+        bool res = elem.validate(&message);
+        return std::pair<bool, std::string>(res, message);
+    }).def("copyContentFrom", &mx::Element::copyContentFrom)
         .def("clearContent", &mx::Element::clearContent)
         .def("createValidChildName", &mx::Element::createValidChildName)
-        .def("createStringResolver", &mx::Element::createStringResolver,
-             py::arg("geom") = mx::EMPTY_STRING)
+        .def("createStringResolver", &mx::Element::createStringResolver, py::arg("geom") = mx::EMPTY_STRING)
         .def("asString", &mx::Element::asString)
-        .def("__str__", &mx::Element::asString)
-        BIND_ELEMENT_FUNC_INSTANCE(Collection)
-        BIND_ELEMENT_FUNC_INSTANCE(Document)
-        BIND_ELEMENT_FUNC_INSTANCE(GeomInfo)
-        BIND_ELEMENT_FUNC_INSTANCE(GeomProp)
-        BIND_ELEMENT_FUNC_INSTANCE(Implementation)
-        BIND_ELEMENT_FUNC_INSTANCE(Look)
-        BIND_ELEMENT_FUNC_INSTANCE(MaterialAssign)
-        BIND_ELEMENT_FUNC_INSTANCE(Node)
-        BIND_ELEMENT_FUNC_INSTANCE(NodeDef)
-        BIND_ELEMENT_FUNC_INSTANCE(NodeGraph)
-        BIND_ELEMENT_FUNC_INSTANCE(Property)
-        BIND_ELEMENT_FUNC_INSTANCE(PropertySet)
-        BIND_ELEMENT_FUNC_INSTANCE(PropertySetAssign)
-        BIND_ELEMENT_FUNC_INSTANCE(Token)
-        BIND_ELEMENT_FUNC_INSTANCE(TypeDef)
-        BIND_ELEMENT_FUNC_INSTANCE(Visibility);
+        .def("__str__", &mx::Element::asString) BIND_ELEMENT_FUNC_INSTANCE(Collection) BIND_ELEMENT_FUNC_INSTANCE(Document) BIND_ELEMENT_FUNC_INSTANCE(GeomInfo) BIND_ELEMENT_FUNC_INSTANCE(GeomProp) BIND_ELEMENT_FUNC_INSTANCE(Implementation) BIND_ELEMENT_FUNC_INSTANCE(Look) BIND_ELEMENT_FUNC_INSTANCE(MaterialAssign) BIND_ELEMENT_FUNC_INSTANCE(Node) BIND_ELEMENT_FUNC_INSTANCE(NodeDef) BIND_ELEMENT_FUNC_INSTANCE(NodeGraph) BIND_ELEMENT_FUNC_INSTANCE(Property) BIND_ELEMENT_FUNC_INSTANCE(PropertySet) BIND_ELEMENT_FUNC_INSTANCE(PropertySetAssign) BIND_ELEMENT_FUNC_INSTANCE(Token) BIND_ELEMENT_FUNC_INSTANCE(TypeDef) BIND_ELEMENT_FUNC_INSTANCE(Visibility);
 
     py::class_<mx::TypedElement, mx::TypedElementPtr, mx::Element>(mod, "TypedElement")
         .def("setType", &mx::TypedElement::setType)
@@ -133,7 +115,7 @@ void bindPyElement(py::module& mod)
         .def("hasValueString", &mx::ValueElement::hasValueString)
         .def("getValueString", &mx::ValueElement::getValueString)
         .def("getResolvedValueString", &mx::ValueElement::getResolvedValueString,
-            py::arg("resolver") = nullptr)
+             py::arg("resolver") = nullptr)
         .def("setInterfaceName", &mx::ValueElement::setInterfaceName)
         .def("hasInterfaceName", &mx::ValueElement::hasInterfaceName)
         .def("getInterfaceName", &mx::ValueElement::getInterfaceName)
@@ -167,21 +149,21 @@ void bindPyElement(py::module& mod)
         .def_readonly_static("UI_STEP_ATTRIBUTE", &mx::ValueElement::UI_STEP_ATTRIBUTE)
         .def_readonly_static("UI_ADVANCED_ATTRIBUTE", &mx::ValueElement::UI_ADVANCED_ATTRIBUTE)
 
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(integer, int)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(boolean, bool)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(float, float)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(color3, mx::Color3)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(color4, mx::Color4)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector2, mx::Vector2)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector3, mx::Vector3)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector4, mx::Vector4)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(matrix33, mx::Matrix33)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(matrix44, mx::Matrix44)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(string, std::string)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(integerarray, mx::IntVec)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(booleanarray, mx::BoolVec)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(floatarray, mx::FloatVec)
-        BIND_VALUE_ELEMENT_FUNC_INSTANCE(stringarray, mx::StringVec);
+            BIND_VALUE_ELEMENT_FUNC_INSTANCE(integer, int)
+                BIND_VALUE_ELEMENT_FUNC_INSTANCE(boolean, bool)
+                    BIND_VALUE_ELEMENT_FUNC_INSTANCE(float, float)
+                        BIND_VALUE_ELEMENT_FUNC_INSTANCE(color3, mx::Color3)
+                            BIND_VALUE_ELEMENT_FUNC_INSTANCE(color4, mx::Color4)
+                                BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector2, mx::Vector2)
+                                    BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector3, mx::Vector3)
+                                        BIND_VALUE_ELEMENT_FUNC_INSTANCE(vector4, mx::Vector4)
+                                            BIND_VALUE_ELEMENT_FUNC_INSTANCE(matrix33, mx::Matrix33)
+                                                BIND_VALUE_ELEMENT_FUNC_INSTANCE(matrix44, mx::Matrix44)
+                                                    BIND_VALUE_ELEMENT_FUNC_INSTANCE(string, std::string)
+                                                        BIND_VALUE_ELEMENT_FUNC_INSTANCE(integerarray, mx::IntVec)
+                                                            BIND_VALUE_ELEMENT_FUNC_INSTANCE(booleanarray, mx::BoolVec)
+                                                                BIND_VALUE_ELEMENT_FUNC_INSTANCE(floatarray, mx::FloatVec)
+                                                                    BIND_VALUE_ELEMENT_FUNC_INSTANCE(stringarray, mx::StringVec);
 
     py::class_<mx::Token, mx::TokenPtr, mx::ValueElement>(mod, "Token")
         .def_readonly_static("CATEGORY", &mx::Token::CATEGORY);

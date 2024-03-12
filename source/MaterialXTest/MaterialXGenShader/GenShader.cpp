@@ -16,16 +16,16 @@
 #include <MaterialXGenShader/Util.h>
 
 #ifdef MATERIALX_BUILD_GEN_GLSL
-#include <MaterialXGenGlsl/GlslShaderGenerator.h>
+    #include <MaterialXGenGlsl/GlslShaderGenerator.h>
 #endif
 #ifdef MATERIALX_BUILD_GEN_OSL
-#include <MaterialXGenOsl/OslShaderGenerator.h>
+    #include <MaterialXGenOsl/OslShaderGenerator.h>
 #endif
 #ifdef MATERIALX_BUILD_GEN_MDL
-#include <MaterialXGenMdl/MdlShaderGenerator.h>
+    #include <MaterialXGenMdl/MdlShaderGenerator.h>
 #endif
 #ifdef MATERIALX_BUILD_GEN_MSL
-#include <MaterialXGenMsl/MslShaderGenerator.h>
+    #include <MaterialXGenMsl/MslShaderGenerator.h>
 #endif
 
 #include <cstdlib>
@@ -44,14 +44,14 @@ TEST_CASE("GenShader: Utilities", "[genshader]")
     // Test simple text substitution
     std::string test1 = "Look behind you, a $threeheaded $monkey!";
     std::string result1 = "Look behind you, a mighty pirate!";
-    mx::StringMap subst1 = { {"$threeheaded","mighty"}, {"$monkey","pirate"} };
+    mx::StringMap subst1 = { { "$threeheaded", "mighty" }, { "$monkey", "pirate" } };
     mx::tokenSubstitution(subst1, test1);
     REQUIRE(test1 == result1);
 
     // Test uniform name substitution
     std::string test2 = "uniform vec3 " + mx::HW::T_ENV_RADIANCE + ";";
     std::string result2 = "uniform vec3 " + mx::HW::ENV_RADIANCE + ";";
-    mx::StringMap subst2 = { {mx::HW::T_ENV_RADIANCE, mx::HW::ENV_RADIANCE} };
+    mx::StringMap subst2 = { { mx::HW::T_ENV_RADIANCE, mx::HW::ENV_RADIANCE } };
     mx::tokenSubstitution(subst2, test2);
     REQUIRE(test2 == result2);
 }
@@ -125,7 +125,7 @@ TEST_CASE("GenShader: Shader Translation", "[translate]")
             shaderTranslator->translateAllMaterials(doc, "UsdPreviewSurface");
             translated = true;
         }
-        catch (mx::Exception &e)
+        catch (mx::Exception& e)
         {
             std::cout << "Failed translating: " << (testPath / mtlxFile).asString() << ": " << e.what() << std::endl;
         }
@@ -150,13 +150,13 @@ TEST_CASE("GenShader: Transparency Regression Check", "[genshader]")
 
     const mx::FilePath resourcePath = searchPath.find("resources");
     mx::StringVec failedTests;
-    mx::FilePathVec testFiles = { 
-        "Materials/Examples/StandardSurface/standard_surface_default.mtlx", 
+    mx::FilePathVec testFiles = {
+        "Materials/Examples/StandardSurface/standard_surface_default.mtlx",
         "Materials/Examples/StandardSurface/standard_surface_glass.mtlx",
         "Materials/TestSuite/libraries/metal/brass_wire_mesh.mtlx"
     };
     std::vector<bool> transparencyTest = { false, true, true };
-    for (size_t i=0; i<testFiles.size(); i++)
+    for (size_t i = 0; i < testFiles.size(); i++)
     {
         const mx::FilePath& testFile = resourcePath / testFiles[i];
         bool testValue = transparencyTest[i];
@@ -177,8 +177,7 @@ TEST_CASE("GenShader: Transparency Regression Check", "[genshader]")
                 }
                 if (testValue != mx::isTransparentSurface(node))
                 {
-                    failedTests.push_back(std::string("File: ") + testFile.asString() + std::string(". Element: ")
-                        + renderable->getNamePath() + std::string(" should be:" + std::to_string(testValue)));
+                    failedTests.push_back(std::string("File: ") + testFile.asString() + std::string(". Element: ") + renderable->getNamePath() + std::string(" should be:" + std::to_string(testValue)));
                 }
             }
         }
@@ -280,7 +279,8 @@ void checkPixelDependencies(mx::DocumentPtr libraries, mx::GenContext& context)
 
     mx::ShaderPtr shader = context.getShaderGenerator().generate(testElement, element, context);
     std::set<std::string> dependencies = shader->getStage("pixel").getSourceDependencies();
-    for (auto dependency : dependencies) {
+    for (auto dependency : dependencies)
+    {
         mx::FilePath path(dependency);
         REQUIRE(path.exists() == true);
     }
@@ -347,8 +347,8 @@ void variableTracker(mx::ShaderNode* node, mx::GenContext& /*context*/)
 
 TEST_CASE("GenShader: Track Application Variables", "[genshader]")
 {
-    std::string testDocumentString = 
-    "<?xml version=\"1.0\"?> \
+    std::string testDocumentString =
+        "<?xml version=\"1.0\"?> \
       <materialx version=\"1.38\"> \
       <geompropvalue name=\"geompropvalue\" type=\"color3\" >  \
         <input name=\"geomprop\" type=\"string\" uniform=\"true\" nodename=\"constant\" /> \

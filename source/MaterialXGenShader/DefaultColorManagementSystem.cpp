@@ -15,8 +15,7 @@ namespace
 const string CMS_NAME = "default_cms";
 
 // Remap from legacy color space names to their ACES 1.2 equivalents.
-const StringMap COLOR_SPACE_REMAP =
-{
+const StringMap COLOR_SPACE_REMAP = {
     { "gamma18", "g18_rec709" },
     { "gamma22", "g22_rec709" },
     { "gamma24", "rec709_display" },

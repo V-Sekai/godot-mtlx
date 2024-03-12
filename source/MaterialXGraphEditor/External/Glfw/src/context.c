@@ -35,7 +35,6 @@
 #include <limits.h>
 #include <stdio.h>
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -186,7 +185,7 @@ const _GLFWfbconfig* _glfwChooseFBConfig(const _GLFWfbconfig* desired,
     const _GLFWfbconfig* current;
     const _GLFWfbconfig* closest = NULL;
 
-    for (i = 0;  i < count;  i++)
+    for (i = 0; i < count; i++)
     {
         current = alternatives + i;
 
@@ -349,8 +348,7 @@ GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
     int i;
     _GLFWwindow* previous;
     const char* version;
-    const char* prefixes[] =
-    {
+    const char* prefixes[] = {
         "OpenGL ES-CM ",
         "OpenGL ES-CL ",
         "OpenGL ES ",
@@ -364,9 +362,9 @@ GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
     glfwMakeContextCurrent((GLFWwindow*) window);
 
     window->context.GetIntegerv = (PFNGLGETINTEGERVPROC)
-        window->context.getProcAddress("glGetIntegerv");
+                                      window->context.getProcAddress("glGetIntegerv");
     window->context.GetString = (PFNGLGETSTRINGPROC)
-        window->context.getProcAddress("glGetString");
+                                    window->context.getProcAddress("glGetString");
     if (!window->context.GetIntegerv || !window->context.GetString)
     {
         _glfwInputError(GLFW_PLATFORM_ERROR, "Entry point retrieval is broken");
@@ -392,7 +390,7 @@ GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
         return GLFW_FALSE;
     }
 
-    for (i = 0;  prefixes[i];  i++)
+    for (i = 0; prefixes[i]; i++)
     {
         const size_t length = strlen(prefixes[i]);
 
@@ -461,7 +459,7 @@ GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
         // users as early as possible that their build may be broken
 
         window->context.GetStringi = (PFNGLGETSTRINGIPROC)
-            window->context.getProcAddress("glGetStringi");
+                                         window->context.getProcAddress("glGetStringi");
         if (!window->context.GetStringi)
         {
             _glfwInputError(GLFW_PLATFORM_ERROR,
@@ -568,7 +566,7 @@ GLFWbool _glfwRefreshContextAttribs(_GLFWwindow* window,
     // previous uses of our bit of VRAM
     {
         PFNGLCLEARPROC glClear = (PFNGLCLEARPROC)
-            window->context.getProcAddress("glClear");
+                                     window->context.getProcAddress("glClear");
         glClear(GL_COLOR_BUFFER_BIT);
         window->context.swapBuffers(window);
     }
@@ -604,7 +602,6 @@ GLFWbool _glfwStringInExtensionString(const char* string, const char* extensions
 
     return GLFW_TRUE;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW public API                       //////
@@ -704,10 +701,10 @@ GLFWAPI int glfwExtensionSupported(const char* extension)
 
         window->context.GetIntegerv(GL_NUM_EXTENSIONS, &count);
 
-        for (i = 0;  i < count;  i++)
+        for (i = 0; i < count; i++)
         {
             const char* en = (const char*)
-                window->context.GetStringi(GL_EXTENSIONS, i);
+                                 window->context.GetStringi(GL_EXTENSIONS, i);
             if (!en)
             {
                 _glfwInputError(GLFW_PLATFORM_ERROR,
@@ -724,7 +721,7 @@ GLFWAPI int glfwExtensionSupported(const char* extension)
         // Check if extension is in the old style OpenGL extensions string
 
         const char* extensions = (const char*)
-            window->context.GetString(GL_EXTENSIONS);
+                                     window->context.GetString(GL_EXTENSIONS);
         if (!extensions)
         {
             _glfwInputError(GLFW_PLATFORM_ERROR,
@@ -757,4 +754,3 @@ GLFWAPI GLFWglproc glfwGetProcAddress(const char* procname)
 
     return window->context.getProcAddress(procname);
 }
-

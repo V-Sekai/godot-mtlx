@@ -13,7 +13,7 @@ namespace mx = MaterialX;
 void bindPyTypeDesc(py::module& mod)
 {
     // Set nodelete as destructor on returned TypeDescs since they are owned
-    // by the container they are stored in and should not be destroyed when 
+    // by the container they are stored in and should not be destroyed when
     // garbage collected by the python interpreter
     py::class_<mx::TypeDesc, std::unique_ptr<MaterialX::TypeDesc, py::nodelete>>(mod, "TypeDesc")
         .def_static("get", &mx::TypeDesc::get)

@@ -14,6 +14,6 @@ namespace mx = MaterialX;
 void bindPyMaterial(py::module& mod)
 {
     mod.def("getShaderNodes", &mx::getShaderNodes,
-        py::arg("materialNode"), py::arg("nodeType") = mx::SURFACE_SHADER_TYPE_STRING, py::arg("target") = mx::EMPTY_STRING);
+            py::arg("materialNode"), py::arg("nodeType") = mx::SURFACE_SHADER_TYPE_STRING, py::arg("target") = mx::EMPTY_STRING);
     mod.def("getConnectedOutputs", &mx::getConnectedOutputs);
 }

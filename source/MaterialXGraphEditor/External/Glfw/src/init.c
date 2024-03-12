@@ -36,7 +36,6 @@
 #include <stdarg.h>
 #include <assert.h>
 
-
 // The global variables below comprise all mutable global data in GLFW
 //
 // Any other global variable is a bug
@@ -50,12 +49,11 @@ _GLFWlibrary _glfw = { GLFW_FALSE };
 //
 static _GLFWerror _glfwMainThreadError;
 static GLFWerrorfun _glfwErrorCallback;
-static _GLFWinitconfig _glfwInitHints =
-{
-    GLFW_TRUE,      // hat buttons
+static _GLFWinitconfig _glfwInitHints = {
+    GLFW_TRUE, // hat buttons
     {
-        GLFW_TRUE,  // macOS menu bar
-        GLFW_TRUE   // macOS bundle chdir
+        GLFW_TRUE, // macOS menu bar
+        GLFW_TRUE  // macOS bundle chdir
     }
 };
 
@@ -73,7 +71,7 @@ static void terminate(void)
     while (_glfw.cursorListHead)
         glfwDestroyCursor((GLFWcursor*) _glfw.cursorListHead);
 
-    for (i = 0;  i < _glfw.monitorCount;  i++)
+    for (i = 0; i < _glfw.monitorCount; i++)
     {
         _GLFWmonitor* monitor = _glfw.monitors[i];
         if (monitor->originalRamp.size)
@@ -107,7 +105,6 @@ static void terminate(void)
 
     memset(&_glfw, 0, sizeof(_glfw));
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -144,7 +141,6 @@ float _glfw_fmaxf(float a, float b)
     else
         return b;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                         GLFW event API                       //////
@@ -218,7 +214,6 @@ void _glfwInputError(int code, const char* format, ...)
         _glfwErrorCallback(code, description);
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW public API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -255,7 +250,7 @@ GLFWAPI int glfwInit(void)
     {
         int i;
 
-        for (i = 0;  _glfwDefaultMappings[i];  i++)
+        for (i = 0; _glfwDefaultMappings[i]; i++)
         {
             if (!glfwUpdateGamepadMappings(_glfwDefaultMappings[i]))
             {
@@ -339,4 +334,3 @@ GLFWAPI GLFWerrorfun glfwSetErrorCallback(GLFWerrorfun cbfun)
     _GLFW_SWAP_POINTERS(_glfwErrorCallback, cbfun);
     return cbfun;
 }
-

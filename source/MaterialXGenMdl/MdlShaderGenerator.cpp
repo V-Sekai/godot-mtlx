@@ -33,8 +33,7 @@ namespace
 
 const string MDL_VERSION = "1.6";
 
-const vector<string> DEFAULT_IMPORTS =
-{
+const vector<string> DEFAULT_IMPORTS = {
     "import ::df::*",
     "import ::base::*",
     "import ::math::*",
@@ -52,8 +51,7 @@ const vector<string> DEFAULT_IMPORTS =
 
 const string MdlShaderGenerator::TARGET = "genmdl";
 
-const std::unordered_map<string, string> MdlShaderGenerator::GEOMPROP_DEFINITIONS =
-{
+const std::unordered_map<string, string> MdlShaderGenerator::GEOMPROP_DEFINITIONS = {
     { "Pobject", "state::transform_point(state::coordinate_internal, state::coordinate_object, state::position())" },
     { "Pworld", "state::transform_point(state::coordinate_internal, state::coordinate_world, state::position())" },
     { "Nobject", "state::transform_normal(state::coordinate_internal, state::coordinate_object, state::normal())" },
@@ -271,9 +269,10 @@ ShaderPtr MdlShaderGenerator::generate(const string& name, ElementPtr element, G
         {
             emitLine("float3 displacement__ = " + result + ".geometry.displacement", stage);
             emitLine("color finalOutput__ = mk_color3("
-                "r: math::dot(displacement__, state::texture_tangent_u(0)),"
-                "g: math::dot(displacement__, state::texture_tangent_v(0)),"
-                "b: math::dot(displacement__, state::normal()))", stage);
+                     "r: math::dot(displacement__, state::texture_tangent_u(0)),"
+                     "g: math::dot(displacement__, state::texture_tangent_v(0)),"
+                     "b: math::dot(displacement__, state::normal()))",
+                     stage);
         }
         else
         {

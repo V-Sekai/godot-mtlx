@@ -32,7 +32,6 @@
 #include <assert.h>
 #include <string.h>
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -102,4 +101,3 @@ void _glfwPlatformUnlockMutex(_GLFWmutex* mutex)
     assert(mutex->posix.allocated == GLFW_TRUE);
     pthread_mutex_unlock(&mutex->posix.handle);
 }
-

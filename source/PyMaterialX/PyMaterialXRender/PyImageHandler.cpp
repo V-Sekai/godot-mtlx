@@ -40,9 +40,9 @@ void bindPyImageHandler(py::module& mod)
         .def_static("create", &mx::ImageHandler::create)
         .def("addLoader", &mx::ImageHandler::addLoader)
         .def("saveImage", &mx::ImageHandler::saveImage,
-            py::arg("filePath"), py::arg("image"), py::arg("verticalFlip") = false)
+             py::arg("filePath"), py::arg("image"), py::arg("verticalFlip") = false)
         .def("acquireImage", &mx::ImageHandler::acquireImage,
-            py::arg("filePath"), py::arg("defaultColor") = mx::Color4(0.0f))
+             py::arg("filePath"), py::arg("defaultColor") = mx::Color4(0.0f))
         .def("bindImage", &mx::ImageHandler::bindImage)
         .def("unbindImage", &mx::ImageHandler::unbindImage)
         .def("unbindImages", &mx::ImageHandler::unbindImages)
@@ -52,7 +52,7 @@ void bindPyImageHandler(py::module& mod)
         .def("getFilenameResolver", &mx::ImageHandler::getFilenameResolver)
         .def("createRenderResources", &mx::ImageHandler::createRenderResources)
         .def("releaseRenderResources", &mx::ImageHandler::releaseRenderResources,
-            py::arg("image") = nullptr)
+             py::arg("image") = nullptr)
         .def("clearImageCache", &mx::ImageHandler::clearImageCache)
         .def("getZeroImage", &mx::ImageHandler::getZeroImage)
         .def("getReferencedImages", &mx::ImageHandler::getReferencedImages);

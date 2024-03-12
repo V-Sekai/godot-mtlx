@@ -191,8 +191,7 @@ mx::DocumentPtr Graph::loadDocument(mx::FilePath filename)
             }
             catch (mx::Exception& e)
             {
-                std::cerr << "Failed to read include file: " << filename.asString() << ". " <<
-                    std::string(e.what()) << std::endl;
+                std::cerr << "Failed to read include file: " << filename.asString() << ". " << std::string(e.what()) << std::endl;
             }
         }
         else
@@ -214,15 +213,14 @@ mx::DocumentPtr Graph::loadDocument(mx::FilePath filename)
                 std::cerr << "*** Validation warnings for " << filename.asString() << " ***" << std::endl;
                 std::cerr << message << std::endl;
             }
-            
+
             // Cache the currently loaded file
             _materialFilename = filename;
         }
     }
     catch (mx::Exception& e)
     {
-        std::cerr << "Failed to read file: " << filename.asString() << ": \"" <<
-            std::string(e.what()) << "\"" << std::endl;
+        std::cerr << "Failed to read file: " << filename.asString() << ": \"" << std::string(e.what()) << "\"" << std::endl;
     }
     _graphStack = std::stack<std::vector<UiNodePtr>>();
     _pinStack = std::stack<std::vector<UiPinPtr>>();
@@ -2496,7 +2494,7 @@ void Graph::addLink(ed::PinId inputPinId, ed::PinId outputPinId)
         return;
     }
 
-    // Perform type check 
+    // Perform type check
     bool typesMatch = (outputPin->_type == inputPin->_type);
     if (!typesMatch)
     {
@@ -3009,7 +3007,7 @@ void Graph::loadGraphFromFile(bool prompt)
         _fileDialog.open();
     }
     else
-    { 
+    {
         _graphDoc = loadDocument(_materialFilename);
 
         // Rebuild the UI
@@ -3020,7 +3018,7 @@ void Graph::loadGraphFromFile(bool prompt)
 
         _renderer->setDocument(_graphDoc);
         _renderer->updateMaterials(nullptr);
-    }   
+    }
 }
 
 void Graph::saveGraphToFile()
@@ -3577,7 +3575,7 @@ void Graph::addNodePopup(bool cursor)
                     std::string str(it->second[i][0]);
                     std::string nodeName = it->second[i][0];
 
-                    // Disallow creating nested nodegraphs 
+                    // Disallow creating nested nodegraphs
                     if (_isNodeGraph && it->first == NODEGRAPH_ENTRY)
                     {
                         continue;

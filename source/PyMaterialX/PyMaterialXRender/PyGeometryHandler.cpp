@@ -26,8 +26,7 @@ class PyGeometryLoader : public mx::GeometryLoader
             load,
             filePath,
             meshList,
-            texcoordVerticalFlip
-        );
+            texcoordVerticalFlip);
     }
 };
 

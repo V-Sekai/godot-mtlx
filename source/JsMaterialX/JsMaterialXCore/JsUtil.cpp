@@ -27,17 +27,20 @@ EMSCRIPTEN_BINDINGS(util)
         .element(emscripten::index<1>())
         .element(emscripten::index<2>());
 
-    ems::function("getVersionIntegers", ems::optional_override([]() {
+    ems::function("getVersionIntegers", ems::optional_override([]()
+    {
         std::tuple<int, int, int> version = mx::getVersionIntegers();
-        return std::array<int, 3> { std::get<0>(version), std::get<1>(version), std::get<2>(version) };
+        return std::array<int, 3>{ std::get<0>(version), std::get<1>(version), std::get<2>(version) };
     }));
 
-    // Emscripten expects to provide a number from JS for a cpp 'char' parameter. 
+    // Emscripten expects to provide a number from JS for a cpp 'char' parameter.
     // Using a string seems to be the better interface for JS
-    ems::function("createValidName", ems::optional_override([](std::string name) {
+    ems::function("createValidName", ems::optional_override([](std::string name)
+    {
         return mx::createValidName(name);
     }));
-    ems::function("createValidName", ems::optional_override([](std::string name, std::string replaceChar) {
+    ems::function("createValidName", ems::optional_override([](std::string name, std::string replaceChar)
+    {
         return mx::createValidName(name, replaceChar.front());
     }));
 

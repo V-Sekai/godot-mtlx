@@ -33,59 +33,62 @@
 
 static void makeContextCurrentNSGL(_GLFWwindow* window)
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
 
-    if (window)
-        [window->context.nsgl.object makeCurrentContext];
-    else
-        [NSOpenGLContext clearCurrentContext];
+        if (window)
+            [window->context.nsgl.object makeCurrentContext];
+        else
+            [NSOpenGLContext clearCurrentContext];
 
-    _glfwPlatformSetTls(&_glfw.contextSlot, window);
+        _glfwPlatformSetTls(&_glfw.contextSlot, window);
 
     } // autoreleasepool
 }
 
 static void swapBuffersNSGL(_GLFWwindow* window)
 {
-    @autoreleasepool {
-
-    // HACK: Simulate vsync with usleep as NSGL swap interval does not apply to
-    //       windows with a non-visible occlusion state
-    if (!([window->ns.object occlusionState] & NSWindowOcclusionStateVisible))
+    @autoreleasepool
     {
-        int interval = 0;
-        [window->context.nsgl.object getValues:&interval
-                                  forParameter:NSOpenGLContextParameterSwapInterval];
 
-        if (interval > 0)
+        // HACK: Simulate vsync with usleep as NSGL swap interval does not apply to
+        //       windows with a non-visible occlusion state
+        if (!([window->ns.object occlusionState] & NSWindowOcclusionStateVisible))
         {
-            const double framerate = 60.0;
-            const uint64_t frequency = _glfwPlatformGetTimerFrequency();
-            const uint64_t value = _glfwPlatformGetTimerValue();
+            int interval = 0;
+            [window->context.nsgl.object getValues:&interval
+                                      forParameter:NSOpenGLContextParameterSwapInterval];
 
-            const double elapsed = value / (double) frequency;
-            const double period = 1.0 / framerate;
-            const double delay = period - fmod(elapsed, period);
+            if (interval > 0)
+            {
+                const double framerate = 60.0;
+                const uint64_t frequency = _glfwPlatformGetTimerFrequency();
+                const uint64_t value = _glfwPlatformGetTimerValue();
 
-            usleep(floorl(delay * 1e6));
+                const double elapsed = value / (double) frequency;
+                const double period = 1.0 / framerate;
+                const double delay = period - fmod(elapsed, period);
+
+                usleep(floorl(delay * 1e6));
+            }
         }
-    }
 
-    [window->context.nsgl.object flushBuffer];
+        [window->context.nsgl.object flushBuffer];
 
     } // autoreleasepool
 }
 
 static void swapIntervalNSGL(int interval)
 {
-    @autoreleasepool {
-
-    _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.contextSlot);
-    if (window)
+    @autoreleasepool
     {
-        [window->context.nsgl.object setValues:&interval
-                                  forParameter:NSOpenGLContextParameterSwapInterval];
-    }
+
+        _GLFWwindow* window = _glfwPlatformGetTls(&_glfw.contextSlot);
+        if (window)
+        {
+            [window->context.nsgl.object setValues:&interval
+                                      forParameter:NSOpenGLContextParameterSwapInterval];
+        }
 
     } // autoreleasepool
 }
@@ -112,17 +115,17 @@ static GLFWglproc getProcAddressNSGL(const char* procname)
 
 static void destroyContextNSGL(_GLFWwindow* window)
 {
-    @autoreleasepool {
+    @autoreleasepool
+    {
 
-    [window->context.nsgl.pixelFormat release];
-    window->context.nsgl.pixelFormat = nil;
+        [window->context.nsgl.pixelFormat release];
+        window->context.nsgl.pixelFormat = nil;
 
-    [window->context.nsgl.object release];
-    window->context.nsgl.object = nil;
+        [window->context.nsgl.object release];
+        window->context.nsgl.object = nil;
 
     } // autoreleasepool
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -188,12 +191,16 @@ GLFWbool _glfwCreateContextNSGL(_GLFWwindow* window,
     // No-error contexts (GL_KHR_no_error) are not yet supported by macOS but
     // are not a hard constraint, so ignore and continue
 
-#define addAttrib(a) \
-{ \
-    assert((size_t) index < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[index++] = a; \
-}
-#define setAttrib(a, v) { addAttrib(a); addAttrib(v); }
+#define addAttrib(a)                                                   \
+    {                                                                  \
+        assert((size_t) index < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[index++] = a;                                          \
+    }
+#define setAttrib(a, v) \
+    {                   \
+        addAttrib(a);   \
+        addAttrib(v);   \
+    }
 
     NSOpenGLPixelFormatAttribute attribs[40];
     int index = 0;
@@ -218,10 +225,10 @@ GLFWbool _glfwCreateContextNSGL(_GLFWwindow* window,
     }
     else
 #endif /*MAC_OS_X_VERSION_MAX_ALLOWED*/
-    if (ctxconfig->major >= 3)
-    {
-        setAttrib(NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core);
-    }
+        if (ctxconfig->major >= 3)
+        {
+            setAttrib(NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core);
+        }
 
     if (ctxconfig->major <= 2)
     {
@@ -348,7 +355,6 @@ GLFWbool _glfwCreateContextNSGL(_GLFWwindow* window,
     return GLFW_TRUE;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -366,4 +372,3 @@ GLFWAPI id glfwGetNSGLContext(GLFWwindow* handle)
 
     return window->context.nsgl.object;
 }
-

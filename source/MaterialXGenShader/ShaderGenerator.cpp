@@ -186,9 +186,7 @@ void ShaderGenerator::emitVariableDeclaration(const ShaderPort* variable, const 
 
     if (assignValue)
     {
-        const string valueStr = (variable->getValue() ?
-                                 _syntax->getValue(variable->getType(), *variable->getValue(), true) :
-                                 _syntax->getDefaultValue(variable->getType(), true));
+        const string valueStr = (variable->getValue() ? _syntax->getValue(variable->getType(), *variable->getValue(), true) : _syntax->getDefaultValue(variable->getType(), true));
         str += valueStr.empty() ? EMPTY_STRING : " = " + valueStr;
     }
 
@@ -270,7 +268,7 @@ void ShaderGenerator::registerImplementation(const string& name, CreatorFunction
 
 void ShaderGenerator::registerImplementation(const StringVec& nameVec, CreatorFunction<ShaderNodeImpl> creator)
 {
-    for(const string& name : nameVec)
+    for (const string& name : nameVec)
     {
         _implFactory.registerClass(name, creator);
     }
@@ -373,8 +371,7 @@ void ShaderGenerator::registerShaderMetadata(const DocumentPtr& doc, GenContext&
     }
 
     // Add default entries.
-    const ShaderMetadata DEFAULT_METADATA[] =
-    {
+    const ShaderMetadata DEFAULT_METADATA[] = {
         ShaderMetadata(ValueElement::UI_NAME_ATTRIBUTE, Type::STRING),
         ShaderMetadata(ValueElement::UI_FOLDER_ATTRIBUTE, Type::STRING),
         ShaderMetadata(ValueElement::UI_MIN_ATTRIBUTE, nullptr),

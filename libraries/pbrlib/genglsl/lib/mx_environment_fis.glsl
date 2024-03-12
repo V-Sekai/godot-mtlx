@@ -24,7 +24,7 @@ vec3 mx_environment_radiance(vec3 N, vec3 V, vec3 X, vec2 alpha, int distributio
     float NdotV = clamp(V.z, M_FLOAT_EPS, 1.0);
     float avgAlpha = mx_average_alpha(alpha);
     float G1V = mx_ggx_smith_G1(NdotV, avgAlpha);
-    
+
     // Integrate outgoing radiance using filtered importance sampling.
     // http://cgg.mff.cuni.cz/~jaroslav/papers/2008-egsr-fis/2008-egsr-fis-final-embedded.pdf
     vec3 radiance = vec3(0.0);
@@ -36,7 +36,7 @@ vec3 mx_environment_radiance(vec3 N, vec3 V, vec3 X, vec2 alpha, int distributio
         // Compute the half vector and incoming light direction.
         vec3 H = mx_ggx_importance_sample_VNDF(Xi, V, alpha);
         vec3 L = fd.refraction ? mx_refraction_solid_sphere(-V, H, fd.ior.x) : -reflect(V, H);
-        
+
         // Compute dot products for this sample.
         float NdotL = clamp(L.z, M_FLOAT_EPS, 1.0);
         float VdotH = clamp(dot(V, H), M_FLOAT_EPS, 1.0);

@@ -8,7 +8,7 @@
 namespace py = pybind11;
 
 void bindPyMslShaderGenerator(py::module& mod);
-void bindPyMslResourceBindingContext(py::module &mod);
+void bindPyMslResourceBindingContext(py::module& mod);
 
 PYBIND11_MODULE(PyMaterialXGenMsl, mod)
 {

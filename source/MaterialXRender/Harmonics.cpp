@@ -9,14 +9,15 @@
 
 MATERIALX_NAMESPACE_BEGIN
 
-namespace {
+namespace
+{
 
 const double PI = std::acos(-1.0);
 
-const double BASIS_CONSTANT_0 = std::sqrt( 1.0 / ( 4.0 * PI));
-const double BASIS_CONSTANT_1 = std::sqrt( 3.0 / ( 4.0 * PI));
-const double BASIS_CONSTANT_2 = std::sqrt(15.0 / ( 4.0 * PI));
-const double BASIS_CONSTANT_3 = std::sqrt( 5.0 / (16.0 * PI));
+const double BASIS_CONSTANT_0 = std::sqrt(1.0 / (4.0 * PI));
+const double BASIS_CONSTANT_1 = std::sqrt(3.0 / (4.0 * PI));
+const double BASIS_CONSTANT_2 = std::sqrt(15.0 / (4.0 * PI));
+const double BASIS_CONSTANT_3 = std::sqrt(5.0 / (16.0 * PI));
 const double BASIS_CONSTANT_4 = std::sqrt(15.0 / (16.0 * PI));
 
 const double COSINE_CONSTANT_0 = 1.0;
@@ -68,17 +69,15 @@ Sh3ScalarCoeffs evalDirection(const Vector3d& dir)
     const double& z = dir[2];
 
     return Sh3ScalarCoeffs(
-    {
-        BASIS_CONSTANT_0,
-        BASIS_CONSTANT_1 * y,
-        BASIS_CONSTANT_1 * z,
-        BASIS_CONSTANT_1 * x,
-        BASIS_CONSTANT_2 * x * y,
-        BASIS_CONSTANT_2 * y * z,
-        BASIS_CONSTANT_3 * (3.0 * z * z - 1.0),
-        BASIS_CONSTANT_2 * x * z,
-        BASIS_CONSTANT_4 * (x * x - y * y)
-    });
+        { BASIS_CONSTANT_0,
+          BASIS_CONSTANT_1 * y,
+          BASIS_CONSTANT_1 * z,
+          BASIS_CONSTANT_1 * x,
+          BASIS_CONSTANT_2 * x * y,
+          BASIS_CONSTANT_2 * y * z,
+          BASIS_CONSTANT_3 * (3.0 * z * z - 1.0),
+          BASIS_CONSTANT_2 * x * z,
+          BASIS_CONSTANT_4 * (x * x - y * y) });
 }
 
 } // anonymous namespace
@@ -211,7 +210,8 @@ void computeDominantLight(ConstImagePtr env, Vector3& lightDir, Color3& lightCol
     // Compute the dominant light direction.
     Vector3d dir = Vector3d(shEnv[3].dot(LUMA_COEFFS_REC709),
                             shEnv[1].dot(LUMA_COEFFS_REC709),
-                            shEnv[2].dot(LUMA_COEFFS_REC709)).getNormalized();
+                            shEnv[2].dot(LUMA_COEFFS_REC709))
+                       .getNormalized();
 
     // Evaluate the dominant direction as spherical harmonics.
     Sh3ScalarCoeffs shDir = evalDirection(dir);
@@ -222,9 +222,10 @@ void computeDominantLight(ConstImagePtr env, Vector3& lightDir, Color3& lightCol
     Vector4d vEnvG(shEnv[0][1], shEnv[1][1], shEnv[2][1], shEnv[3][1]);
     Vector4d vEnvB(shEnv[0][2], shEnv[1][2], shEnv[2][2], shEnv[3][2]);
     Color3d color = Color3d(
-        std::max(vDir.dot(vEnvR), 0.0),
-        std::max(vDir.dot(vEnvG), 0.0),
-        std::max(vDir.dot(vEnvB), 0.0)) / vDir.dot(vDir);
+                        std::max(vDir.dot(vEnvR), 0.0),
+                        std::max(vDir.dot(vEnvG), 0.0),
+                        std::max(vDir.dot(vEnvB), 0.0)) /
+                    vDir.dot(vDir);
 
     // Convert to single-precision floats.
     lightDir = Vector3((float) dir[0], (float) dir[1], (float) dir[2]);
@@ -320,10 +321,7 @@ ImagePtr renderReferenceIrradiance(ConstImagePtr env, unsigned int width, unsign
             }
 
             // Normalize and store the output texel.
-            outImage->setTexelColor(outX, outY, Color4((float) (outColor[0] / PI),
-                                                       (float) (outColor[1] / PI),
-                                                       (float) (outColor[2] / PI),
-                                                       1.0f));
+            outImage->setTexelColor(outX, outY, Color4((float) (outColor[0] / PI), (float) (outColor[1] / PI), (float) (outColor[2] / PI), 1.0f));
         }
     }
 

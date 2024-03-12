@@ -42,7 +42,7 @@ static int findPixelFormatAttribValue(const int* attribs,
 {
     int i;
 
-    for (i = 0;  i < attribCount;  i++)
+    for (i = 0; i < attribCount; i++)
     {
         if (attribs[i] == attrib)
             return values[i];
@@ -53,11 +53,11 @@ static int findPixelFormatAttribValue(const int* attribs,
     return 0;
 }
 
-#define addAttrib(a) \
-{ \
-    assert((size_t) attribCount < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[attribCount++] = a; \
-}
+#define addAttrib(a)                                                         \
+    {                                                                        \
+        assert((size_t) attribCount < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[attribCount++] = a;                                          \
+    }
 #define findAttribValue(a) \
     findPixelFormatAttribValue(attribs, attribCount, values, a)
 
@@ -132,7 +132,7 @@ static int choosePixelFormat(_GLFWwindow* window,
 
     usableConfigs = calloc(nativeCount, sizeof(_GLFWfbconfig));
 
-    for (i = 0;  i < nativeCount;  i++)
+    for (i = 0; i < nativeCount; i++)
     {
         _GLFWfbconfig* u = usableConfigs + usableCount;
         pixelFormat = i + 1;
@@ -147,7 +147,7 @@ static int choosePixelFormat(_GLFWwindow* window,
                                               attribs, values))
             {
                 _glfwInputErrorWin32(GLFW_PLATFORM_ERROR,
-                                    "WGL: Failed to retrieve pixel format attributes");
+                                     "WGL: Failed to retrieve pixel format attributes");
 
                 free(usableConfigs);
                 return 0;
@@ -218,7 +218,7 @@ static int choosePixelFormat(_GLFWwindow* window,
                                      &pfd))
             {
                 _glfwInputErrorWin32(GLFW_PLATFORM_ERROR,
-                                    "WGL: Failed to describe pixel format");
+                                     "WGL: Failed to describe pixel format");
 
                 free(usableConfigs);
                 return 0;
@@ -398,7 +398,6 @@ static void destroyContextWGL(_GLFWwindow* window)
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -531,12 +530,12 @@ void _glfwTerminateWGL(void)
         FreeLibrary(_glfw.wgl.instance);
 }
 
-#define setAttrib(a, v) \
-{ \
-    assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[index++] = a; \
-    attribs[index++] = v; \
-}
+#define setAttrib(a, v)                                                      \
+    {                                                                        \
+        assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[index++] = a;                                                \
+        attribs[index++] = v;                                                \
+    }
 
 // Create the OpenGL or OpenGL ES context
 //
@@ -775,7 +774,6 @@ GLFWbool _glfwCreateContextWGL(_GLFWwindow* window,
 
 #undef setAttrib
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -793,4 +791,3 @@ GLFWAPI HGLRC glfwGetWGLContext(GLFWwindow* handle)
 
     return window->context.wgl.handle;
 }
-

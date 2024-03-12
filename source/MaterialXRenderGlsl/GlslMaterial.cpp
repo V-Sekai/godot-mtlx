@@ -38,7 +38,7 @@ bool GlslMaterial::loadSource(const FilePath& vertexShaderFile, const FilePath& 
     }
 
     // TODO:
-    // Here we set new source code on the _glProgram without rebuilding 
+    // Here we set new source code on the _glProgram without rebuilding
     // the _hwShader instance. So the _hwShader is not in sync with the
     // _glProgram after this operation.
     _glProgram = GlslProgram::create();
@@ -329,9 +329,9 @@ ShaderPort* GlslMaterial::findUniform(const std::string& path) const
         // Scan block based on path match predicate
         port = publicUniforms->find(
             [path](ShaderPort* port)
-            {
-                return (port && stringEndsWith(port->getPath(), path));
-            });
+        {
+            return (port && stringEndsWith(port->getPath(), path));
+        });
 
         // Check if the uniform exists in the shader program
         if (port && !_glProgram->getUniformsList().count(port->getVariable()))

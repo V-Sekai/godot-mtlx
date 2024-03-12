@@ -16,7 +16,6 @@
 #include <MaterialXRender/ImageHandler.h>
 #include <MaterialXRender/Timer.h>
 
-
 #include <MaterialXCore/Unit.h>
 
 namespace mx = MaterialX;
@@ -35,6 +34,7 @@ class Viewer : public ng::Screen
     friend class RenderPipeline;
     friend class GLRenderPipeline;
     friend class MetalRenderPipeline;
+
   public:
     Viewer(const std::string& materialFilename,
            const std::string& meshFilename,
@@ -214,7 +214,7 @@ class Viewer : public ng::Screen
     bool scroll_event(const ng::Vector2i& p, const ng::Vector2f& rel) override;
     bool mouse_motion_event(const ng::Vector2i& p, const ng::Vector2i& rel, int button, int modifiers) override;
     bool mouse_button_event(const ng::Vector2i& p, int button, bool down, int modifiers) override;
-    
+
     void initContext(mx::GenContext& context);
     void loadMesh(const mx::FilePath& filename);
     void loadEnvironmentLight();
@@ -228,7 +228,7 @@ class Viewer : public ng::Screen
 
     // Compute the resolution for texture baking.
     mx::UnsignedIntPair computeBakingResolution(mx::ConstDocumentPtr doc);
-    
+
     // Translate the current material to the target shading model.
     mx::DocumentPtr translateMaterial();
 
@@ -271,7 +271,7 @@ class Viewer : public ng::Screen
 
     // Return the ambient occlusion image, if any, associated with the given material.
     mx::ImagePtr getAmbientOcclusionImage(mx::MaterialPtr material);
-    
+
     // Split the given radiance map into indirect and direct components,
     // returning a new indirect map and directional light document.
     void splitDirectLight(mx::ImagePtr envRadianceMap, mx::ImagePtr& indirectMap, mx::DocumentPtr& dirLightDoc);
@@ -409,7 +409,7 @@ class Viewer : public ng::Screen
     // Render options
     bool _renderTransparency;
     bool _renderDoubleSided;
-    
+
     // Framebuffer Color Texture
     void* _colorTexture;
 

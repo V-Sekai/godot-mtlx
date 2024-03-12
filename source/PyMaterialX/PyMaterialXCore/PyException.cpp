@@ -16,17 +16,15 @@ void bindPyException(py::module& mod)
 
     py::register_exception_translator(
         [](std::exception_ptr errPtr)
+    {
+        try
         {
-            try
-            {
-                if (errPtr != NULL)
-                    std::rethrow_exception(errPtr);
-            }
-            catch (const mx::Exception& err)
-            {
-                PyErr_SetString(PyExc_LookupError, err.what());
-            }
+            if (errPtr != NULL)
+                std::rethrow_exception(errPtr);
         }
-    );
-
+        catch (const mx::Exception& err)
+        {
+            PyErr_SetString(PyExc_LookupError, err.what());
+        }
+    });
 }

@@ -480,9 +480,7 @@ ShaderGraphPtr ShaderGraph::createSurfaceShader(
     outputSocket->setPath(node->getNamePath());
 
     ColorManagementSystemPtr colorManagementSystem = context.getShaderGenerator().getColorManagementSystem();
-    string targetColorSpace = context.getOptions().targetColorSpaceOverride.empty() ?
-                              node->getDocument()->getColorSpace() :
-                              context.getOptions().targetColorSpaceOverride;
+    string targetColorSpace = context.getOptions().targetColorSpaceOverride.empty() ? node->getDocument()->getColorSpace() : context.getOptions().targetColorSpaceOverride;
 
     const string& targetDistanceUnit = context.getOptions().targetDistanceUnit;
     UnitSystemPtr unitSystem = context.getShaderGenerator().getUnitSystem();
@@ -847,9 +845,7 @@ ShaderNode* ShaderGraph::createNode(const Node& node, GenContext& context)
     const string& targetDistanceUnit = context.getOptions().targetDistanceUnit;
 
     ColorManagementSystemPtr colorManagementSystem = context.getShaderGenerator().getColorManagementSystem();
-    string targetColorSpace = context.getOptions().targetColorSpaceOverride.empty() ?
-                              _document->getActiveColorSpace() :
-                              context.getOptions().targetColorSpaceOverride;
+    string targetColorSpace = context.getOptions().targetColorSpaceOverride.empty() ? _document->getActiveColorSpace() : context.getOptions().targetColorSpaceOverride;
 
     for (InputPtr input : node.getInputs())
     {
@@ -1263,8 +1259,7 @@ string ShaderGraph::populateColorTransformMap(ColorManagementSystemPtr colorMana
                     }
                     else
                     {
-                        std::cerr << "Unsupported color space transform from " <<
-                                     sourceColorSpace << " to " << targetColorSpace << std::endl;
+                        std::cerr << "Unsupported color space transform from " << sourceColorSpace << " to " << targetColorSpace << std::endl;
                     }
                 }
             }
@@ -1302,7 +1297,7 @@ void ShaderGraph::populateUnitTransformMap(UnitSystemPtr unitSystem, ShaderPort*
     // this allows for the source and target unit to be the same value
     // while still allowing target unit updates on a compiled shader as the
     // target is exposed as an input uniform.
-    //if (sourceUnitSpace == targetUnitSpace)
+    // if (sourceUnitSpace == targetUnitSpace)
     //{
     //    return;
     //}

@@ -5,5 +5,5 @@ void mx_dodge_float(float fg, float bg, float mixval, out float result)
         result = 0.0;
         return;
     }
-    result = mixval*(bg / (1.0 - fg)) + ((1.0-mixval)*bg);
+    result = mixval * (bg / (1.0 - fg)) + ((1.0 - mixval) * bg);
 }

@@ -32,8 +32,7 @@
 #include <stdlib.h>
 #include <malloc.h>
 
-static const GUID _glfw_GUID_DEVINTERFACE_HID =
-    {0x4d1e55b2,0xf16f,0x11cf,{0x88,0xcb,0x00,0x11,0x11,0x00,0x00,0x30}};
+static const GUID _glfw_GUID_DEVINTERFACE_HID = { 0x4d1e55b2, 0xf16f, 0x11cf, { 0x88, 0xcb, 0x00, 0x11, 0x11, 0x00, 0x00, 0x30 } };
 
 #define GUID_DEVINTERFACE_HID _glfw_GUID_DEVINTERFACE_HID
 
@@ -109,8 +108,7 @@ static GLFWbool loadLibraries(void)
 
     {
         int i;
-        const char* names[] =
-        {
+        const char* names[] = {
             "xinput1_4.dll",
             "xinput1_3.dll",
             "xinput9_1_0.dll",
@@ -119,7 +117,7 @@ static GLFWbool loadLibraries(void)
             NULL
         };
 
-        for (i = 0;  names[i];  i++)
+        for (i = 0; names[i]; i++)
         {
             _glfw.win32.xinput.instance = LoadLibraryA(names[i]);
             if (_glfw.win32.xinput.instance)
@@ -322,7 +320,7 @@ static void createKeyTables(void)
     _glfw.win32.keycodes[0x037] = GLFW_KEY_KP_MULTIPLY;
     _glfw.win32.keycodes[0x04A] = GLFW_KEY_KP_SUBTRACT;
 
-    for (scancode = 0;  scancode < 512;  scancode++)
+    for (scancode = 0; scancode < 512; scancode++)
     {
         if (_glfw.win32.keycodes[scancode] > 0)
             _glfw.win32.scancodes[_glfw.win32.keycodes[scancode]] = scancode;
@@ -376,9 +374,8 @@ static GLFWbool createHelperWindow(void)
         DispatchMessageW(&msg);
     }
 
-   return GLFW_TRUE;
+    return GLFW_TRUE;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -466,11 +463,11 @@ void _glfwInputErrorWin32(int error, const char* description)
 void _glfwUpdateKeyNamesWin32(void)
 {
     int key;
-    BYTE state[256] = {0};
+    BYTE state[256] = { 0 };
 
     memset(_glfw.win32.keynames, 0, sizeof(_glfw.win32.keynames));
 
-    for (key = GLFW_KEY_SPACE;  key <= GLFW_KEY_LAST;  key++)
+    for (key = GLFW_KEY_SPACE; key <= GLFW_KEY_LAST; key++)
     {
         UINT vk;
         int scancode, length;
@@ -483,9 +480,9 @@ void _glfwUpdateKeyNamesWin32(void)
         if (key >= GLFW_KEY_KP_0 && key <= GLFW_KEY_KP_ADD)
         {
             const UINT vks[] = {
-                VK_NUMPAD0,  VK_NUMPAD1,  VK_NUMPAD2, VK_NUMPAD3,
-                VK_NUMPAD4,  VK_NUMPAD5,  VK_NUMPAD6, VK_NUMPAD7,
-                VK_NUMPAD8,  VK_NUMPAD9,  VK_DECIMAL, VK_DIVIDE,
+                VK_NUMPAD0, VK_NUMPAD1, VK_NUMPAD2, VK_NUMPAD3,
+                VK_NUMPAD4, VK_NUMPAD5, VK_NUMPAD6, VK_NUMPAD7,
+                VK_NUMPAD8, VK_NUMPAD9, VK_DECIMAL, VK_DIVIDE,
                 VK_MULTIPLY, VK_SUBTRACT, VK_ADD
             };
 
@@ -519,7 +516,7 @@ void _glfwUpdateKeyNamesWin32(void)
 //
 BOOL _glfwIsWindowsVersionOrGreaterWin32(WORD major, WORD minor, WORD sp)
 {
-    OSVERSIONINFOEXW osvi = { sizeof(osvi), major, minor, 0, 0, {0}, sp };
+    OSVERSIONINFOEXW osvi = { sizeof(osvi), major, minor, 0, 0, { 0 }, sp };
     DWORD mask = VER_MAJORVERSION | VER_MINORVERSION | VER_SERVICEPACKMAJOR;
     ULONGLONG cond = VerSetConditionMask(0, VER_MAJORVERSION, VER_GREATER_EQUAL);
     cond = VerSetConditionMask(cond, VER_MINORVERSION, VER_GREATER_EQUAL);
@@ -544,7 +541,6 @@ BOOL _glfwIsWindows10BuildOrGreaterWin32(WORD build)
     //       announcing support for Windows 10 via supportedOS GUID
     return RtlVerifyVersionInfo(&osvi, mask, cond) == 0;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -616,16 +612,15 @@ const char* _glfwPlatformGetVersionString(void)
 {
     return _GLFW_VERSION_NUMBER " Win32 WGL EGL OSMesa"
 #if defined(__MINGW32__)
-        " MinGW"
+                                " MinGW"
 #elif defined(_MSC_VER)
-        " VisualC"
+                                " VisualC"
 #endif
 #if defined(_GLFW_USE_HYBRID_HPG) || defined(_GLFW_USE_OPTIMUS_HPG)
-        " hybrid-GPU"
+                                " hybrid-GPU"
 #endif
 #if defined(_GLFW_BUILD_DLL)
-        " DLL"
+                                " DLL"
 #endif
         ;
 }
-

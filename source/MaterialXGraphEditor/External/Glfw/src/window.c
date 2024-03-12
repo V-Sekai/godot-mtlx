@@ -35,7 +35,6 @@
 #include <stdlib.h>
 #include <float.h>
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                         GLFW event API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -51,7 +50,7 @@ void _glfwInputWindowFocus(_GLFWwindow* window, GLFWbool focused)
     {
         int key, button;
 
-        for (key = 0;  key <= GLFW_KEY_LAST;  key++)
+        for (key = 0; key <= GLFW_KEY_LAST; key++)
         {
             if (window->keys[key] == GLFW_PRESS)
             {
@@ -60,7 +59,7 @@ void _glfwInputWindowFocus(_GLFWwindow* window, GLFWbool focused)
             }
         }
 
-        for (button = 0;  button <= GLFW_MOUSE_BUTTON_LAST;  button++)
+        for (button = 0; button <= GLFW_MOUSE_BUTTON_LAST; button++)
         {
             if (window->mouseButtons[button] == GLFW_PRESS)
                 _glfwInputMouseClick(window, button, GLFW_RELEASE, 0);
@@ -174,14 +173,14 @@ GLFWAPI GLFWwindow* glfwCreateWindow(int width, int height,
         return NULL;
     }
 
-    fbconfig  = _glfw.hints.framebuffer;
+    fbconfig = _glfw.hints.framebuffer;
     ctxconfig = _glfw.hints.context;
     wndconfig = _glfw.hints.window;
 
-    wndconfig.width   = width;
-    wndconfig.height  = height;
-    wndconfig.title   = title;
-    ctxconfig.share   = (_GLFWwindow*) share;
+    wndconfig.width = width;
+    wndconfig.height = height;
+    wndconfig.title = title;
+    ctxconfig.share = (_GLFWwindow*) share;
 
     if (!_glfwIsValidContextConfig(&ctxconfig))
         return NULL;
@@ -190,27 +189,27 @@ GLFWAPI GLFWwindow* glfwCreateWindow(int width, int height,
     window->next = _glfw.windowListHead;
     _glfw.windowListHead = window;
 
-    window->videoMode.width       = width;
-    window->videoMode.height      = height;
-    window->videoMode.redBits     = fbconfig.redBits;
-    window->videoMode.greenBits   = fbconfig.greenBits;
-    window->videoMode.blueBits    = fbconfig.blueBits;
+    window->videoMode.width = width;
+    window->videoMode.height = height;
+    window->videoMode.redBits = fbconfig.redBits;
+    window->videoMode.greenBits = fbconfig.greenBits;
+    window->videoMode.blueBits = fbconfig.blueBits;
     window->videoMode.refreshRate = _glfw.hints.refreshRate;
 
-    window->monitor     = (_GLFWmonitor*) monitor;
-    window->resizable   = wndconfig.resizable;
-    window->decorated   = wndconfig.decorated;
+    window->monitor = (_GLFWmonitor*) monitor;
+    window->resizable = wndconfig.resizable;
+    window->decorated = wndconfig.decorated;
     window->autoIconify = wndconfig.autoIconify;
-    window->floating    = wndconfig.floating;
+    window->floating = wndconfig.floating;
     window->focusOnShow = wndconfig.focusOnShow;
-    window->cursorMode  = GLFW_CURSOR_NORMAL;
+    window->cursorMode = GLFW_CURSOR_NORMAL;
 
-    window->minwidth    = GLFW_DONT_CARE;
-    window->minheight   = GLFW_DONT_CARE;
-    window->maxwidth    = GLFW_DONT_CARE;
-    window->maxheight   = GLFW_DONT_CARE;
-    window->numer       = GLFW_DONT_CARE;
-    window->denom       = GLFW_DONT_CARE;
+    window->minwidth = GLFW_DONT_CARE;
+    window->minheight = GLFW_DONT_CARE;
+    window->maxwidth = GLFW_DONT_CARE;
+    window->maxheight = GLFW_DONT_CARE;
+    window->numer = GLFW_DONT_CARE;
+    window->denom = GLFW_DONT_CARE;
 
     // Open the actual window and create its context
     if (!_glfwPlatformCreateWindow(window, &wndconfig, &ctxconfig, &fbconfig))
@@ -254,28 +253,28 @@ void glfwDefaultWindowHints(void)
     memset(&_glfw.hints.context, 0, sizeof(_glfw.hints.context));
     _glfw.hints.context.client = GLFW_OPENGL_API;
     _glfw.hints.context.source = GLFW_NATIVE_CONTEXT_API;
-    _glfw.hints.context.major  = 1;
-    _glfw.hints.context.minor  = 0;
+    _glfw.hints.context.major = 1;
+    _glfw.hints.context.minor = 0;
 
     // The default is a focused, visible, resizable window with decorations
     memset(&_glfw.hints.window, 0, sizeof(_glfw.hints.window));
-    _glfw.hints.window.resizable    = GLFW_TRUE;
-    _glfw.hints.window.visible      = GLFW_TRUE;
-    _glfw.hints.window.decorated    = GLFW_TRUE;
-    _glfw.hints.window.focused      = GLFW_TRUE;
-    _glfw.hints.window.autoIconify  = GLFW_TRUE;
+    _glfw.hints.window.resizable = GLFW_TRUE;
+    _glfw.hints.window.visible = GLFW_TRUE;
+    _glfw.hints.window.decorated = GLFW_TRUE;
+    _glfw.hints.window.focused = GLFW_TRUE;
+    _glfw.hints.window.autoIconify = GLFW_TRUE;
     _glfw.hints.window.centerCursor = GLFW_TRUE;
-    _glfw.hints.window.focusOnShow  = GLFW_TRUE;
+    _glfw.hints.window.focusOnShow = GLFW_TRUE;
 
     // The default is 24 bits of color, 24 bits of depth and 8 bits of stencil,
     // double buffered
     memset(&_glfw.hints.framebuffer, 0, sizeof(_glfw.hints.framebuffer));
-    _glfw.hints.framebuffer.redBits      = 8;
-    _glfw.hints.framebuffer.greenBits    = 8;
-    _glfw.hints.framebuffer.blueBits     = 8;
-    _glfw.hints.framebuffer.alphaBits    = 8;
-    _glfw.hints.framebuffer.depthBits    = 24;
-    _glfw.hints.framebuffer.stencilBits  = 8;
+    _glfw.hints.framebuffer.redBits = 8;
+    _glfw.hints.framebuffer.greenBits = 8;
+    _glfw.hints.framebuffer.blueBits = 8;
+    _glfw.hints.framebuffer.alphaBits = 8;
+    _glfw.hints.framebuffer.depthBits = 24;
+    _glfw.hints.framebuffer.stencilBits = 8;
     _glfw.hints.framebuffer.doublebuffer = GLFW_TRUE;
 
     // The default is to select the highest available refresh rate
@@ -564,7 +563,7 @@ GLFWAPI void glfwSetWindowSize(GLFWwindow* handle, int width, int height)
 
     _GLFW_REQUIRE_INIT();
 
-    window->videoMode.width  = width;
+    window->videoMode.width = width;
     window->videoMode.height = height;
 
     _glfwPlatformSetWindowSize(window, width, height);
@@ -602,9 +601,9 @@ GLFWAPI void glfwSetWindowSizeLimits(GLFWwindow* handle,
         }
     }
 
-    window->minwidth  = minwidth;
+    window->minwidth = minwidth;
     window->minheight = minheight;
-    window->maxwidth  = maxwidth;
+    window->maxwidth = maxwidth;
     window->maxheight = maxheight;
 
     if (window->monitor || !window->resizable)
@@ -943,8 +942,8 @@ GLFWAPI void glfwSetWindowMonitor(GLFWwindow* wh,
         return;
     }
 
-    window->videoMode.width       = width;
-    window->videoMode.height      = height;
+    window->videoMode.width = width;
+    window->videoMode.height = height;
     window->videoMode.refreshRate = refreshRate;
 
     _glfwPlatformSetWindowMonitor(window, monitor,

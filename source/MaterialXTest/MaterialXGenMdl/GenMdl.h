@@ -23,7 +23,8 @@ class MdlShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
     MdlShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const std::vector<mx::FilePath>& testRootPaths,
                              const mx::FileSearchPath& searchPath, const mx::FilePath& logFilePath, bool writeShadersToDisk) :
         GenShaderUtil::ShaderGeneratorTester(shaderGenerator, testRootPaths, searchPath, logFilePath, writeShadersToDisk)
-    {}
+    {
+    }
 
     void setTestStages() override
     {
@@ -52,7 +53,6 @@ class MdlShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
         ShaderGeneratorTester::addSkipFiles();
     }
 
-
     // Ignore light shaders in the document for MDL
     void findLights(mx::DocumentPtr /*doc*/, std::vector<mx::NodePtr>& lights) override
     {
@@ -73,13 +73,12 @@ class MdlShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
   protected:
     void getImplementationWhiteList(mx::StringSet& whiteList) override
     {
-        whiteList =
-        {
+        whiteList = {
             "ambientocclusion", "arrayappend", "backfacing", "screen", "curveadjust", "displacementshader",
             "volumeshader", "IM_constant_", "IM_dot_", "IM_geomattrvalue", "IM_angle",
-            "geompropvalue", "surfacematerial", "volumematerial", 
+            "geompropvalue", "surfacematerial", "volumematerial",
             "IM_absorption_vdf_", "IM_mix_vdf_", "IM_add_vdf_", "IM_multiply_vdf",
-            "IM_measured_edf_", "IM_blackbody_", "IM_conical_edf_", 
+            "IM_measured_edf_", "IM_blackbody_", "IM_conical_edf_",
             "IM_displacement_", "IM_thin_surface_", "IM_volume_", "IM_light_"
         };
         ShaderGeneratorTester::getImplementationWhiteList(whiteList);

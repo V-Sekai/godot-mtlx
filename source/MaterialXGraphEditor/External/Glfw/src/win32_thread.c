@@ -31,7 +31,6 @@
 
 #include <assert.h>
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -96,4 +95,3 @@ void _glfwPlatformUnlockMutex(_GLFWmutex* mutex)
     assert(mutex->win32.allocated == GLFW_TRUE);
     LeaveCriticalSection(&mutex->win32.section);
 }
-

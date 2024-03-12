@@ -33,7 +33,7 @@ TEST_CASE("GenReference: OSL Reference", "[genreference]")
     {
         oslRenderer = mx::OslRenderer::create();
         oslRenderer->setOslCompilerExecutable(MATERIALX_OSL_BINARY_OSLC);
-        mx::FileSearchPath oslIncludePaths; 
+        mx::FileSearchPath oslIncludePaths;
         oslIncludePaths.append(mx::FilePath(MATERIALX_OSL_INCLUDE_PATH));
         // Add in library include path for compile testing as the generated
         // shader's includes are not added with absolute paths.
@@ -62,7 +62,7 @@ TEST_CASE("GenReference: OSL Reference", "[genreference]")
     // Ignore the following nodes:
     const mx::StringSet ignoreNodeList = { "surfacematerial", "volumematerial",
                                            "constant_filename", "arrayappend",
-                                           "dot_filename"};
+                                           "dot_filename" };
 
     bool failedGeneration = false;
     for (const mx::NodeDefPtr& nodedef : stdlib->getNodeDefs())
@@ -73,7 +73,7 @@ TEST_CASE("GenReference: OSL Reference", "[genreference]")
         {
             nodeName = nodeName.substr(3);
         }
-        if (nodeName == mx::MATERIAL_TYPE_STRING || 
+        if (nodeName == mx::MATERIAL_TYPE_STRING ||
             ignoreNodeList.find(nodeName) != ignoreNodeList.end() ||
             ignoreNodeList.find(nodeNode) != ignoreNodeList.end())
         {

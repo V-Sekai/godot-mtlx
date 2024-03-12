@@ -2,6 +2,7 @@
 This is a custom scikit-build-core plugin that will
 fetch the MaterialX version from the CMake project.
 """
+
 import os
 import tempfile
 import subprocess
@@ -58,19 +59,13 @@ def dynamic_metadata(
             )
         except subprocess.CalledProcessError as exc:
             print(exc.stdout)
-            raise RuntimeError(
-                "Failed to configure project to get the version"
-            ) from exc
+            raise RuntimeError("Failed to configure project to get the version") from exc
 
         # Get the generated replies.
         index = load_reply_dir(reply_dir)
 
         # Get the version from the CMAKE_PROJECT_VERSION variable.
-        entries = [
-            entry
-            for entry in index.reply.cache_v2.entries
-            if entry.name == "CMAKE_PROJECT_VERSION"
-        ]
+        entries = [entry for entry in index.reply.cache_v2.entries if entry.name == "CMAKE_PROJECT_VERSION"]
 
         if not entries:
             raise ValueError("Could not find MaterialX version from CMake project")

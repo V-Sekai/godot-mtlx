@@ -71,9 +71,7 @@ void BlurNodeMdl::emitFunctionCall(const ShaderNode& node, GenContext& context, 
         const Syntax& syntax = shadergen.getSyntax();
 
         // Get input type name string
-        const string& inputTypeString = inInput && acceptsInputType(inInput->getType()) ?
-                                                   syntax.getTypeName(inInput->getType()) :
-                                                   EMPTY_STRING;
+        const string& inputTypeString = inInput && acceptsInputType(inInput->getType()) ? syntax.getTypeName(inInput->getType()) : EMPTY_STRING;
 
         const ShaderInput* filterTypeInput = node.getInput(FILTER_TYPE_STRING);
         if (!filterTypeInput || inputTypeString.empty())

@@ -32,44 +32,35 @@
 #include <stdio.h>
 #include <math.h>
 
-#define _GLFW_TYPE_AXIS     0
-#define _GLFW_TYPE_SLIDER   1
-#define _GLFW_TYPE_BUTTON   2
-#define _GLFW_TYPE_POV      3
+#define _GLFW_TYPE_AXIS 0
+#define _GLFW_TYPE_SLIDER 1
+#define _GLFW_TYPE_BUTTON 2
+#define _GLFW_TYPE_POV 3
 
 // Data produced with DirectInput device object enumeration
 //
 typedef struct _GLFWobjenumWin32
 {
-    IDirectInputDevice8W*   device;
-    _GLFWjoyobjectWin32*    objects;
-    int                     objectCount;
-    int                     axisCount;
-    int                     sliderCount;
-    int                     buttonCount;
-    int                     povCount;
+    IDirectInputDevice8W* device;
+    _GLFWjoyobjectWin32* objects;
+    int objectCount;
+    int axisCount;
+    int sliderCount;
+    int buttonCount;
+    int povCount;
 } _GLFWobjenumWin32;
 
 // Define local copies of the necessary GUIDs
 //
-static const GUID _glfw_IID_IDirectInput8W =
-    {0xbf798031,0x483a,0x4da2,{0xaa,0x99,0x5d,0x64,0xed,0x36,0x97,0x00}};
-static const GUID _glfw_GUID_XAxis =
-    {0xa36d02e0,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_YAxis =
-    {0xa36d02e1,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_ZAxis =
-    {0xa36d02e2,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_RxAxis =
-    {0xa36d02f4,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_RyAxis =
-    {0xa36d02f5,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_RzAxis =
-    {0xa36d02e3,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_Slider =
-    {0xa36d02e4,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
-static const GUID _glfw_GUID_POV =
-    {0xa36d02f2,0xc9f3,0x11cf,{0xbf,0xc7,0x44,0x45,0x53,0x54,0x00,0x00}};
+static const GUID _glfw_IID_IDirectInput8W = { 0xbf798031, 0x483a, 0x4da2, { 0xaa, 0x99, 0x5d, 0x64, 0xed, 0x36, 0x97, 0x00 } };
+static const GUID _glfw_GUID_XAxis = { 0xa36d02e0, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_YAxis = { 0xa36d02e1, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_ZAxis = { 0xa36d02e2, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_RxAxis = { 0xa36d02f4, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_RyAxis = { 0xa36d02f5, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_RzAxis = { 0xa36d02e3, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_Slider = { 0xa36d02e4, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
+static const GUID _glfw_GUID_POV = { 0xa36d02f2, 0xc9f3, 0x11cf, { 0xbf, 0xc7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00 } };
 
 #define IID_IDirectInput8W _glfw_IID_IDirectInput8W
 #define GUID_XAxis _glfw_GUID_XAxis
@@ -84,58 +75,56 @@ static const GUID _glfw_GUID_POV =
 // Object data array for our clone of c_dfDIJoystick
 // Generated with https://github.com/elmindreda/c_dfDIJoystick2
 //
-static DIOBJECTDATAFORMAT _glfwObjectDataFormats[] =
-{
-    { &GUID_XAxis,DIJOFS_X,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_YAxis,DIJOFS_Y,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_ZAxis,DIJOFS_Z,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_RxAxis,DIJOFS_RX,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_RyAxis,DIJOFS_RY,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_RzAxis,DIJOFS_RZ,DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_Slider,DIJOFS_SLIDER(0),DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_Slider,DIJOFS_SLIDER(1),DIDFT_AXIS|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,DIDOI_ASPECTPOSITION },
-    { &GUID_POV,DIJOFS_POV(0),DIDFT_POV|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { &GUID_POV,DIJOFS_POV(1),DIDFT_POV|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { &GUID_POV,DIJOFS_POV(2),DIDFT_POV|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { &GUID_POV,DIJOFS_POV(3),DIDFT_POV|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(0),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(1),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(2),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(3),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(4),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(5),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(6),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(7),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(8),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(9),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(10),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(11),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(12),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(13),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(14),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(15),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(16),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(17),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(18),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(19),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(20),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(21),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(22),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(23),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(24),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(25),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(26),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(27),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(28),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(29),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(30),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
-    { NULL,DIJOFS_BUTTON(31),DIDFT_BUTTON|DIDFT_OPTIONAL|DIDFT_ANYINSTANCE,0 },
+static DIOBJECTDATAFORMAT _glfwObjectDataFormats[] = {
+    { &GUID_XAxis, DIJOFS_X, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_YAxis, DIJOFS_Y, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_ZAxis, DIJOFS_Z, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_RxAxis, DIJOFS_RX, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_RyAxis, DIJOFS_RY, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_RzAxis, DIJOFS_RZ, DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_Slider, DIJOFS_SLIDER(0), DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_Slider, DIJOFS_SLIDER(1), DIDFT_AXIS | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, DIDOI_ASPECTPOSITION },
+    { &GUID_POV, DIJOFS_POV(0), DIDFT_POV | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { &GUID_POV, DIJOFS_POV(1), DIDFT_POV | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { &GUID_POV, DIJOFS_POV(2), DIDFT_POV | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { &GUID_POV, DIJOFS_POV(3), DIDFT_POV | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(0), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(1), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(2), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(3), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(4), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(5), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(6), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(7), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(8), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(9), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(10), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(11), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(12), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(13), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(14), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(15), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(16), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(17), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(18), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(19), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(20), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(21), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(22), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(23), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(24), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(25), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(26), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(27), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(28), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(29), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(30), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
+    { NULL, DIJOFS_BUTTON(31), DIDFT_BUTTON | DIDFT_OPTIONAL | DIDFT_ANYINSTANCE, 0 },
 };
 
 // Our clone of c_dfDIJoystick
 //
-static const DIDATAFORMAT _glfwDataFormat =
-{
+static const DIDATAFORMAT _glfwDataFormat = {
     sizeof(DIDATAFORMAT),
     sizeof(DIOBJECTDATAFORMAT),
     DIDFT_ABSAXIS,
@@ -207,7 +196,7 @@ static GLFWbool supportsXInput(const GUID* guid)
         return GLFW_FALSE;
     }
 
-    for (i = 0;  i < count;  i++)
+    for (i = 0; i < count; i++)
     {
         RID_DEVICE_INFO rdi;
         char name[256];
@@ -304,7 +293,7 @@ static BOOL CALLBACK deviceObjectCallback(const DIDEVICEOBJECTINSTANCEW* doi,
         dipr.diph.dwObj = doi->dwType;
         dipr.diph.dwHow = DIPH_BYID;
         dipr.lMin = -32768;
-        dipr.lMax =  32767;
+        dipr.lMax = 32767;
 
         if (FAILED(IDirectInputDevice8_SetProperty(data->device,
                                                    DIPROP_RANGE,
@@ -354,7 +343,7 @@ static BOOL CALLBACK deviceCallback(const DIDEVICEINSTANCE* di, void* user)
     char guid[33];
     char name[256];
 
-    for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
     {
         _GLFWjoystick* js = _glfw.joysticks + jid;
         if (js->present)
@@ -486,7 +475,6 @@ static BOOL CALLBACK deviceCallback(const DIDEVICEINSTANCE* di, void* user)
     return DIENUM_CONTINUE;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -517,7 +505,7 @@ void _glfwTerminateJoysticksWin32(void)
 {
     int jid;
 
-    for (jid = GLFW_JOYSTICK_1;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = GLFW_JOYSTICK_1; jid <= GLFW_JOYSTICK_LAST; jid++)
         closeJoystick(_glfw.joysticks + jid);
 
     if (_glfw.win32.dinput8.api)
@@ -532,14 +520,14 @@ void _glfwDetectJoystickConnectionWin32(void)
     {
         DWORD index;
 
-        for (index = 0;  index < XUSER_MAX_COUNT;  index++)
+        for (index = 0; index < XUSER_MAX_COUNT; index++)
         {
             int jid;
             char guid[33];
             XINPUT_CAPABILITIES xic;
             _GLFWjoystick* js;
 
-            for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+            for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
             {
                 if (_glfw.joysticks[jid].present &&
                     _glfw.joysticks[jid].win32.device == NULL &&
@@ -590,14 +578,13 @@ void _glfwDetectJoystickDisconnectionWin32(void)
 {
     int jid;
 
-    for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
     {
         _GLFWjoystick* js = _glfw.joysticks + jid;
         if (js->present)
             _glfwPlatformPollJoystick(js, _GLFW_POLL_PRESENCE);
     }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -633,7 +620,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
         if (mode == _GLFW_POLL_PRESENCE)
             return GLFW_TRUE;
 
-        for (i = 0;  i < js->win32.objectCount;  i++)
+        for (i = 0; i < js->win32.objectCount; i++)
         {
             const void* data = (char*) &state + js->win32.objects[i].offset;
 
@@ -658,8 +645,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
 
                 case _GLFW_TYPE_POV:
                 {
-                    const int states[9] =
-                    {
+                    const int states[9] = {
                         GLFW_HAT_UP,
                         GLFW_HAT_RIGHT_UP,
                         GLFW_HAT_RIGHT,
@@ -688,8 +674,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
         int i, dpad = 0;
         DWORD result;
         XINPUT_STATE xis;
-        const WORD buttons[10] =
-        {
+        const WORD buttons[10] = {
             XINPUT_GAMEPAD_A,
             XINPUT_GAMEPAD_B,
             XINPUT_GAMEPAD_X,
@@ -721,7 +706,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
         _glfwInputJoystickAxis(js, 4, xis.Gamepad.bLeftTrigger / 127.5f - 1.f);
         _glfwInputJoystickAxis(js, 5, xis.Gamepad.bRightTrigger / 127.5f - 1.f);
 
-        for (i = 0;  i < 10;  i++)
+        for (i = 0; i < 10; i++)
         {
             const char value = (xis.Gamepad.wButtons & buttons[i]) ? 1 : 0;
             _glfwInputJoystickButton(js, i, value);
@@ -752,4 +737,3 @@ void _glfwPlatformUpdateGamepadGUID(char* guid)
                 original, original + 4);
     }
 }
-

@@ -5,23 +5,23 @@
 
 #ifdef __APPLE__
 
-#include <MaterialXTest/External/Catch/catch.hpp>
-#include <MaterialXTest/MaterialXRender/RenderUtil.h>
+    #include <MaterialXTest/External/Catch/catch.hpp>
+    #include <MaterialXTest/MaterialXRender/RenderUtil.h>
 
-#include <MaterialXGenMsl/MslShaderGenerator.h>
+    #include <MaterialXGenMsl/MslShaderGenerator.h>
 
-#include <MaterialXRender/GeometryHandler.h>
-#include <MaterialXRender/StbImageLoader.h>
-#if defined(MATERIALX_BUILD_OIIO)
-#include <MaterialXRender/OiioImageLoader.h>
-#endif
+    #include <MaterialXRender/GeometryHandler.h>
+    #include <MaterialXRender/StbImageLoader.h>
+    #if defined(MATERIALX_BUILD_OIIO)
+        #include <MaterialXRender/OiioImageLoader.h>
+    #endif
 
-#include <MaterialXRenderMsl/MslRenderer.h>
-#include <MaterialXRenderMsl/TextureBaker.h>
+    #include <MaterialXRenderMsl/MslRenderer.h>
+    #include <MaterialXRenderMsl/TextureBaker.h>
 
-#include <cmath>
+    #include <cmath>
 
-#include <MaterialXFormat/Util.h>
+    #include <MaterialXFormat/Util.h>
 
 namespace mx = MaterialX;
 
@@ -40,7 +40,7 @@ class MslShaderRenderTester : public RenderUtil::ShaderRenderTester
     void loadAdditionalLibraries(mx::DocumentPtr document,
                                  GenShaderUtil::TestSuiteOptions& options) override;
 
-    void registerLights(mx::DocumentPtr document, const GenShaderUtil::TestSuiteOptions &options,
+    void registerLights(mx::DocumentPtr document, const GenShaderUtil::TestSuiteOptions& options,
                         mx::GenContext& context) override;
 
     void createRenderer(std::ostream& log) override;
@@ -76,7 +76,7 @@ class MslShaderRenderTester : public RenderUtil::ShaderRenderTester
 // compound light type and a set of lights in a "light rig" are loaded in to a given
 // document.
 void MslShaderRenderTester::loadAdditionalLibraries(mx::DocumentPtr document,
-                                                     GenShaderUtil::TestSuiteOptions& options)
+                                                    GenShaderUtil::TestSuiteOptions& options)
 {
     mx::FilePath lightDir = mx::getDefaultDataSearchPath().find("resources/Materials/TestSuite/lights");
     for (const auto& lightFile : options.lightFiles)
@@ -87,8 +87,8 @@ void MslShaderRenderTester::loadAdditionalLibraries(mx::DocumentPtr document,
 
 // Create a light handler and populate it based on lights found in a given document
 void MslShaderRenderTester::registerLights(mx::DocumentPtr document,
-                                            const GenShaderUtil::TestSuiteOptions &options,
-                                            mx::GenContext& context)
+                                           const GenShaderUtil::TestSuiteOptions& options,
+                                           mx::GenContext& context)
 {
     _lightHandler = mx::LightHandler::create();
 
@@ -98,7 +98,7 @@ void MslShaderRenderTester::registerLights(mx::DocumentPtr document,
         std::vector<mx::NodePtr> lights;
         _lightHandler->findLights(document, lights);
         _lightHandler->registerLights(document, lights, context);
-        
+
         // Set the list of lights on the with the generator
         _lightHandler->setLightSources(lights);
     }
@@ -128,7 +128,7 @@ void MslShaderRenderTester::createRenderer(std::ostream& log)
     {
         _renderer = mx::MslRenderer::create();
         _renderer->initialize();
-        
+
         _device = _renderer->getMetalDevice();
 
         // Set image handler on renderer
@@ -136,10 +136,10 @@ void MslShaderRenderTester::createRenderer(std::ostream& log)
         mx::ImageHandlerPtr imageHandler =
             _renderer->createImageHandler(stbLoader);
         imageHandler->setSearchPath(mx::getDefaultDataSearchPath());
-#if defined(MATERIALX_BUILD_OIIO)
+    #if defined(MATERIALX_BUILD_OIIO)
         mx::OiioImageLoaderPtr oiioLoader = mx::OiioImageLoader::create();
         imageHandler->addLoader(oiioLoader);
-#endif
+    #endif
         _renderer->setImageHandler(imageHandler);
 
         // Set light handler.
@@ -167,15 +167,15 @@ bool MslShaderRenderTester::saveImage(const mx::FilePath& filePath, mx::ConstIma
 }
 
 bool MslShaderRenderTester::runRenderer(const std::string& shaderName,
-                                          mx::TypedElementPtr element,
-                                          mx::GenContext& context,
-                                          mx::DocumentPtr doc,
-                                          std::ostream& log,
-                                          const GenShaderUtil::TestSuiteOptions& testOptions,
-                                          RenderUtil::RenderProfileTimes& profileTimes,
-                                          const mx::FileSearchPath& imageSearchPath,
-                                          const std::string& outputPath,
-                                          mx::ImageVec* imageVec)
+                                        mx::TypedElementPtr element,
+                                        mx::GenContext& context,
+                                        mx::DocumentPtr doc,
+                                        std::ostream& log,
+                                        const GenShaderUtil::TestSuiteOptions& testOptions,
+                                        RenderUtil::RenderProfileTimes& profileTimes,
+                                        const mx::FileSearchPath& imageSearchPath,
+                                        const std::string& outputPath,
+                                        mx::ImageVec* imageVec)
 {
     std::cout << "Validating MSL rendering for: " << doc->getSourceUri() << std::endl;
 
@@ -428,7 +428,7 @@ bool MslShaderRenderTester::runRenderer(const std::string& shaderName,
 }
 
 void MslShaderRenderTester::runBake(mx::DocumentPtr doc, const mx::FileSearchPath& imageSearchPath, const mx::FilePath& outputFileName,
-                                     const GenShaderUtil::TestSuiteOptions::BakeSetting& bakeOptions, std::ostream& log)
+                                    const GenShaderUtil::TestSuiteOptions::BakeSetting& bakeOptions, std::ostream& log)
 {
     mx::ImageVec imageVec = _renderer->getImageHandler()->getReferencedImages(doc);
     auto maxImageSize = mx::getMaxDimensions(imageVec);

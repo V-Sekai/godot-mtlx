@@ -6,9 +6,9 @@
 #include <MaterialXRenderHw/WindowWrapper.h>
 
 #if defined(__linux__) || defined(__FreeBSD__)
-#include <X11/Intrinsic.h>
+    #include <X11/Intrinsic.h>
 #elif defined(__APPLE__)
-#include <MaterialXRenderHw/WindowCocoaWrappers.h>
+    #include <MaterialXRenderHw/WindowCocoaWrappers.h>
 #endif
 
 MATERIALX_NAMESPACE_BEGIN
@@ -84,12 +84,12 @@ WindowWrapper::WindowWrapper(ExternalWindowHandle externalHandle,
                              DisplayHandle display)
 {
     _externalHandle = externalHandle;
-#ifndef TARGET_OS_IOS
+    #ifndef TARGET_OS_IOS
     // Cache a pointer to the window.
     _internalHandle = NSUtilGetView(externalHandle);
-#else
+    #else
     _internalHandle = nullptr;
-#endif
+    #endif
 }
 
 WindowWrapper::~WindowWrapper()

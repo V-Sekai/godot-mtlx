@@ -8,7 +8,7 @@
 namespace py = pybind11;
 
 void bindPyGlslShaderGenerator(py::module& mod);
-void bindPyGlslResourceBindingContext(py::module &mod);
+void bindPyGlslResourceBindingContext(py::module& mod);
 void bindPyEsslShaderGenerator(py::module& mod);
 void bindPyVkShaderGenerator(py::module& mod);
 

@@ -1396,7 +1396,7 @@ void Document::upgradeVersion()
                 NodePtr base = layer->getConnectedNode(BASE);
                 if (top && base && top->getCategory() == THIN_FILM_BSDF)
                 {
-                    // Apply thin-film parameters to all supported BSDF's upstream. 
+                    // Apply thin-film parameters to all supported BSDF's upstream.
                     for (Edge edge : layer->traverseGraph())
                     {
                         NodePtr upstream = edge.getUpstreamElement()->asA<Node>();

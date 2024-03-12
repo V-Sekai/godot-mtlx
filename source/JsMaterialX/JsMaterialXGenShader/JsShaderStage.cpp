@@ -12,7 +12,8 @@
 namespace ems = emscripten;
 namespace mx = MaterialX;
 
-mx::ShaderPort* get(mx::VariableBlock& self, const ems::val& value) {
+mx::ShaderPort* get(mx::VariableBlock& self, const ems::val& value)
+{
     if (value.typeOf().as<std::string>() == "string")
         return self[value.as<std::string>()];
     else
@@ -26,10 +27,9 @@ EMSCRIPTEN_BINDINGS(ShaderStage)
         .function("empty", &mx::VariableBlock::empty)
         .function("size", &mx::VariableBlock::size)
         .function("get", &get, ems::allow_raw_pointers())
-        .function("find", ems::select_overload<const mx::ShaderPort* (const std::string&) const>(&mx::VariableBlock::find), ems::allow_raw_pointers())
-        ;
+        .function("find", ems::select_overload<const mx::ShaderPort*(const std::string&) const>(&mx::VariableBlock::find), ems::allow_raw_pointers());
 
     ems::class_<mx::ShaderStage>("ShaderStage")
         .function("getUniformBlocks", &mx::ShaderStage::getUniformBlocks);
-        ;
+    ;
 }

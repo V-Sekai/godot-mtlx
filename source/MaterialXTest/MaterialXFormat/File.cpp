@@ -13,14 +13,13 @@ namespace mx = MaterialX;
 TEST_CASE("Syntactic operations", "[file]")
 {
     using InputPair = std::pair<std::string, mx::FilePath::Format>;
-    std::vector<InputPair> inputPairs =
-    {
-        {"D:\\Assets\\Materials\\Robot.mtlx", mx::FilePath::FormatWindows},
-        {"\\\\Show\\Assets\\Materials\\Robot.mtlx", mx::FilePath::FormatWindows},
-        {"Materials\\Robot.mtlx", mx::FilePath::FormatWindows},
-        {"/Assets/Materials/Robot.mtlx", mx::FilePath::FormatPosix},
-        {"Assets/Materials/Robot.mtlx", mx::FilePath::FormatPosix},
-        {"Materials/Robot.mtlx", mx::FilePath::FormatPosix}
+    std::vector<InputPair> inputPairs = {
+        { "D:\\Assets\\Materials\\Robot.mtlx", mx::FilePath::FormatWindows },
+        { "\\\\Show\\Assets\\Materials\\Robot.mtlx", mx::FilePath::FormatWindows },
+        { "Materials\\Robot.mtlx", mx::FilePath::FormatWindows },
+        { "/Assets/Materials/Robot.mtlx", mx::FilePath::FormatPosix },
+        { "Assets/Materials/Robot.mtlx", mx::FilePath::FormatPosix },
+        { "Materials/Robot.mtlx", mx::FilePath::FormatPosix }
     };
 
     for (const InputPair& pair : inputPairs)
@@ -33,8 +32,7 @@ TEST_CASE("Syntactic operations", "[file]")
 TEST_CASE("File system operations", "[file]")
 {
     mx::FileSearchPath searchPath = mx::getDefaultDataSearchPath();
-    mx::FilePathVec examplePaths =
-    {
+    mx::FilePathVec examplePaths = {
         "libraries/stdlib/stdlib_defs.mtlx",
         "resources/Materials/Examples/StandardSurface/standard_surface_brass_tiled.mtlx",
         "resources/Materials/Examples/StandardSurface/standard_surface_marble_solid.mtlx",
@@ -54,8 +52,7 @@ TEST_CASE("File search path operations", "[file]")
     searchPath.append(searchPath.find("libraries/stdlib"));
     searchPath.append(searchPath.find("resources/Materials/Examples/StandardSurface"));
 
-    mx::FilePathVec filenames =
-    {
+    mx::FilePathVec filenames = {
         "stdlib_defs.mtlx",
         "standard_surface_brass_tiled.mtlx",
         "standard_surface_marble_solid.mtlx",
@@ -100,7 +97,7 @@ TEST_CASE("Flatten filenames", "[file]")
     mx::FileSearchPath searchPath = mx::getDefaultDataSearchPath();
     mx::FilePath rootPath = searchPath.isEmpty() ? mx::FilePath() : searchPath[0];
 
-    mx::flattenFilenames(doc1, searchPath);    
+    mx::flattenFilenames(doc1, searchPath);
     REQUIRE(nodeGraph->getFilePrefix() == mx::EMPTY_STRING);
     resolvedPath = image1->getInputValue("file")->getValueString();
     REQUIRE(resolvedPath.asString() == (rootPath / TEST_FILE_PREFIX_STRING / TEST_IMAGE_STRING1).asString());
@@ -140,8 +137,7 @@ TEST_CASE("Path normalization test", "[file]")
     const mx::FilePath REFERENCE_REL_PATH("a/b");
     const mx::FilePath REFERENCE_ABS_PREFIX("/assets");
 
-    std::vector<mx::FilePath> examplePaths =
-    {
+    std::vector<mx::FilePath> examplePaths = {
         "a/./b",
         "././a/b",
         "c/../d/../a/b",

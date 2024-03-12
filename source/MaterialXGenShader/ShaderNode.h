@@ -112,8 +112,8 @@ using ShaderMetadataRegistryPtr = shared_ptr<ShaderMetadataRegistry>;
 class MX_GENSHADER_API ShaderPortFlag
 {
   public:
-    static const uint32_t UNIFORM    = 1u << 0;
-    static const uint32_t EMITTED    = 1u << 1;
+    static const uint32_t UNIFORM = 1u << 0;
+    static const uint32_t EMITTED = 1u << 1;
     static const uint32_t BIND_INPUT = 1u << 2;
 };
 
@@ -329,32 +329,32 @@ class MX_GENSHADER_API ShaderNode
     {
       public:
         // Node classes
-        static const uint32_t TEXTURE       = 1 << 0;  /// Any node that outputs floats, colors, vectors, etc.
-        static const uint32_t CLOSURE       = 1 << 1;  /// Any node that represents light integration
-        static const uint32_t SHADER        = 1 << 2;  /// Any node that outputs a shader
-        static const uint32_t MATERIAL      = 1 << 3;  /// Any node that outputs a material
+        static const uint32_t TEXTURE = 1 << 0;  /// Any node that outputs floats, colors, vectors, etc.
+        static const uint32_t CLOSURE = 1 << 1;  /// Any node that represents light integration
+        static const uint32_t SHADER = 1 << 2;   /// Any node that outputs a shader
+        static const uint32_t MATERIAL = 1 << 3; /// Any node that outputs a material
         // Specific texture node types
-        static const uint32_t FILETEXTURE   = 1 << 4;  /// A file texture node
-        static const uint32_t CONDITIONAL   = 1 << 5;  /// A conditional node
-        static const uint32_t CONSTANT      = 1 << 6;  /// A constant node
+        static const uint32_t FILETEXTURE = 1 << 4; /// A file texture node
+        static const uint32_t CONDITIONAL = 1 << 5; /// A conditional node
+        static const uint32_t CONSTANT = 1 << 6;    /// A constant node
         // Specific closure types
-        static const uint32_t BSDF          = 1 << 7;  /// A BSDF node
-        static const uint32_t BSDF_R        = 1 << 8;  /// A reflection BSDF node
-        static const uint32_t BSDF_T        = 1 << 9;  /// A transmission BSDF node
-        static const uint32_t EDF           = 1 << 10; /// A EDF node
-        static const uint32_t VDF           = 1 << 11; /// A VDF node
-        static const uint32_t LAYER         = 1 << 12; /// A node for vertical layering of other closure nodes
-        static const uint32_t THINFILM      = 1 << 13; /// A node for adding thin-film over microfacet BSDF nodes
+        static const uint32_t BSDF = 1 << 7;      /// A BSDF node
+        static const uint32_t BSDF_R = 1 << 8;    /// A reflection BSDF node
+        static const uint32_t BSDF_T = 1 << 9;    /// A transmission BSDF node
+        static const uint32_t EDF = 1 << 10;      /// A EDF node
+        static const uint32_t VDF = 1 << 11;      /// A VDF node
+        static const uint32_t LAYER = 1 << 12;    /// A node for vertical layering of other closure nodes
+        static const uint32_t THINFILM = 1 << 13; /// A node for adding thin-film over microfacet BSDF nodes
         // Specific shader types
-        static const uint32_t SURFACE       = 1 << 14; /// A surface shader node
-        static const uint32_t VOLUME        = 1 << 15; /// A volume shader node
-        static const uint32_t LIGHT         = 1 << 16; /// A light shader node
-        static const uint32_t UNLIT         = 1 << 17; /// An unlit surface shader node
+        static const uint32_t SURFACE = 1 << 14; /// A surface shader node
+        static const uint32_t VOLUME = 1 << 15;  /// A volume shader node
+        static const uint32_t LIGHT = 1 << 16;   /// A light shader node
+        static const uint32_t UNLIT = 1 << 17;   /// An unlit surface shader node
         // Types based on nodegroup
-        static const uint32_t SAMPLE2D      = 1 << 18; /// Can be sampled in 2D (uv space)
-        static const uint32_t SAMPLE3D      = 1 << 19; /// Can be sampled in 3D (position)
-        static const uint32_t GEOMETRIC     = 1 << 20; /// Geometric input
-        static const uint32_t DOT           = 1 << 21; /// A dot node
+        static const uint32_t SAMPLE2D = 1 << 18;  /// Can be sampled in 2D (uv space)
+        static const uint32_t SAMPLE3D = 1 << 19;  /// Can be sampled in 3D (position)
+        static const uint32_t GEOMETRIC = 1 << 20; /// Geometric input
+        static const uint32_t DOT = 1 << 21;       /// A dot node
     };
 
     static const ShaderNodePtr NONE;

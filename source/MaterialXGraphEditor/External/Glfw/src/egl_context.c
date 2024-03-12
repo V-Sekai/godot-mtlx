@@ -34,7 +34,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-
 // Return a description of the specified EGL error
 //
 static const char* getEGLErrorString(EGLint error)
@@ -109,7 +108,7 @@ static GLFWbool chooseEGLConfig(const _GLFWctxconfig* ctxconfig,
     usableConfigs = calloc(nativeCount, sizeof(_GLFWfbconfig));
     usableCount = 0;
 
-    for (i = 0;  i < nativeCount;  i++)
+    for (i = 0; i < nativeCount; i++)
     {
         const EGLConfig n = nativeConfigs[i];
         _GLFWfbconfig* u = usableConfigs + usableCount;
@@ -124,7 +123,7 @@ static GLFWbool chooseEGLConfig(const _GLFWctxconfig* ctxconfig,
 
 #if defined(_GLFW_X11)
         {
-            XVisualInfo vi = {0};
+            XVisualInfo vi = { 0 };
 
             // Only consider EGLConfigs with associated Visuals
             vi.visualid = getEGLConfigAttrib(n, EGL_NATIVE_VISUAL_ID);
@@ -293,7 +292,6 @@ static void destroyContextEGL(_GLFWwindow* window)
     }
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -303,8 +301,7 @@ static void destroyContextEGL(_GLFWwindow* window)
 GLFWbool _glfwInitEGL(void)
 {
     int i;
-    const char* sonames[] =
-    {
+    const char* sonames[] = {
 #if defined(_GLFW_EGL_LIBRARY)
         _GLFW_EGL_LIBRARY,
 #elif defined(_GLFW_WIN32)
@@ -323,7 +320,7 @@ GLFWbool _glfwInitEGL(void)
     if (_glfw.egl.handle)
         return GLFW_TRUE;
 
-    for (i = 0;  sonames[i];  i++)
+    for (i = 0; sonames[i]; i++)
     {
         _glfw.egl.handle = _glfw_dlopen(sonames[i]);
         if (_glfw.egl.handle)
@@ -447,12 +444,12 @@ void _glfwTerminateEGL(void)
     }
 }
 
-#define setAttrib(a, v) \
-{ \
-    assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
-    attribs[index++] = a; \
-    attribs[index++] = v; \
-}
+#define setAttrib(a, v)                                                      \
+    {                                                                        \
+        assert(((size_t) index + 1) < sizeof(attribs) / sizeof(attribs[0])); \
+        attribs[index++] = a;                                                \
+        attribs[index++] = v;                                                \
+    }
 
 // Create the OpenGL or OpenGL ES context
 //
@@ -620,8 +617,7 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
     {
         int i;
         const char** sonames;
-        const char* es1sonames[] =
-        {
+        const char* es1sonames[] = {
 #if defined(_GLFW_GLESV1_LIBRARY)
             _GLFW_GLESV1_LIBRARY,
 #elif defined(_GLFW_WIN32)
@@ -635,8 +631,7 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
 #endif
             NULL
         };
-        const char* es2sonames[] =
-        {
+        const char* es2sonames[] = {
 #if defined(_GLFW_GLESV2_LIBRARY)
             _GLFW_GLESV2_LIBRARY,
 #elif defined(_GLFW_WIN32)
@@ -651,8 +646,7 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
 #endif
             NULL
         };
-        const char* glsonames[] =
-        {
+        const char* glsonames[] = {
 #if defined(_GLFW_OPENGL_LIBRARY)
             _GLFW_OPENGL_LIBRARY,
 #elif defined(_GLFW_WIN32)
@@ -673,7 +667,7 @@ GLFWbool _glfwCreateContextEGL(_GLFWwindow* window,
         else
             sonames = glsonames;
 
-        for (i = 0;  sonames[i];  i++)
+        for (i = 0; sonames[i]; i++)
         {
             // HACK: Match presence of lib prefix to increase chance of finding
             //       a matching pair in the jungle that is Win32 EGL/GLES
@@ -748,7 +742,6 @@ GLFWbool _glfwChooseVisualEGL(const _GLFWwndconfig* wndconfig,
 }
 #endif // _GLFW_X11
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -786,4 +779,3 @@ GLFWAPI EGLSurface glfwGetEGLSurface(GLFWwindow* handle)
 
     return window->context.egl.surface;
 }
-

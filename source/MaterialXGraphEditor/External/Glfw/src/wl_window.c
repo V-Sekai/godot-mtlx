@@ -40,7 +40,6 @@
 #include <sys/timerfd.h>
 #include <poll.h>
 
-
 static int createTmpfileCloexec(char* tmpname)
 {
     int fd;
@@ -161,7 +160,7 @@ static struct wl_buffer* createShmBuffer(const GLFWimage* image)
     close(fd);
     unsigned char* source = (unsigned char*) image->pixels;
     unsigned char* target = data;
-    for (i = 0;  i < image->width * image->height;  i++, source += 4)
+    for (i = 0; i < image->width * image->height; i++, source += 4)
     {
         unsigned int alpha = source[3];
 
@@ -296,7 +295,6 @@ static void setOpaqueRegion(_GLFWwindow* window)
     wl_region_destroy(region);
 }
 
-
 static void resizeWindow(_GLFWwindow* window)
 {
     int scale = window->wl.scale;
@@ -363,9 +361,9 @@ static void checkScaleChange(_GLFWwindow* window)
     }
 }
 
-static void surfaceHandleEnter(void *data,
-                               struct wl_surface *surface,
-                               struct wl_output *output)
+static void surfaceHandleEnter(void* data,
+                               struct wl_surface* surface,
+                               struct wl_output* output)
 {
     _GLFWwindow* window = data;
     _GLFWmonitor* monitor = wl_output_get_user_data(output);
@@ -383,9 +381,9 @@ static void surfaceHandleEnter(void *data,
     checkScaleChange(window);
 }
 
-static void surfaceHandleLeave(void *data,
-                               struct wl_surface *surface,
-                               struct wl_output *output)
+static void surfaceHandleLeave(void* data,
+                               struct wl_surface* surface,
+                               struct wl_output* output)
 {
     _GLFWwindow* window = data;
     _GLFWmonitor* monitor = wl_output_get_user_data(output);
@@ -508,8 +506,8 @@ static void xdgToplevelHandleConfigure(void* data,
         {
             if (window->numer != GLFW_DONT_CARE && window->denom != GLFW_DONT_CARE)
             {
-                aspectRatio = (float)width / (float)height;
-                targetRatio = (float)window->numer / (float)window->denom;
+                aspectRatio = (float) width / (float) height;
+                targetRatio = (float) window->numer / (float) window->denom;
                 if (aspectRatio < targetRatio)
                     height = width / targetRatio;
                 else if (aspectRatio > targetRatio)
@@ -1127,7 +1125,7 @@ void _glfwPlatformSetWindowOpacity(_GLFWwindow* window, float opacity)
 {
 }
 
-void _glfwPlatformSetRawMouseMotion(_GLFWwindow *window, GLFWbool enabled)
+void _glfwPlatformSetRawMouseMotion(_GLFWwindow* window, GLFWbool enabled)
 {
     // This is handled in relativePointerHandleRelativeMotion
 }
@@ -1686,8 +1684,8 @@ int _glfwPlatformGetPhysicalDevicePresentationSupport(VkInstance instance,
 {
     PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR
         vkGetPhysicalDeviceWaylandPresentationSupportKHR =
-        (PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)
-        vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceWaylandPresentationSupportKHR");
+            (PFN_vkGetPhysicalDeviceWaylandPresentationSupportKHR)
+                vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceWaylandPresentationSupportKHR");
     if (!vkGetPhysicalDeviceWaylandPresentationSupportKHR)
     {
         _glfwInputError(GLFW_API_UNAVAILABLE,
@@ -1734,7 +1732,6 @@ VkResult _glfwPlatformCreateWindowSurface(VkInstance instance,
     return err;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -1751,4 +1748,3 @@ GLFWAPI struct wl_surface* glfwGetWaylandWindow(GLFWwindow* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
     return window->wl.surface;
 }
-

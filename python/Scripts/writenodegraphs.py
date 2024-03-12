@@ -1,9 +1,10 @@
 #!/usr/bin/env python
-'''
+"""
 Generate the "NodeGraphs.mtlx" example file programmatically.
-'''
+"""
 
 import MaterialX as mx
+
 
 def main():
     doc = mx.createDocument()
@@ -60,7 +61,7 @@ def main():
 
     n5 = ng3.addNode("constant", "n5", "color3")
     # For colorN, vectorN or matrix types, use the appropriate mx Type constructor.
-    n5.setInputValue("value", mx.Color3(0.8,1.0,1.3))
+    n5.setInputValue("value", mx.Color3(0.8, 1.0, 1.3))
 
     n6 = ng3.addNode("multiply", "n6", "color3")
     inp1 = n6.addInput("in1", "color3")
@@ -96,7 +97,7 @@ def main():
     n9 = ng3.addNode("noise2d", "n9", "color3")
     intx = n9.addInput("texcoord", "vector2")
     intx.setConnectedNode(m1)
-    n9.setInputValue("amplitude", mx.Vector3(0.05,0.04,0.06))
+    n9.setInputValue("amplitude", mx.Vector3(0.05, 0.04, 0.06))
 
     n10 = ng3.addNode("inside", "n10", "color3")
     inmask = n10.addInput("mask", "float")
@@ -119,12 +120,12 @@ def main():
     # to know for sure.  And you can validate any element (and its children)
     # independently, not just the whole document.
     rc = ng1.validate()
-    if (len(rc) >= 1 and rc[0]):
+    if len(rc) >= 1 and rc[0]:
         print("Nodegraph %s is valid." % ng1.getName())
     else:
         print("Nodegraph %s is NOT valid: %s" % (ng1.getName(), str(rc[1])))
     rc = ng3.validate()
-    if (len(rc) >= 1 and rc[0]):
+    if len(rc) >= 1 and rc[0]:
         print("Nodegraph %s is valid." % ng3.getName())
     else:
         print("Nodegraph %s is NOT valid: %s" % (ng3.getName(), str(rc[1])))
@@ -133,6 +134,6 @@ def main():
     mx.writeToXmlFile(doc, outfile)
     print("Wrote nodegraphs to %s" % outfile)
 
-if __name__ == '__main__':
-    main()
 
+if __name__ == "__main__":
+    main()

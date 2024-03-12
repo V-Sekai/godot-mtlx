@@ -23,8 +23,8 @@ Matrix44 Camera::createViewMatrix(const Vector3& eye,
 }
 
 Matrix44 Camera::createPerspectiveMatrixZP(float left, float right,
-                                         float bottom, float top,
-                                         float nearP, float farP)
+                                           float bottom, float top,
+                                           float nearP, float farP)
 {
     return Matrix44(
         (2.0f * nearP) / (right - left), 0.0f, (right + left) / (right - left), 0.0f,
@@ -34,8 +34,8 @@ Matrix44 Camera::createPerspectiveMatrixZP(float left, float right,
 }
 
 Matrix44 Camera::createOrthographicMatrixZP(float left, float right,
-                                          float bottom, float top,
-                                          float nearP, float farP)
+                                            float bottom, float top,
+                                            float nearP, float farP)
 {
     return Matrix44(
         2.0f / (right - left), 0.0f, 0.0f, 0.0f,
@@ -108,9 +108,9 @@ bool Camera::applyArcballMotion(const Vector2& pos)
         float sa = std::sqrt(axis.dot(axis));
         float ca = v0.dot(v1);
         float angle = std::atan2(sa, ca);
-        if (tx*tx + ty*ty > 1.0f)
+        if (tx * tx + ty * ty > 1.0f)
         {
-            angle *= 1.0f + 0.2f * (std::sqrt(tx*tx + ty*ty) - 1.0f);
+            angle *= 1.0f + 0.2f * (std::sqrt(tx * tx + ty * ty) - 1.0f);
         }
         axis = axis.getNormalized();
         _arcballDelta = Quaternion::createFromAxisAngle(axis, angle);

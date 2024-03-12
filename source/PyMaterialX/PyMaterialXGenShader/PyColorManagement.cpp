@@ -25,8 +25,7 @@ class PyColorManagementSystem : public mx::ColorManagementSystem
         PYBIND11_OVERLOAD_PURE(
             const std::string&,
             mx::ColorManagementSystem,
-            getName
-        );
+            getName);
     }
 
   protected:
@@ -36,8 +35,7 @@ class PyColorManagementSystem : public mx::ColorManagementSystem
             mx::NodeDefPtr,
             mx::ColorManagementSystem,
             getNodeDef,
-            transform
-        );
+            transform);
     }
 };
 

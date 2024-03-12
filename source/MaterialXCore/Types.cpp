@@ -90,31 +90,31 @@ Matrix33 Matrix33::getTranspose() const
 
 float Matrix33::getDeterminant() const
 {
-    return _arr[0][0] * (_arr[1][1]*_arr[2][2] - _arr[2][1]*_arr[1][2]) +
-           _arr[0][1] * (_arr[1][2]*_arr[2][0] - _arr[2][2]*_arr[1][0]) +
-           _arr[0][2] * (_arr[1][0]*_arr[2][1] - _arr[2][0]*_arr[1][1]);
+    return _arr[0][0] * (_arr[1][1] * _arr[2][2] - _arr[2][1] * _arr[1][2]) +
+           _arr[0][1] * (_arr[1][2] * _arr[2][0] - _arr[2][2] * _arr[1][0]) +
+           _arr[0][2] * (_arr[1][0] * _arr[2][1] - _arr[2][0] * _arr[1][1]);
 }
 
 Matrix33 Matrix33::getAdjugate() const
 {
     return Matrix33(
-        _arr[1][1]*_arr[2][2] - _arr[2][1]*_arr[1][2],
-        _arr[2][1]*_arr[0][2] - _arr[0][1]*_arr[2][2],
-        _arr[0][1]*_arr[1][2] - _arr[1][1]*_arr[0][2],
-        _arr[1][2]*_arr[2][0] - _arr[2][2]*_arr[1][0],
-        _arr[2][2]*_arr[0][0] - _arr[0][2]*_arr[2][0],
-        _arr[0][2]*_arr[1][0] - _arr[1][2]*_arr[0][0],
-        _arr[1][0]*_arr[2][1] - _arr[2][0]*_arr[1][1],
-        _arr[2][0]*_arr[0][1] - _arr[0][0]*_arr[2][1],
-        _arr[0][0]*_arr[1][1] - _arr[1][0]*_arr[0][1]);
+        _arr[1][1] * _arr[2][2] - _arr[2][1] * _arr[1][2],
+        _arr[2][1] * _arr[0][2] - _arr[0][1] * _arr[2][2],
+        _arr[0][1] * _arr[1][2] - _arr[1][1] * _arr[0][2],
+        _arr[1][2] * _arr[2][0] - _arr[2][2] * _arr[1][0],
+        _arr[2][2] * _arr[0][0] - _arr[0][2] * _arr[2][0],
+        _arr[0][2] * _arr[1][0] - _arr[1][2] * _arr[0][0],
+        _arr[1][0] * _arr[2][1] - _arr[2][0] * _arr[1][1],
+        _arr[2][0] * _arr[0][1] - _arr[0][0] * _arr[2][1],
+        _arr[0][0] * _arr[1][1] - _arr[1][0] * _arr[0][1]);
 }
 
 Vector3 Matrix33::multiply(const Vector3& v) const
 {
     return Vector3(
-      v[0]*_arr[0][0] + v[1]*_arr[1][0] + v[2]*_arr[2][0],
-      v[0]*_arr[0][1] + v[1]*_arr[1][1] + v[2]*_arr[2][1],
-      v[0]*_arr[0][2] + v[1]*_arr[1][2] + v[2]*_arr[2][2]);
+        v[0] * _arr[0][0] + v[1] * _arr[1][0] + v[2] * _arr[2][0],
+        v[0] * _arr[0][1] + v[1] * _arr[1][1] + v[2] * _arr[2][1],
+        v[0] * _arr[0][2] + v[1] * _arr[1][2] + v[2] * _arr[2][2]);
 }
 
 Vector2 Matrix33::transformPoint(const Vector2& v) const
@@ -153,8 +153,8 @@ Matrix33 Matrix33::createRotation(float angle)
     float sin = std::sin(angle);
     float cos = std::cos(angle);
 
-    return Matrix33( cos,  sin, 0.0f,
-                    -sin,  cos, 0.0f,
+    return Matrix33(cos, sin, 0.0f,
+                    -sin, cos, 0.0f,
                     0.0f, 0.0f, 1.0f);
 }
 
@@ -172,75 +172,75 @@ Matrix44 Matrix44::getTranspose() const
 
 float Matrix44::getDeterminant() const
 {
-    return _arr[0][0] * (_arr[1][1]*_arr[2][2]*_arr[3][3] + _arr[3][1]*_arr[1][2]*_arr[2][3] + _arr[2][1]*_arr[3][2]*_arr[1][3] -
-                         _arr[1][1]*_arr[3][2]*_arr[2][3] - _arr[2][1]*_arr[1][2]*_arr[3][3] - _arr[3][1]*_arr[2][2]*_arr[1][3]) +
-           _arr[0][1] * (_arr[1][2]*_arr[3][3]*_arr[2][0] + _arr[2][2]*_arr[1][3]*_arr[3][0] + _arr[3][2]*_arr[2][3]*_arr[1][0] -
-                         _arr[1][2]*_arr[2][3]*_arr[3][0] - _arr[3][2]*_arr[1][3]*_arr[2][0] - _arr[2][2]*_arr[3][3]*_arr[1][0]) +
-           _arr[0][2] * (_arr[1][3]*_arr[2][0]*_arr[3][1] + _arr[3][3]*_arr[1][0]*_arr[2][1] + _arr[2][3]*_arr[3][0]*_arr[1][1] -
-                         _arr[1][3]*_arr[3][0]*_arr[2][1] - _arr[2][3]*_arr[1][0]*_arr[3][1] - _arr[3][3]*_arr[2][0]*_arr[1][1]) +
-           _arr[0][3] * (_arr[1][0]*_arr[3][1]*_arr[2][2] + _arr[2][0]*_arr[1][1]*_arr[3][2] + _arr[3][0]*_arr[2][1]*_arr[1][2] -
-                         _arr[1][0]*_arr[2][1]*_arr[3][2] - _arr[3][0]*_arr[1][1]*_arr[2][2] - _arr[2][0]*_arr[3][1]*_arr[1][2]);
+    return _arr[0][0] * (_arr[1][1] * _arr[2][2] * _arr[3][3] + _arr[3][1] * _arr[1][2] * _arr[2][3] + _arr[2][1] * _arr[3][2] * _arr[1][3] -
+                         _arr[1][1] * _arr[3][2] * _arr[2][3] - _arr[2][1] * _arr[1][2] * _arr[3][3] - _arr[3][1] * _arr[2][2] * _arr[1][3]) +
+           _arr[0][1] * (_arr[1][2] * _arr[3][3] * _arr[2][0] + _arr[2][2] * _arr[1][3] * _arr[3][0] + _arr[3][2] * _arr[2][3] * _arr[1][0] -
+                         _arr[1][2] * _arr[2][3] * _arr[3][0] - _arr[3][2] * _arr[1][3] * _arr[2][0] - _arr[2][2] * _arr[3][3] * _arr[1][0]) +
+           _arr[0][2] * (_arr[1][3] * _arr[2][0] * _arr[3][1] + _arr[3][3] * _arr[1][0] * _arr[2][1] + _arr[2][3] * _arr[3][0] * _arr[1][1] -
+                         _arr[1][3] * _arr[3][0] * _arr[2][1] - _arr[2][3] * _arr[1][0] * _arr[3][1] - _arr[3][3] * _arr[2][0] * _arr[1][1]) +
+           _arr[0][3] * (_arr[1][0] * _arr[3][1] * _arr[2][2] + _arr[2][0] * _arr[1][1] * _arr[3][2] + _arr[3][0] * _arr[2][1] * _arr[1][2] -
+                         _arr[1][0] * _arr[2][1] * _arr[3][2] - _arr[3][0] * _arr[1][1] * _arr[2][2] - _arr[2][0] * _arr[3][1] * _arr[1][2]);
 }
 
 Matrix44 Matrix44::getAdjugate() const
 {
     return Matrix44(
-        _arr[1][1]*_arr[2][2]*_arr[3][3] + _arr[3][1]*_arr[1][2]*_arr[2][3] + _arr[2][1]*_arr[3][2]*_arr[1][3] -
-        _arr[1][1]*_arr[3][2]*_arr[2][3] - _arr[2][1]*_arr[1][2]*_arr[3][3] - _arr[3][1]*_arr[2][2]*_arr[1][3],
+        _arr[1][1] * _arr[2][2] * _arr[3][3] + _arr[3][1] * _arr[1][2] * _arr[2][3] + _arr[2][1] * _arr[3][2] * _arr[1][3] -
+            _arr[1][1] * _arr[3][2] * _arr[2][3] - _arr[2][1] * _arr[1][2] * _arr[3][3] - _arr[3][1] * _arr[2][2] * _arr[1][3],
 
-        _arr[0][1]*_arr[3][2]*_arr[2][3] + _arr[2][1]*_arr[0][2]*_arr[3][3] + _arr[3][1]*_arr[2][2]*_arr[0][3] -
-        _arr[3][1]*_arr[0][2]*_arr[2][3] - _arr[2][1]*_arr[3][2]*_arr[0][3] - _arr[0][1]*_arr[2][2]*_arr[3][3],
+        _arr[0][1] * _arr[3][2] * _arr[2][3] + _arr[2][1] * _arr[0][2] * _arr[3][3] + _arr[3][1] * _arr[2][2] * _arr[0][3] -
+            _arr[3][1] * _arr[0][2] * _arr[2][3] - _arr[2][1] * _arr[3][2] * _arr[0][3] - _arr[0][1] * _arr[2][2] * _arr[3][3],
 
-        _arr[0][1]*_arr[1][2]*_arr[3][3] + _arr[3][1]*_arr[0][2]*_arr[1][3] + _arr[1][1]*_arr[3][2]*_arr[0][3] -
-        _arr[0][1]*_arr[3][2]*_arr[1][3] - _arr[1][1]*_arr[0][2]*_arr[3][3] - _arr[3][1]*_arr[1][2]*_arr[0][3],
+        _arr[0][1] * _arr[1][2] * _arr[3][3] + _arr[3][1] * _arr[0][2] * _arr[1][3] + _arr[1][1] * _arr[3][2] * _arr[0][3] -
+            _arr[0][1] * _arr[3][2] * _arr[1][3] - _arr[1][1] * _arr[0][2] * _arr[3][3] - _arr[3][1] * _arr[1][2] * _arr[0][3],
 
-        _arr[0][1]*_arr[2][2]*_arr[1][3] + _arr[1][1]*_arr[0][2]*_arr[2][3] + _arr[2][1]*_arr[1][2]*_arr[0][3] -
-        _arr[0][1]*_arr[1][2]*_arr[2][3] - _arr[2][1]*_arr[0][2]*_arr[1][3] - _arr[1][1]*_arr[2][2]*_arr[0][3],
+        _arr[0][1] * _arr[2][2] * _arr[1][3] + _arr[1][1] * _arr[0][2] * _arr[2][3] + _arr[2][1] * _arr[1][2] * _arr[0][3] -
+            _arr[0][1] * _arr[1][2] * _arr[2][3] - _arr[2][1] * _arr[0][2] * _arr[1][3] - _arr[1][1] * _arr[2][2] * _arr[0][3],
 
-        _arr[1][2]*_arr[3][3]*_arr[2][0] + _arr[2][2]*_arr[1][3]*_arr[3][0] + _arr[3][2]*_arr[2][3]*_arr[1][0] -
-        _arr[1][2]*_arr[2][3]*_arr[3][0] - _arr[3][2]*_arr[1][3]*_arr[2][0] - _arr[2][2]*_arr[3][3]*_arr[1][0],
+        _arr[1][2] * _arr[3][3] * _arr[2][0] + _arr[2][2] * _arr[1][3] * _arr[3][0] + _arr[3][2] * _arr[2][3] * _arr[1][0] -
+            _arr[1][2] * _arr[2][3] * _arr[3][0] - _arr[3][2] * _arr[1][3] * _arr[2][0] - _arr[2][2] * _arr[3][3] * _arr[1][0],
 
-        _arr[0][2]*_arr[2][3]*_arr[3][0] + _arr[3][2]*_arr[0][3]*_arr[2][0] + _arr[2][2]*_arr[3][3]*_arr[0][0] -
-        _arr[0][2]*_arr[3][3]*_arr[2][0] - _arr[2][2]*_arr[0][3]*_arr[3][0] - _arr[3][2]*_arr[2][3]*_arr[0][0],
+        _arr[0][2] * _arr[2][3] * _arr[3][0] + _arr[3][2] * _arr[0][3] * _arr[2][0] + _arr[2][2] * _arr[3][3] * _arr[0][0] -
+            _arr[0][2] * _arr[3][3] * _arr[2][0] - _arr[2][2] * _arr[0][3] * _arr[3][0] - _arr[3][2] * _arr[2][3] * _arr[0][0],
 
-        _arr[0][2]*_arr[3][3]*_arr[1][0] + _arr[1][2]*_arr[0][3]*_arr[3][0] + _arr[3][2]*_arr[1][3]*_arr[0][0] -
-        _arr[0][2]*_arr[1][3]*_arr[3][0] - _arr[3][2]*_arr[0][3]*_arr[1][0] - _arr[1][2]*_arr[3][3]*_arr[0][0],
+        _arr[0][2] * _arr[3][3] * _arr[1][0] + _arr[1][2] * _arr[0][3] * _arr[3][0] + _arr[3][2] * _arr[1][3] * _arr[0][0] -
+            _arr[0][2] * _arr[1][3] * _arr[3][0] - _arr[3][2] * _arr[0][3] * _arr[1][0] - _arr[1][2] * _arr[3][3] * _arr[0][0],
 
-        _arr[0][2]*_arr[1][3]*_arr[2][0] + _arr[2][2]*_arr[0][3]*_arr[1][0] + _arr[1][2]*_arr[2][3]*_arr[0][0] -
-        _arr[0][2]*_arr[2][3]*_arr[1][0] - _arr[1][2]*_arr[0][3]*_arr[2][0] - _arr[2][2]*_arr[1][3]*_arr[0][0],
+        _arr[0][2] * _arr[1][3] * _arr[2][0] + _arr[2][2] * _arr[0][3] * _arr[1][0] + _arr[1][2] * _arr[2][3] * _arr[0][0] -
+            _arr[0][2] * _arr[2][3] * _arr[1][0] - _arr[1][2] * _arr[0][3] * _arr[2][0] - _arr[2][2] * _arr[1][3] * _arr[0][0],
 
-        _arr[1][3]*_arr[2][0]*_arr[3][1] + _arr[3][3]*_arr[1][0]*_arr[2][1] + _arr[2][3]*_arr[3][0]*_arr[1][1] -
-        _arr[1][3]*_arr[3][0]*_arr[2][1] - _arr[2][3]*_arr[1][0]*_arr[3][1] - _arr[3][3]*_arr[2][0]*_arr[1][1],
+        _arr[1][3] * _arr[2][0] * _arr[3][1] + _arr[3][3] * _arr[1][0] * _arr[2][1] + _arr[2][3] * _arr[3][0] * _arr[1][1] -
+            _arr[1][3] * _arr[3][0] * _arr[2][1] - _arr[2][3] * _arr[1][0] * _arr[3][1] - _arr[3][3] * _arr[2][0] * _arr[1][1],
 
-        _arr[0][3]*_arr[3][0]*_arr[2][1] + _arr[2][3]*_arr[0][0]*_arr[3][1] + _arr[3][3]*_arr[2][0]*_arr[0][1] -
-        _arr[0][3]*_arr[2][0]*_arr[3][1] - _arr[3][3]*_arr[0][0]*_arr[2][1] - _arr[2][3]*_arr[3][0]*_arr[0][1],
+        _arr[0][3] * _arr[3][0] * _arr[2][1] + _arr[2][3] * _arr[0][0] * _arr[3][1] + _arr[3][3] * _arr[2][0] * _arr[0][1] -
+            _arr[0][3] * _arr[2][0] * _arr[3][1] - _arr[3][3] * _arr[0][0] * _arr[2][1] - _arr[2][3] * _arr[3][0] * _arr[0][1],
 
-        _arr[0][3]*_arr[1][0]*_arr[3][1] + _arr[3][3]*_arr[0][0]*_arr[1][1] + _arr[1][3]*_arr[3][0]*_arr[0][1] -
-        _arr[0][3]*_arr[3][0]*_arr[1][1] - _arr[1][3]*_arr[0][0]*_arr[3][1] - _arr[3][3]*_arr[1][0]*_arr[0][1],
+        _arr[0][3] * _arr[1][0] * _arr[3][1] + _arr[3][3] * _arr[0][0] * _arr[1][1] + _arr[1][3] * _arr[3][0] * _arr[0][1] -
+            _arr[0][3] * _arr[3][0] * _arr[1][1] - _arr[1][3] * _arr[0][0] * _arr[3][1] - _arr[3][3] * _arr[1][0] * _arr[0][1],
 
-        _arr[0][3]*_arr[2][0]*_arr[1][1] + _arr[1][3]*_arr[0][0]*_arr[2][1] + _arr[2][3]*_arr[1][0]*_arr[0][1] -
-        _arr[0][3]*_arr[1][0]*_arr[2][1] - _arr[2][3]*_arr[0][0]*_arr[1][1] - _arr[1][3]*_arr[2][0]*_arr[0][1],
+        _arr[0][3] * _arr[2][0] * _arr[1][1] + _arr[1][3] * _arr[0][0] * _arr[2][1] + _arr[2][3] * _arr[1][0] * _arr[0][1] -
+            _arr[0][3] * _arr[1][0] * _arr[2][1] - _arr[2][3] * _arr[0][0] * _arr[1][1] - _arr[1][3] * _arr[2][0] * _arr[0][1],
 
-        _arr[1][0]*_arr[3][1]*_arr[2][2] + _arr[2][0]*_arr[1][1]*_arr[3][2] + _arr[3][0]*_arr[2][1]*_arr[1][2] -
-        _arr[1][0]*_arr[2][1]*_arr[3][2] - _arr[3][0]*_arr[1][1]*_arr[2][2] - _arr[2][0]*_arr[3][1]*_arr[1][2],
+        _arr[1][0] * _arr[3][1] * _arr[2][2] + _arr[2][0] * _arr[1][1] * _arr[3][2] + _arr[3][0] * _arr[2][1] * _arr[1][2] -
+            _arr[1][0] * _arr[2][1] * _arr[3][2] - _arr[3][0] * _arr[1][1] * _arr[2][2] - _arr[2][0] * _arr[3][1] * _arr[1][2],
 
-        _arr[0][0]*_arr[2][1]*_arr[3][2] + _arr[3][0]*_arr[0][1]*_arr[2][2] + _arr[2][0]*_arr[3][1]*_arr[0][2] -
-        _arr[0][0]*_arr[3][1]*_arr[2][2] - _arr[2][0]*_arr[0][1]*_arr[3][2] - _arr[3][0]*_arr[2][1]*_arr[0][2],
+        _arr[0][0] * _arr[2][1] * _arr[3][2] + _arr[3][0] * _arr[0][1] * _arr[2][2] + _arr[2][0] * _arr[3][1] * _arr[0][2] -
+            _arr[0][0] * _arr[3][1] * _arr[2][2] - _arr[2][0] * _arr[0][1] * _arr[3][2] - _arr[3][0] * _arr[2][1] * _arr[0][2],
 
-        _arr[0][0]*_arr[3][1]*_arr[1][2] + _arr[1][0]*_arr[0][1]*_arr[3][2] + _arr[3][0]*_arr[1][1]*_arr[0][2] -
-        _arr[0][0]*_arr[1][1]*_arr[3][2] - _arr[3][0]*_arr[0][1]*_arr[1][2] - _arr[1][0]*_arr[3][1]*_arr[0][2],
+        _arr[0][0] * _arr[3][1] * _arr[1][2] + _arr[1][0] * _arr[0][1] * _arr[3][2] + _arr[3][0] * _arr[1][1] * _arr[0][2] -
+            _arr[0][0] * _arr[1][1] * _arr[3][2] - _arr[3][0] * _arr[0][1] * _arr[1][2] - _arr[1][0] * _arr[3][1] * _arr[0][2],
 
-        _arr[0][0]*_arr[1][1]*_arr[2][2] + _arr[2][0]*_arr[0][1]*_arr[1][2] + _arr[1][0]*_arr[2][1]*_arr[0][2] -
-        _arr[0][0]*_arr[2][1]*_arr[1][2] - _arr[1][0]*_arr[0][1]*_arr[2][2] - _arr[2][0]*_arr[1][1]*_arr[0][2]);
+        _arr[0][0] * _arr[1][1] * _arr[2][2] + _arr[2][0] * _arr[0][1] * _arr[1][2] + _arr[1][0] * _arr[2][1] * _arr[0][2] -
+            _arr[0][0] * _arr[2][1] * _arr[1][2] - _arr[1][0] * _arr[0][1] * _arr[2][2] - _arr[2][0] * _arr[1][1] * _arr[0][2]);
 }
 
 Vector4 Matrix44::multiply(const Vector4& v) const
 {
     return Vector4(
-      v[0]*_arr[0][0] + v[1]*_arr[1][0] + v[2]*_arr[2][0] + v[3]*_arr[3][0],
-      v[0]*_arr[0][1] + v[1]*_arr[1][1] + v[2]*_arr[2][1] + v[3]*_arr[3][1],
-      v[0]*_arr[0][2] + v[1]*_arr[1][2] + v[2]*_arr[2][2] + v[3]*_arr[3][2],
-      v[0]*_arr[0][3] + v[1]*_arr[1][3] + v[2]*_arr[2][3] + v[3]*_arr[3][3]);
+        v[0] * _arr[0][0] + v[1] * _arr[1][0] + v[2] * _arr[2][0] + v[3] * _arr[3][0],
+        v[0] * _arr[0][1] + v[1] * _arr[1][1] + v[2] * _arr[2][1] + v[3] * _arr[3][1],
+        v[0] * _arr[0][2] + v[1] * _arr[1][2] + v[2] * _arr[2][2] + v[3] * _arr[3][2],
+        v[0] * _arr[0][3] + v[1] * _arr[1][3] + v[2] * _arr[2][3] + v[3] * _arr[3][3]);
 }
 
 Vector3 Matrix44::transformPoint(const Vector3& v) const
@@ -282,8 +282,8 @@ Matrix44 Matrix44::createRotationX(float angle)
     float cos = std::cos(angle);
 
     return Matrix44(1.0f, 0.0f, 0.0f, 0.0f,
-                    0.0f,  cos,  sin, 0.0f,
-                    0.0f, -sin,  cos, 0.0f,
+                    0.0f, cos, sin, 0.0f,
+                    0.0f, -sin, cos, 0.0f,
                     0.0f, 0.0f, 0.0f, 1.0f);
 }
 
@@ -292,9 +292,9 @@ Matrix44 Matrix44::createRotationY(float angle)
     float sin = std::sin(angle);
     float cos = std::cos(angle);
 
-    return Matrix44( cos, 0.0f, -sin, 0.0f,
+    return Matrix44(cos, 0.0f, -sin, 0.0f,
                     0.0f, 1.0f, 0.0f, 0.0f,
-                     sin, 0.0f,  cos, 0.0f,
+                    sin, 0.0f, cos, 0.0f,
                     0.0f, 0.0f, 0.0f, 1.0f);
 }
 
@@ -303,8 +303,8 @@ Matrix44 Matrix44::createRotationZ(float angle)
     float sin = std::sin(angle);
     float cos = std::cos(angle);
 
-    return Matrix44( cos,  sin, 0.0f, 0.0f,
-                    -sin,  cos, 0.0f, 0.0f,
+    return Matrix44(cos, sin, 0.0f, 0.0f,
+                    -sin, cos, 0.0f, 0.0f,
                     0.0f, 0.0f, 1.0f, 0.0f,
                     0.0f, 0.0f, 0.0f, 1.0f);
 }

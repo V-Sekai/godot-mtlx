@@ -15,121 +15,169 @@
 // Support functions for OSL implementations of the MaterialX nodes.
 //
 
-float mx_ternary(int expr, float v1, float v2) { if (expr) return v1; else return v2; }
-color mx_ternary(int expr, color v1, color v2) { if (expr) return v1; else return v2; }
-color4 mx_ternary(int expr, color4 v1, color4 v2) { if (expr) return v1; else return v2; }
-vector mx_ternary(int expr, vector v1, vector v2) { if (expr) return v1; else return v2; }
-vector2 mx_ternary(int expr, vector2 v1, vector2 v2) { if (expr) return v1; else return v2; }
-vector4 mx_ternary(int expr, vector4 v1, vector4 v2) { if (expr) return v1; else return v2; }
-matrix mx_ternary(int expr, matrix v1, matrix v2) { if (expr) return v1; else return v2; }
-matrix33 mx_ternary(int expr, matrix33 v1, matrix33 v2) { if (expr) return v1; else return v2; }
-
+float mx_ternary(int expr, float v1, float v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+color mx_ternary(int expr, color v1, color v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+color4 mx_ternary(int expr, color4 v1, color4 v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+vector mx_ternary(int expr, vector v1, vector v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+vector2 mx_ternary(int expr, vector2 v1, vector2 v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+vector4 mx_ternary(int expr, vector4 v1, vector4 v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+matrix mx_ternary(int expr, matrix v1, matrix v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
+matrix33 mx_ternary(int expr, matrix33 v1, matrix33 v2)
+{
+    if (expr)
+        return v1;
+    else
+        return v2;
+}
 
 matrix33 mx_add(matrix33 a, matrix33 b)
 {
     return matrix33(matrix(
-        a.m[0][0]+b.m[0][0], a.m[0][1]+b.m[0][1], a.m[0][2]+b.m[0][2], 0.0,
-        a.m[1][0]+b.m[1][0], a.m[1][1]+b.m[1][1], a.m[1][2]+b.m[1][2], 0.0,
-        a.m[2][0]+b.m[2][0], a.m[2][1]+b.m[2][1], a.m[2][2]+b.m[2][2], 0.0,
+        a.m[0][0] + b.m[0][0], a.m[0][1] + b.m[0][1], a.m[0][2] + b.m[0][2], 0.0,
+        a.m[1][0] + b.m[1][0], a.m[1][1] + b.m[1][1], a.m[1][2] + b.m[1][2], 0.0,
+        a.m[2][0] + b.m[2][0], a.m[2][1] + b.m[2][1], a.m[2][2] + b.m[2][2], 0.0,
         0.0, 0.0, 0.0, 1.0));
 }
 
 matrix33 mx_add(matrix33 a, float b)
 {
     return matrix33(matrix(
-        a.m[0][0]+b, a.m[0][1]+b, a.m[0][2]+b, 0.0,
-        a.m[1][0]+b, a.m[1][1]+b, a.m[1][2]+b, 0.0,
-        a.m[2][0]+b, a.m[2][1]+b, a.m[2][2]+b, 0.0,
+        a.m[0][0] + b, a.m[0][1] + b, a.m[0][2] + b, 0.0,
+        a.m[1][0] + b, a.m[1][1] + b, a.m[1][2] + b, 0.0,
+        a.m[2][0] + b, a.m[2][1] + b, a.m[2][2] + b, 0.0,
         0.0, 0.0, 0.0, 1.0));
 }
 
 matrix mx_add(matrix a, matrix b)
 {
     return matrix(
-        a[0][0]+b[0][0], a[0][1]+b[0][1], a[0][2]+b[0][2], a[0][3]+b[0][3],
-        a[1][0]+b[1][0], a[1][1]+b[1][1], a[1][2]+b[1][2], a[1][3]+b[1][3],
-        a[2][0]+b[2][0], a[2][1]+b[2][1], a[2][2]+b[2][2], a[2][3]+b[2][3],
-        a[3][0]+b[3][0], a[3][1]+b[3][1], a[3][2]+b[3][2], a[3][3]+b[3][3]);
+        a[0][0] + b[0][0], a[0][1] + b[0][1], a[0][2] + b[0][2], a[0][3] + b[0][3],
+        a[1][0] + b[1][0], a[1][1] + b[1][1], a[1][2] + b[1][2], a[1][3] + b[1][3],
+        a[2][0] + b[2][0], a[2][1] + b[2][1], a[2][2] + b[2][2], a[2][3] + b[2][3],
+        a[3][0] + b[3][0], a[3][1] + b[3][1], a[3][2] + b[3][2], a[3][3] + b[3][3]);
 }
 
 matrix mx_add(matrix a, float b)
 {
     return matrix(
-        a[0][0]+b, a[0][1]+b, a[0][2]+b, a[0][3]+b,
-        a[1][0]+b, a[1][1]+b, a[1][2]+b, a[1][3]+b,
-        a[2][0]+b, a[2][1]+b, a[2][2]+b, a[2][3]+b,
-        a[3][0]+b, a[3][1]+b, a[3][2]+b, a[3][3]+b);
+        a[0][0] + b, a[0][1] + b, a[0][2] + b, a[0][3] + b,
+        a[1][0] + b, a[1][1] + b, a[1][2] + b, a[1][3] + b,
+        a[2][0] + b, a[2][1] + b, a[2][2] + b, a[2][3] + b,
+        a[3][0] + b, a[3][1] + b, a[3][2] + b, a[3][3] + b);
 }
-
 
 matrix33 mx_subtract(matrix33 a, matrix33 b)
 {
     return matrix33(matrix(
-        a.m[0][0]-b.m[0][0], a.m[0][1]-b.m[0][1], a.m[0][2]-b.m[0][2], 0.0,
-        a.m[1][0]-b.m[1][0], a.m[1][1]-b.m[1][1], a.m[1][2]-b.m[1][2], 0.0,
-        a.m[2][0]-b.m[2][0], a.m[2][1]-b.m[2][1], a.m[2][2]-b.m[2][2], 0.0,
+        a.m[0][0] - b.m[0][0], a.m[0][1] - b.m[0][1], a.m[0][2] - b.m[0][2], 0.0,
+        a.m[1][0] - b.m[1][0], a.m[1][1] - b.m[1][1], a.m[1][2] - b.m[1][2], 0.0,
+        a.m[2][0] - b.m[2][0], a.m[2][1] - b.m[2][1], a.m[2][2] - b.m[2][2], 0.0,
         0.0, 0.0, 0.0, 1.0));
 }
 
 matrix33 mx_subtract(matrix33 a, float b)
 {
     return matrix33(matrix(
-        a.m[0][0]-b, a.m[0][1]-b, a.m[0][2]-b, 0.0,
-        a.m[1][0]-b, a.m[1][1]-b, a.m[1][2]-b, 0.0,
-        a.m[2][0]-b, a.m[2][1]-b, a.m[2][2]-b, 0.0,
+        a.m[0][0] - b, a.m[0][1] - b, a.m[0][2] - b, 0.0,
+        a.m[1][0] - b, a.m[1][1] - b, a.m[1][2] - b, 0.0,
+        a.m[2][0] - b, a.m[2][1] - b, a.m[2][2] - b, 0.0,
         0.0, 0.0, 0.0, 1.0));
 }
 
 matrix mx_subtract(matrix a, matrix b)
 {
-   return matrix(
-       a[0][0]-b[0][0], a[0][1]-b[0][1], a[0][2]-b[0][2], a[0][3]-b[0][3],
-       a[1][0]-b[1][0], a[1][1]-b[1][1], a[1][2]-b[1][2], a[1][3]-b[1][3],
-       a[2][0]-b[2][0], a[2][1]-b[2][1], a[2][2]-b[2][2], a[2][3]-b[2][3],
-       a[3][0]-b[3][0], a[3][1]-b[3][1], a[3][2]-b[3][2], a[3][3]-b[3][3]);
+    return matrix(
+        a[0][0] - b[0][0], a[0][1] - b[0][1], a[0][2] - b[0][2], a[0][3] - b[0][3],
+        a[1][0] - b[1][0], a[1][1] - b[1][1], a[1][2] - b[1][2], a[1][3] - b[1][3],
+        a[2][0] - b[2][0], a[2][1] - b[2][1], a[2][2] - b[2][2], a[2][3] - b[2][3],
+        a[3][0] - b[3][0], a[3][1] - b[3][1], a[3][2] - b[3][2], a[3][3] - b[3][3]);
 }
 
 matrix mx_subtract(matrix a, float b)
 {
     return matrix(
-        a[0][0]-b, a[0][1]-b, a[0][2]-b, a[0][3]-b,
-        a[1][0]-b, a[1][1]-b, a[1][2]-b, a[1][3]-b,
-        a[2][0]-b, a[2][1]-b, a[2][2]-b, a[2][3]-b,
-        a[3][0]-b, a[3][1]-b, a[3][2]-b, a[3][3]-b);
+        a[0][0] - b, a[0][1] - b, a[0][2] - b, a[0][3] - b,
+        a[1][0] - b, a[1][1] - b, a[1][2] - b, a[1][3] - b,
+        a[2][0] - b, a[2][1] - b, a[2][2] - b, a[2][3] - b,
+        a[3][0] - b, a[3][1] - b, a[3][2] - b, a[3][3] - b);
 }
-
 
 float mx_remap(float in, float inLow, float inHigh, float outLow, float outHigh, int doClamp)
 {
-      float x = (in - inLow)/(inHigh-inLow);
-      if (doClamp == 1) {
-           x = clamp(x, 0, 1);
-      }
-      return outLow + (outHigh - outLow) * x;
+    float x = (in - inLow) / (inHigh - inLow);
+    if (doClamp == 1)
+    {
+        x = clamp(x, 0, 1);
+    }
+    return outLow + (outHigh - outLow) * x;
 }
 
 color mx_remap(color in, color inLow, color inHigh, color outLow, color outHigh, int doClamp)
 {
-      color x = (in - inLow) / (inHigh - inLow);
-      if (doClamp == 1) {
-           x = clamp(x, 0, 1);
-      }
-      return outLow + (outHigh - outLow) * x;
+    color x = (in - inLow) / (inHigh - inLow);
+    if (doClamp == 1)
+    {
+        x = clamp(x, 0, 1);
+    }
+    return outLow + (outHigh - outLow) * x;
 }
 
 color mx_remap(color in, float inLow, float inHigh, float outLow, float outHigh, int doClamp)
 {
-      color x = (in - inLow) / (inHigh - inLow);
-      if (doClamp == 1) {
-           x = clamp(x, 0, 1);
-      }
-      return outLow + (outHigh - outLow) * x;
+    color x = (in - inLow) / (inHigh - inLow);
+    if (doClamp == 1)
+    {
+        x = clamp(x, 0, 1);
+    }
+    return outLow + (outHigh - outLow) * x;
 }
 
 color4 mx_remap(color4 c, color4 inLow, color4 inHigh, color4 outLow, color4 outHigh, int doClamp)
 {
-      return color4(mx_remap(c.rgb, inLow.rgb, inHigh.rgb, outLow.rgb, outHigh.rgb, doClamp),
-                    mx_remap(c.a, inLow.a, inHigh.a, outLow.a, outHigh.a, doClamp));
+    return color4(mx_remap(c.rgb, inLow.rgb, inHigh.rgb, outLow.rgb, outHigh.rgb, doClamp),
+                  mx_remap(c.a, inLow.a, inHigh.a, outLow.a, outHigh.a, doClamp));
 }
 
 color4 mx_remap(color4 c, float inLow, float inHigh, float outLow, float outHigh, int doClamp)
@@ -169,7 +217,6 @@ vector4 mx_remap(vector4 in, float inLow, float inHigh, float outLow, float outH
                    mx_remap(in.w, inLow, inHigh, outLow, outHigh, doClamp));
 }
 
-
 float mx_contrast(float in, float amount, float pivot)
 {
     float out = in - pivot;
@@ -207,8 +254,8 @@ color4 mx_contrast(color4 c, float amount, float pivot)
 
 vector2 mx_contrast(vector2 in, vector2 amount, vector2 pivot)
 {
-    return vector2 (mx_contrast(in.x, amount.x, pivot.x),
-                    mx_contrast(in.y, amount.y, pivot.y));
+    return vector2(mx_contrast(in.x, amount.x, pivot.x),
+                   mx_contrast(in.y, amount.y, pivot.y));
 }
 
 vector2 mx_contrast(vector2 in, float amount, float pivot)
@@ -232,47 +279,45 @@ vector4 mx_contrast(vector4 in, float amount, float pivot)
                    mx_contrast(in.w, amount, pivot));
 }
 
-
 vector2 mx_noise(string noisetype, float x, float y)
 {
     color cnoise = (color) noise(noisetype, x, y);
-    return vector2 (cnoise[0], cnoise[1]);
+    return vector2(cnoise[0], cnoise[1]);
 }
 
 color4 mx_noise(string noisetype, float x, float y)
 {
     color cnoise = (color) noise(noisetype, x, y);
     float fnoise = (float) noise(noisetype, x + 19, y + 73);
-    return color4 (cnoise, fnoise);
+    return color4(cnoise, fnoise);
 }
 
 vector4 mx_noise(string noisetype, float x, float y)
 {
     color cnoise = (color) noise(noisetype, x, y);
     float fnoise = (float) noise(noisetype, x + 19, y + 73);
-    return vector4 (cnoise[0], cnoise[1], cnoise[2], fnoise);
+    return vector4(cnoise[0], cnoise[1], cnoise[2], fnoise);
 }
 
 vector2 mx_noise(string noisetype, point position)
 {
     color cnoise = (color) noise(noisetype, position);
-    return vector2 (cnoise[0], cnoise[1]);
+    return vector2(cnoise[0], cnoise[1]);
 }
 
 color4 mx_noise(string noisetype, point position)
 {
     color cnoise = (color) noise(noisetype, position);
-    float fnoise = (float) noise(noisetype, position+vector(19,73,29));
-    return color4 (cnoise, fnoise);
+    float fnoise = (float) noise(noisetype, position + vector(19, 73, 29));
+    return color4(cnoise, fnoise);
 }
 
 vector4 mx_noise(string noisetype, point position)
 {
     color cnoise = (color) noise(noisetype, position);
-    float fnoise = (float) noise(noisetype, position+vector(19,73,29));
-    return vector4 (cnoise[0], cnoise[1], cnoise[2], fnoise);
+    float fnoise = (float) noise(noisetype, position + vector(19, 73, 29));
+    return vector4(cnoise[0], cnoise[1], cnoise[2], fnoise);
 }
-
 
 float mx_fbm(point position, int octaves, float lacunarity, float diminish, string noisetype)
 {
@@ -280,7 +325,8 @@ float mx_fbm(point position, int octaves, float lacunarity, float diminish, stri
     float amp = 1.0;
     point p = position;
 
-    for (int i = 0;  i < octaves;  i += 1) {
+    for (int i = 0; i < octaves; i += 1)
+    {
         out += amp * noise(noisetype, p);
         amp *= diminish;
         p *= lacunarity;
@@ -294,8 +340,9 @@ color mx_fbm(point position, int octaves, float lacunarity, float diminish, stri
     float amp = 1.0;
     point p = position;
 
-    for (int i = 0;  i < octaves;  i += 1) {
-        out += amp * (color)noise(noisetype, p);
+    for (int i = 0; i < octaves; i += 1)
+    {
+        out += amp * (color) noise(noisetype, p);
         amp *= diminish;
         p *= lacunarity;
     }
@@ -305,23 +352,22 @@ color mx_fbm(point position, int octaves, float lacunarity, float diminish, stri
 vector2 mx_fbm(point position, int octaves, float lacunarity, float diminish, string noisetype)
 {
     return vector2((float) mx_fbm(position, octaves, lacunarity, diminish, noisetype),
-                   (float) mx_fbm(position+point(19, 193, 17), octaves, lacunarity, diminish, noisetype));
+                   (float) mx_fbm(position + point(19, 193, 17), octaves, lacunarity, diminish, noisetype));
 }
 
 color4 mx_fbm(point position, int octaves, float lacunarity, float diminish, string noisetype)
 {
     color c = (color) mx_fbm(position, octaves, lacunarity, diminish, noisetype);
-    float f = (float) mx_fbm(position+point(19, 193, 17), octaves, lacunarity, diminish, noisetype);
-    return color4 (c, f);
+    float f = (float) mx_fbm(position + point(19, 193, 17), octaves, lacunarity, diminish, noisetype);
+    return color4(c, f);
 }
 
 vector4 mx_fbm(point position, int octaves, float lacunarity, float diminish, string noisetype)
 {
     color c = (color) mx_fbm(position, octaves, lacunarity, diminish, noisetype);
-    float f = (float) mx_fbm(position+point(19, 193, 17), octaves, lacunarity, diminish, noisetype);
-    return vector4 (c[0], c[1], c[2], f);
+    float f = (float) mx_fbm(position + point(19, 193, 17), octaves, lacunarity, diminish, noisetype);
+    return vector4(c[0], c[1], c[2], f);
 }
-
 
 void mx_split_float(output float x, output int ix)
 {
@@ -331,29 +377,29 @@ void mx_split_float(output float x, output int ix)
 
 float mx_worley_distance(vector2 p, int x, int y, int X, int Y, float jitter, int metric)
 {
-    vector o = cellnoise(x+X, y+Y);
-    o = (o - .5)*jitter + .5;
+    vector o = cellnoise(x + X, y + Y);
+    o = (o - .5) * jitter + .5;
     float cposx = x + o[0];
     float cposy = y + o[1];
     float diffx = cposx - p.x;
     float diffy = cposy - p.y;
 
     if (metric == 2)
-        return abs(diffx) + abs(diffy);     // Manhattan distance
+        return abs(diffx) + abs(diffy); // Manhattan distance
     if (metric == 3)
         return max(abs(diffx), abs(diffy)); // Chebyshev distance
-    return diffx*diffx + diffy*diffy;       // Euclidean or distance^2
+    return diffx * diffx + diffy * diffy;   // Euclidean or distance^2
 }
 
 float mx_worley_distance(vector p, int x, int y, int z, int X, int Y, int Z, float jitter, int metric)
 {
-    vector o = cellnoise(vector(x+X, y+Y, z+Z));
-    o = (o - .5)*jitter + .5;
+    vector o = cellnoise(vector(x + X, y + Y, z + Z));
+    o = (o - .5) * jitter + .5;
     vector cpos = vector(x, y, z) + o;
     vector diff = cpos - p;
 
     if (metric == 2)
-        return abs(diff[0]) + abs(diff[1]);     // Manhattan distance
+        return abs(diff[0]) + abs(diff[1]); // Manhattan distance
     if (metric == 3)
         return max(abs(diff[0]), abs(diff[1])); // Chebyshev distance
     return dot(diff, diff);                     // Eucldean or distance^2

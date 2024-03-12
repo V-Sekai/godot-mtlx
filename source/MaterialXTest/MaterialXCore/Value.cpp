@@ -10,7 +10,7 @@
 
 namespace mx = MaterialX;
 
-template<class T> void testTypedValue(const T& v1, const T& v2)
+template <class T> void testTypedValue(const T& v1, const T& v2)
 {
     T v0{};
 
@@ -104,14 +104,14 @@ TEST_CASE("Typed values", "[value]")
                    std::string("second_value"));
 
     // Array types
-    testTypedValue(mx::IntVec{1, 2, 3},
-                   mx::IntVec{4, 5, 6});
-    testTypedValue(mx::BoolVec{false, false, false},
-                   mx::BoolVec{true, true, true});
-    testTypedValue(mx::FloatVec{1.0f, 2.0f, 3.0f},
-                   mx::FloatVec{4.0f, 5.0f, 6.0f});
-    testTypedValue(mx::StringVec{"Item A", "Item B", "Item C"},
-                   mx::StringVec{"Item D", "Item E", "Item F"});
+    testTypedValue(mx::IntVec{ 1, 2, 3 },
+                   mx::IntVec{ 4, 5, 6 });
+    testTypedValue(mx::BoolVec{ false, false, false },
+                   mx::BoolVec{ true, true, true });
+    testTypedValue(mx::FloatVec{ 1.0f, 2.0f, 3.0f },
+                   mx::FloatVec{ 4.0f, 5.0f, 6.0f });
+    testTypedValue(mx::StringVec{ "Item A", "Item B", "Item C" },
+                   mx::StringVec{ "Item D", "Item E", "Item F" });
 
     // Alias types
     testTypedValue<long>(1l, 2l);

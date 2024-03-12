@@ -27,7 +27,7 @@ void bindPyMslShaderGenerator(py::module& mod)
         .def("getVersion", &mx::MslShaderGenerator::getVersion);
 }
 
-void bindPyMslResourceBindingContext(py::module &mod)
+void bindPyMslResourceBindingContext(py::module& mod)
 {
     py::class_<mx::MslResourceBindingContext, mx::HwResourceBindingContext, mx::MslResourceBindingContextPtr>(mod, "MslResourceBindingContext")
         .def_static("create", &mx::MslResourceBindingContext::create)

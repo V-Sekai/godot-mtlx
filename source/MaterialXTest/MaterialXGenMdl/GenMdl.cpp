@@ -18,7 +18,6 @@
 #include <MaterialXGenShader/GenContext.h>
 #include <MaterialXGenShader/Util.h>
 
-
 namespace mx = MaterialX;
 
 TEST_CASE("GenShader: MDL Syntax", "[genmdl]")
@@ -84,7 +83,6 @@ TEST_CASE("GenShader: MDL Syntax", "[genmdl]")
     REQUIRE(value == "int[](1, 2, 3, 4, 5, 6, 7)");
 }
 
-
 TEST_CASE("GenShader: MDL Implementation Check", "[genmdl]")
 {
     mx::GenContext context(mx::MdlShaderGenerator::create());
@@ -95,7 +93,6 @@ TEST_CASE("GenShader: MDL Implementation Check", "[genmdl]")
 
     GenShaderUtil::checkImplementations(context, generatorSkipNodeTypes, generatorSkipNodeDefs, 48);
 }
-
 
 class MdlStringResolver : public mx::StringResolver
 {
@@ -118,7 +115,7 @@ class MdlStringResolver : public mx::StringResolver
         mx::FilePath coreModulePath2 = coreModulePath / mx::FilePath("materialx");
 
         // use the source search paths as base
-        mx::FileSearchPath paths  = mx::getSourceSearchPath(document);
+        mx::FileSearchPath paths = mx::getSourceSearchPath(document);
         paths.append(mx::FilePath(document->getSourceUri()).getParentPath());
 
         // paths specified by the build system
@@ -185,8 +182,8 @@ class MdlStringResolver : public mx::StringResolver
         }
 
         *_logFile << "MaterialX resource can not be accessed through an MDL search path. "
-            << "Dropping the resource from the Material. Resource Path: "
-            << normalizedPath.asString().c_str() << std::endl;
+                  << "Dropping the resource from the Material. Resource Path: "
+                  << normalizedPath.asString().c_str() << std::endl;
 
         // drop the resource by returning the empty string.
         // alternatively, the resource could be copied into an MDL search path,
@@ -194,7 +191,7 @@ class MdlStringResolver : public mx::StringResolver
         return "";
     }
 
-    const  mx::FileSearchPath& getMdlSearchPaths() const { return _mdl_searchPaths; }
+    const mx::FileSearchPath& getMdlSearchPaths() const { return _mdl_searchPaths; }
 
   private:
     // list of MDL search paths from which we can locate resources.
@@ -220,7 +217,7 @@ void MdlShaderGeneratorTester::compileSource(const std::vector<mx::FilePath>& so
 
     mx::FilePath moduleToTestPath = sourceCodePaths[0].getParentPath();
     mx::FilePath module = sourceCodePaths[0];
-    std::string moduleToTest = module[module.size()-1];
+    std::string moduleToTest = module[module.size() - 1];
     moduleToTest = moduleToTest.substr(0, moduleToTest.size() - sourceCodePaths[0].getExtension().length() - 1);
 
     std::string renderExec(MATERIALX_MDL_RENDER_EXECUTABLE);

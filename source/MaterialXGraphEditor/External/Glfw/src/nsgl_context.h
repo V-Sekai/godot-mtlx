@@ -28,22 +28,21 @@
 //       SDK versions where one is unavailable or the other deprecated
 //       We use the newer names in code and these macros to handle compatibility
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 101400
- #define NSOpenGLContextParameterSwapInterval NSOpenGLCPSwapInterval
- #define NSOpenGLContextParameterSurfaceOpacity NSOpenGLCPSurfaceOpacity
+    #define NSOpenGLContextParameterSwapInterval NSOpenGLCPSwapInterval
+    #define NSOpenGLContextParameterSurfaceOpacity NSOpenGLCPSurfaceOpacity
 #endif
 
-#define _GLFW_PLATFORM_CONTEXT_STATE            _GLFWcontextNSGL nsgl
-#define _GLFW_PLATFORM_LIBRARY_CONTEXT_STATE    _GLFWlibraryNSGL nsgl
+#define _GLFW_PLATFORM_CONTEXT_STATE _GLFWcontextNSGL nsgl
+#define _GLFW_PLATFORM_LIBRARY_CONTEXT_STATE _GLFWlibraryNSGL nsgl
 
 #include <stdatomic.h>
-
 
 // NSGL-specific per-context data
 //
 typedef struct _GLFWcontextNSGL
 {
-    id                pixelFormat;
-    id                object;
+    id pixelFormat;
+    id object;
 
 } _GLFWcontextNSGL;
 
@@ -52,10 +51,9 @@ typedef struct _GLFWcontextNSGL
 typedef struct _GLFWlibraryNSGL
 {
     // dlopen handle for OpenGL.framework (for glfwGetProcAddress)
-    CFBundleRef     framework;
+    CFBundleRef framework;
 
 } _GLFWlibraryNSGL;
-
 
 GLFWbool _glfwInitNSGL(void);
 void _glfwTerminateNSGL(void);
@@ -63,4 +61,3 @@ GLFWbool _glfwCreateContextNSGL(_GLFWwindow* window,
                                 const _GLFWctxconfig* ctxconfig,
                                 const _GLFWfbconfig* fbconfig);
 void _glfwDestroyContextNSGL(_GLFWwindow* window);
-

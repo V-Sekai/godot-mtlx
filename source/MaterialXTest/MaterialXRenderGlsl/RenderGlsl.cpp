@@ -14,7 +14,7 @@
 #include <MaterialXRender/GeometryHandler.h>
 #include <MaterialXRender/StbImageLoader.h>
 #if defined(MATERIALX_BUILD_OIIO)
-#include <MaterialXRender/OiioImageLoader.h>
+    #include <MaterialXRender/OiioImageLoader.h>
 #endif
 
 #include <MaterialXFormat/Util.h>
@@ -36,7 +36,7 @@ class GlslShaderRenderTester : public RenderUtil::ShaderRenderTester
     void loadAdditionalLibraries(mx::DocumentPtr document,
                                  GenShaderUtil::TestSuiteOptions& options) override;
 
-    void registerLights(mx::DocumentPtr document, const GenShaderUtil::TestSuiteOptions &options,
+    void registerLights(mx::DocumentPtr document, const GenShaderUtil::TestSuiteOptions& options,
                         mx::GenContext& context) override;
 
     void createRenderer(std::ostream& log) override;
@@ -82,7 +82,7 @@ void GlslShaderRenderTester::loadAdditionalLibraries(mx::DocumentPtr document,
 
 // Create a light handler and populate it based on lights found in a given document
 void GlslShaderRenderTester::registerLights(mx::DocumentPtr document,
-                                            const GenShaderUtil::TestSuiteOptions &options,
+                                            const GenShaderUtil::TestSuiteOptions& options,
                                             mx::GenContext& context)
 {
     _lightHandler = mx::LightHandler::create();
@@ -160,15 +160,15 @@ bool GlslShaderRenderTester::saveImage(const mx::FilePath& filePath, mx::ConstIm
 }
 
 bool GlslShaderRenderTester::runRenderer(const std::string& shaderName,
-                                          mx::TypedElementPtr element,
-                                          mx::GenContext& context,
-                                          mx::DocumentPtr doc,
-                                          std::ostream& log,
-                                          const GenShaderUtil::TestSuiteOptions& testOptions,
-                                          RenderUtil::RenderProfileTimes& profileTimes,
-                                          const mx::FileSearchPath& imageSearchPath,
-                                          const std::string& outputPath,
-                                          mx::ImageVec* imageVec)
+                                         mx::TypedElementPtr element,
+                                         mx::GenContext& context,
+                                         mx::DocumentPtr doc,
+                                         std::ostream& log,
+                                         const GenShaderUtil::TestSuiteOptions& testOptions,
+                                         RenderUtil::RenderProfileTimes& profileTimes,
+                                         const mx::FileSearchPath& imageSearchPath,
+                                         const std::string& outputPath,
+                                         mx::ImageVec* imageVec)
 {
     std::cout << "Validating GLSL rendering for: " << doc->getSourceUri() << std::endl;
 

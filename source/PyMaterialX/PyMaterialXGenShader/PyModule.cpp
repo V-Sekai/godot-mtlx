@@ -13,7 +13,7 @@ void bindPyShader(py::module& mod);
 void bindPyShaderGenerator(py::module& mod);
 void bindPyGenContext(py::module& mod);
 void bindPyHwShaderGenerator(py::module& mod);
-void bindPyHwResourceBindingContext(py::module &mod);
+void bindPyHwResourceBindingContext(py::module& mod);
 void bindPyGenUserData(py::module& mod);
 void bindPyGenOptions(py::module& mod);
 void bindPyShaderStage(py::module& mod);

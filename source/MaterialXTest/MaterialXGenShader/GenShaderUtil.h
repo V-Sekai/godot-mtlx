@@ -25,7 +25,7 @@ namespace mx = MaterialX;
 
 namespace GenShaderUtil
 {
-    
+
 /// An unordered map from light names to light indices.
 using LightIdMap = std::unordered_map<std::string, unsigned int>;
 
@@ -33,21 +33,21 @@ using LightIdMap = std::unordered_map<std::string, unsigned int>;
 // Get source content, source path and resolved paths for
 // an implementation
 //
-bool getShaderSource(mx::GenContext& context, 
-                        const mx::ImplementationPtr implementation,
-                        mx::FilePath& sourcePath,
-                        mx::FilePath& resolvedPath,
-                        std::string& sourceContents);
+bool getShaderSource(mx::GenContext& context,
+                     const mx::ImplementationPtr implementation,
+                     mx::FilePath& sourcePath,
+                     mx::FilePath& resolvedPath,
+                     std::string& sourceContents);
 
 // Test code generation for a given element
 bool generateCode(mx::GenContext& context, const std::string& shaderName, mx::TypedElementPtr element,
-                    std::ostream& log, mx::StringVec testStages, mx::StringVec& sourceCode);
+                  std::ostream& log, mx::StringVec testStages, mx::StringVec& sourceCode);
 
 // Check that implementations exist for all nodedefs supported per generator
 void checkImplementations(mx::GenContext& context,
-                            const mx::StringSet& generatorSkipNodeTypes,
-                            const mx::StringSet& generatorSkipNodeDefs,
-                            unsigned int expectedSkipCount);
+                          const mx::StringSet& generatorSkipNodeTypes,
+                          const mx::StringSet& generatorSkipNodeDefs,
+                          unsigned int expectedSkipCount);
 
 // Utility test to  check unique name generation on a shader generator
 void testUniqueNames(mx::GenContext& context, const std::string& stage);
@@ -107,10 +107,10 @@ class TestSuiteOptions
     // Geometry file to be rendered
     MaterialX::FilePath renderGeometry;
 
-    // Enable direct lighting. Default is true. 
+    // Enable direct lighting. Default is true.
     bool enableDirectLighting;
 
-    // Enable indirect lighting. Default is true. 
+    // Enable indirect lighting. Default is true.
     bool enableIndirectLighting;
 
     // Radiance IBL file.
@@ -136,13 +136,13 @@ class TestSuiteOptions
         mx::Vector2 range;
         int steps;
     };
-    std::vector <WedgeSetting> wedgeSettings;
-    
+    std::vector<WedgeSetting> wedgeSettings;
+
     // Bake parameters
     struct BakeSetting
     {
         std::string bakeFile;
-        bool hdr = false; 
+        bool hdr = false;
         unsigned int resolution = 512;
         mx::Vector2 uvmin = mx::Vector2(0.0f);
         mx::Vector2 uvmax = mx::Vector2(1.0f);
@@ -155,7 +155,7 @@ class TestSuiteOptions
 class ShaderGeneratorTester
 {
   public:
-    ShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const mx::FilePathVec& testRootPaths, 
+    ShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const mx::FilePathVec& testRootPaths,
                           const mx::FileSearchPath& searchPath, const mx::FilePath& logFilePath, bool writeShadersToDisk) :
         _shaderGenerator(shaderGenerator),
         _targetString(shaderGenerator ? shaderGenerator->getTarget() : "NULL"),
@@ -180,13 +180,13 @@ class ShaderGeneratorTester
     virtual void setTestStages() = 0;
 
     // Add files in to not examine
-    virtual void addSkipFiles() { };
+    virtual void addSkipFiles(){};
 
     // Add nodedefs to not examine
-    virtual void addSkipNodeDefs() { };
+    virtual void addSkipNodeDefs(){};
 
     // Add files to be skipped while loading libraries
-    virtual void addSkipLibraryFiles() { };
+    virtual void addSkipLibraryFiles(){};
 
     // Add color management
     virtual void addColorManagement();
@@ -194,7 +194,7 @@ class ShaderGeneratorTester
     // Add unit system
     virtual void addUnitSystem();
 
-    // Add user data 
+    // Add user data
     void addUserData(const std::string& name, mx::GenUserDataPtr data)
     {
         _userData[name] = data;
@@ -222,10 +222,10 @@ class ShaderGeneratorTester
     void validate(const mx::GenOptions& generateOptions, const std::string& optionsFilePath);
 
     // Allow the tester to alter the document, e.g., by flattening file names.
-    virtual void preprocessDocument(mx::DocumentPtr doc) {};
+    virtual void preprocessDocument(mx::DocumentPtr doc){};
 
     // Compile generated source code. Default implementation does nothing.
-    virtual void compileSource(const std::vector<mx::FilePath>& /*sourceCodePaths*/) {};
+    virtual void compileSource(const std::vector<mx::FilePath>& /*sourceCodePaths*/){};
 
   protected:
     // Check to see that all implementations have been tested for a given
@@ -236,13 +236,13 @@ class ShaderGeneratorTester
 
     // Get implementation "whitelist" for those implementations that have
     // been skipped for checking
-    virtual void getImplementationWhiteList(mx::StringSet& /*whiteList*/) {};
+    virtual void getImplementationWhiteList(mx::StringSet& /*whiteList*/){};
 
     mx::ShaderGeneratorPtr _shaderGenerator;
     const std::string _targetString;
     mx::DefaultColorManagementSystemPtr _colorManagementSystem;
 
-    // Unit system 
+    // Unit system
     mx::UnitSystemPtr _unitSystem;
     std::string _defaultDistanceUnit;
 

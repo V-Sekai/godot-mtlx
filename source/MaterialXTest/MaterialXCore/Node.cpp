@@ -142,7 +142,7 @@ TEST_CASE("Node inputCount repro", "[node]")
     mx::DocumentPtr doc = mx::createDocument();
     mx::NodePtr constant = doc->addNode("constant");
     constant->setInputValue<float>("value", 0.5f);
- 
+
     // Check that input count is correct after clearContent
     constant->clearContent();
     CHECK(constant->getInputCount() == 0);
@@ -206,9 +206,9 @@ TEST_CASE("Inheritance", "[nodedef]")
     mx::InputPtr specularInput = surfaceNode->addInputFromNodeDef("specular");
     REQUIRE(specularInput);
     REQUIRE(specularInput->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE) ==
-        nodedefSpecularInput->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE));
+            nodedefSpecularInput->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE));
     REQUIRE(specularInput->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE) ==
-        nodedefSpecularInput->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE));
+            nodedefSpecularInput->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE));
 }
 
 TEST_CASE("Topological sort", "[nodegraph]")
@@ -221,7 +221,7 @@ TEST_CASE("Topological sort", "[nodegraph]")
     //   [constant1] [constant2]      [image2]
     //           \   /          \    /
     // [image1] [add1]          [add2]
-    //        \  /   \______      |   
+    //        \  /   \______      |
     //    [multiply]        \__ [add3]         [noise3d]
     //             \____________  |  ____________/
     //                          [mix]
@@ -272,7 +272,7 @@ TEST_CASE("New nodegraph from output", "[nodegraph]")
     //   [constant1] [constant2]      [image2]
     //           \   /          \    /
     // [image1] [add1]          [add2]
-    //        \  /   \______      |   
+    //        \  /   \______      |
     //   [multiply1]        \__ [add3]         [noise3d]            [constant3]
     //             \____________  |  ____________/    \                /
     //                          [mix]                  \_ [multiply2]_/
@@ -311,7 +311,7 @@ TEST_CASE("New nodegraph from output", "[nodegraph]")
     out2->setConnectedNode(multiply2);
 
     // Generate a new graph from each output.
-    std::vector<mx::OutputPtr> outputs = {out1, out2};
+    std::vector<mx::OutputPtr> outputs = { out1, out2 };
     for (size_t i = 0; i < outputs.size(); ++i)
     {
         const mx::OutputPtr output = outputs[i];
@@ -375,7 +375,7 @@ TEST_CASE("Prune nodes", "[nodegraph]")
     //   [constant1] [constant2]      [image2]
     //           \   /          \    /
     // [image1] [add1]          [add2]
-    //        \  /   \______      |   
+    //        \  /   \______      |
     //    [multiply]        \__ [add3]         [noise3d]
     //             \____________  |  ____________/
     //                          [mix]
@@ -409,11 +409,10 @@ TEST_CASE("Prune nodes", "[nodegraph]")
 
     // Set the node names we want to prune from the graph
     // and which corresponding input to use for the bypass.
-    std::unordered_map<std::string, std::string> nodesToPrune =
-    {
-        { "add1","in1" },
-        { "add2","in1" },
-        { "add3","in1" }
+    std::unordered_map<std::string, std::string> nodesToPrune = {
+        { "add1", "in1" },
+        { "add2", "in1" },
+        { "add3", "in1" }
     };
 
     // Keep track of processed nodes to avoid duplication
@@ -507,7 +506,7 @@ TEST_CASE("Organization", "[nodegraph]")
     //   [constant1] [constant2]      [image2]
     //           \   /          \    /
     // [image1] [add1]          [add2]
-    //        \  /   \______      |   
+    //        \  /   \______      |
     //    [multiply]        \__ [add3]         [noise3d]
     //             \____________  |  ____________/
     //                          [mix]
@@ -588,7 +587,7 @@ TEST_CASE("Tokens", "[nodegraph]")
     mx::StringVec graphNames = { "Tokenized_Image_2k_png", "Tokenized_Image_4k_jpg" };
     mx::StringVec resolutionStrings = { "2k", "4k" };
     mx::StringVec extensionStrings = { "png", "jpg" };
-    for (size_t i=0; i<graphNames.size(); i++)
+    for (size_t i = 0; i < graphNames.size(); i++)
     {
         mx::NodeGraphPtr graph = doc->getNodeGraph(graphNames[i]);
         REQUIRE(graph);
@@ -679,9 +678,9 @@ TEST_CASE("Node Definition Creation", "[nodedef]")
                     {
                         continue;
                     }
-                    REQUIRE(valueElem->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE) == 
+                    REQUIRE(valueElem->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE) ==
                             nodeDefValueElem->getAttribute(mx::ValueElement::TYPE_ATTRIBUTE));
-                    REQUIRE(valueElem->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE) == 
+                    REQUIRE(valueElem->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE) ==
                             nodeDefValueElem->getAttribute(mx::ValueElement::VALUE_ATTRIBUTE));
                 }
 
@@ -712,7 +711,7 @@ TEST_CASE("Node Definition Creation", "[nodedef]")
             }
         }
 
-        // Add new version 
+        // Add new version
         const std::string VERSION2 = "2.0";
         newGraphName = mx::EMPTY_STRING;
         nodeDef = doc->addNodeDefFromGraph(graph, newNodeDefName + "2", NODENAME, VERSION2, isDefaultVersion, GROUP, newGraphName);

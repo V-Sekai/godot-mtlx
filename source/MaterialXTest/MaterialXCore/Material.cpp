@@ -85,7 +85,7 @@ TEST_CASE("Material Discovery", "[material]")
     CHECK(foundNodes.size() == 1);
 
     // 2. Nodegraph Test: Find all graphs with material nodes exposed as outputs.
-    //    
+    //
     foundNodes.clear();
     for (auto nodeGraph : doc->getNodeGraphs())
     {

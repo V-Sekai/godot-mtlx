@@ -21,7 +21,8 @@ class OslShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
     OslShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const std::vector<mx::FilePath>& testRootPaths,
                              const mx::FileSearchPath& searchPath, const mx::FilePath& logFilePath, bool writeShadersToDisk) :
         GenShaderUtil::ShaderGeneratorTester(shaderGenerator, testRootPaths, searchPath, logFilePath, writeShadersToDisk)
-    {}
+    {
+    }
 
     void setTestStages() override
     {
@@ -40,7 +41,7 @@ class OslShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
     // Arnold specific files are ignored in vanilla osl target
     void addSkipLibraryFiles() override
     {
-        _skipLibraryFiles.insert( "pbrlib_genosl_arnold_impl.mtlx" );
+        _skipLibraryFiles.insert("pbrlib_genosl_arnold_impl.mtlx");
     }
     // Ignore light shaders in the document for OSL
     void findLights(mx::DocumentPtr /*doc*/, std::vector<mx::NodePtr>& lights) override
@@ -56,8 +57,7 @@ class OslShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
   protected:
     void getImplementationWhiteList(mx::StringSet& whiteList) override
     {
-        whiteList =
-        {
+        whiteList = {
             "ambientocclusion", "arrayappend", "backfacing", "screen", "curveadjust", "displacementshader",
             "volumeshader", "IM_constant_", "IM_dot_", "IM_geompropvalue", "IM_angle", "ND_backface_util"
         };

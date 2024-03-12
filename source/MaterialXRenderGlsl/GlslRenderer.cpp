@@ -134,8 +134,8 @@ void GlslRenderer::setSize(unsigned int width, unsigned int height)
     if (_context->makeCurrent())
     {
         if (!_framebuffer ||
-             _framebuffer->getWidth() != width ||
-             _framebuffer->getHeight() != height)
+            _framebuffer->getWidth() != width ||
+            _framebuffer->getHeight() != height)
         {
             _framebuffer = GLFramebuffer::create(width, height, 4, _baseType);
         }
@@ -253,15 +253,13 @@ ImagePtr GlslRenderer::captureImage(ImagePtr image)
 
 void GlslRenderer::drawScreenSpaceQuad(const Vector2& uvMin, const Vector2& uvMax)
 {
-    const float QUAD_VERTICES[] =
-    {
-         1.0f,  1.0f, 0.0f, uvMax[0], uvMax[1], // position, texcoord
-         1.0f, -1.0f, 0.0f, uvMax[0], uvMin[1],
+    const float QUAD_VERTICES[] = {
+        1.0f, 1.0f, 0.0f, uvMax[0], uvMax[1], // position, texcoord
+        1.0f, -1.0f, 0.0f, uvMax[0], uvMin[1],
         -1.0f, -1.0f, 0.0f, uvMin[0], uvMin[1],
-        -1.0f,  1.0f, 0.0f, uvMin[0], uvMax[1]
+        -1.0f, 1.0f, 0.0f, uvMin[0], uvMax[1]
     };
-    const unsigned int QUAD_INDICES[] =
-    {
+    const unsigned int QUAD_INDICES[] = {
         0, 1, 3,
         1, 2, 3
     };

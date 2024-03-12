@@ -22,24 +22,27 @@ void bindPyShaderStage(py::module& mod)
         .def("getInstance", &mx::VariableBlock::getInstance)
         .def("empty", &mx::VariableBlock::empty)
         .def("size", &mx::VariableBlock::size)
-        .def("find", static_cast<mx::ShaderPort* (mx::VariableBlock::*)(const std::string&)>(&mx::VariableBlock::find))
-        .def("find", (mx::ShaderPort* (mx::VariableBlock::*)(const mx::ShaderPortPredicate& )) &mx::VariableBlock::find)
+        .def("find", static_cast<mx::ShaderPort* (mx::VariableBlock::*) (const std::string&)>(&mx::VariableBlock::find))
+        .def("find", (mx::ShaderPort * (mx::VariableBlock::*) (const mx::ShaderPortPredicate&) ) & mx::VariableBlock::find)
         .def("__len__", &mx::VariableBlock::size)
-        .def("__getitem__", [](const mx::VariableBlock &vb, size_t i)
-        {
-            if (i >= vb.size()) throw py::index_error();
-            return vb[i];
-        }, py::return_value_policy::reference_internal);
+        .def(
+            "__getitem__", [](const mx::VariableBlock& vb, size_t i)
+    {
+        if (i >= vb.size())
+            throw py::index_error();
+        return vb[i];
+    },
+            py::return_value_policy::reference_internal);
 
     py::class_<mx::ShaderStage>(mod, "ShaderStage")
         .def(py::init<const std::string&, mx::ConstSyntaxPtr>())
         .def("getName", &mx::ShaderStage::getName)
         .def("getFunctionName", &mx::ShaderStage::getFunctionName)
         .def("getSourceCode", &mx::ShaderStage::getSourceCode)
-        .def("getUniformBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*)(const std::string&)>(&mx::ShaderStage::getUniformBlock))
-        .def("getInputBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*)(const std::string&)>(&mx::ShaderStage::getInputBlock))
-        .def("getOutputBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*)(const std::string&)>(&mx::ShaderStage::getOutputBlock))
-        .def("getConstantBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*)()>(&mx::ShaderStage::getConstantBlock))
+        .def("getUniformBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*) (const std::string&)>(&mx::ShaderStage::getUniformBlock))
+        .def("getInputBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*) (const std::string&)>(&mx::ShaderStage::getInputBlock))
+        .def("getOutputBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*) (const std::string&)>(&mx::ShaderStage::getOutputBlock))
+        .def("getConstantBlock", static_cast<mx::VariableBlock& (mx::ShaderStage::*) ()>(&mx::ShaderStage::getConstantBlock))
         .def("getUniformBlocks", &mx::ShaderStage::getUniformBlocks)
         .def("getInputBlocks", &mx::ShaderStage::getInputBlocks)
         .def("getIncludes", &mx::ShaderStage::getIncludes)

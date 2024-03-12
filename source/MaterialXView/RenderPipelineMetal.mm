@@ -29,8 +29,8 @@ MetalRenderPipeline::MetalRenderPipeline(Viewer* viewerPtr) :
 
 void MetalRenderPipeline::initialize(void* metal_device, void* metal_cmd_queue)
 {
-    MTL(initialize((id<MTLDevice>)metal_device,
-                   (id<MTLCommandQueue>)metal_cmd_queue));
+    MTL(initialize((id<MTLDevice>) metal_device,
+                   (id<MTLCommandQueue>) metal_cmd_queue));
 }
 
 mx::ImageHandlerPtr MetalRenderPipeline::createImageHandler()
@@ -56,13 +56,12 @@ void MetalRenderPipeline::initFramebuffer(int width, int height,
                                           void* color_texture)
 {
     MTL_PUSH_FRAMEBUFFER(mx::MetalFramebuffer::create(
-                            MTL(device),
-                            width * _viewer->m_pixel_ratio,
-                            height * _viewer->m_pixel_ratio,
-                            4, mx::Image::BaseType::UINT8,
-                            MTL(supportsTiledPipeline) ?
-                            (id<MTLTexture>)color_texture : nil,
-                            false,  MTLPixelFormatBGRA8Unorm));
+        MTL(device),
+        width * _viewer->m_pixel_ratio,
+        height * _viewer->m_pixel_ratio,
+        4, mx::Image::BaseType::UINT8,
+        MTL(supportsTiledPipeline) ? (id<MTLTexture>) color_texture : nil,
+        false, MTLPixelFormatBGRA8Unorm));
 }
 
 void MetalRenderPipeline::resizeFramebuffer(int width, int height,
@@ -74,43 +73,43 @@ void MetalRenderPipeline::resizeFramebuffer(int width, int height,
 
 void MetalRenderPipeline::updateAlbedoTable(int tableSize)
 {
-    auto& genContext    = _viewer->_genContext;
-    auto& lightHandler  = _viewer->_lightHandler;
-    auto& imageHandler  = _viewer->_imageHandler;
-    
+    auto& genContext = _viewer->_genContext;
+    auto& lightHandler = _viewer->_lightHandler;
+    auto& imageHandler = _viewer->_imageHandler;
+
     if (lightHandler->getAlbedoTable())
     {
         return;
     }
-    
+
     // Create framebuffer.
     mx::MetalFramebufferPtr framebuffer = mx::MetalFramebuffer::create(MTL(device),
-                            tableSize, tableSize,
-                            2,
-                            mx::Image::BaseType::FLOAT);
-        
-        bool captureCommandBuffer = false;
-        if(captureCommandBuffer)
-            MTL_TRIGGER_CAPTURE;
-    
-        MTL_PUSH_FRAMEBUFFER(framebuffer);
-        
-        MTL(beginCommandBuffer());
-        
-        MTLRenderPassDescriptor* renderpassDesc = [MTLRenderPassDescriptor new];
-        
-        [renderpassDesc.colorAttachments[0] setTexture:framebuffer->getColorTexture()];
-        [renderpassDesc.colorAttachments[0] setClearColor:MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f)];
-        [renderpassDesc.colorAttachments[0] setLoadAction:MTLLoadActionClear];
-        [renderpassDesc.colorAttachments[0] setStoreAction:MTLStoreActionStore];
-        
-        [renderpassDesc.depthAttachment setTexture:framebuffer->getDepthTexture()];
-        [renderpassDesc.depthAttachment setClearDepth:1.0];
-        [renderpassDesc.depthAttachment setLoadAction:MTLLoadActionClear];
-        [renderpassDesc.depthAttachment setStoreAction:MTLStoreActionStore];
-        [renderpassDesc setStencilAttachment:nil];
-        
-        MTL(beginEncoder(renderpassDesc));
+                                                                       tableSize, tableSize,
+                                                                       2,
+                                                                       mx::Image::BaseType::FLOAT);
+
+    bool captureCommandBuffer = false;
+    if (captureCommandBuffer)
+        MTL_TRIGGER_CAPTURE;
+
+    MTL_PUSH_FRAMEBUFFER(framebuffer);
+
+    MTL(beginCommandBuffer());
+
+    MTLRenderPassDescriptor* renderpassDesc = [MTLRenderPassDescriptor new];
+
+    [renderpassDesc.colorAttachments[0] setTexture:framebuffer->getColorTexture()];
+    [renderpassDesc.colorAttachments[0] setClearColor:MTLClearColorMake(0.0f, 0.0f, 0.0f, 0.0f)];
+    [renderpassDesc.colorAttachments[0] setLoadAction:MTLLoadActionClear];
+    [renderpassDesc.colorAttachments[0] setStoreAction:MTLStoreActionStore];
+
+    [renderpassDesc.depthAttachment setTexture:framebuffer->getDepthTexture()];
+    [renderpassDesc.depthAttachment setClearDepth:1.0];
+    [renderpassDesc.depthAttachment setLoadAction:MTLLoadActionClear];
+    [renderpassDesc.depthAttachment setStoreAction:MTLStoreActionStore];
+    [renderpassDesc setStencilAttachment:nil];
+
+    MTL(beginEncoder(renderpassDesc));
 
     // Create shader.
     mx::ShaderPtr hwShader = mx::createAlbedoTableShader(genContext, _viewer->_stdLib, "__ALBEDO_TABLE_SHADER__");
@@ -132,18 +131,18 @@ void MetalRenderPipeline::updateAlbedoTable(int tableSize)
         material->getProgram()->bindUniform(mx::HW::ALBEDO_TABLE_SIZE, mx::Value::createValue(tableSize));
     }
     material->getProgram()->prepareUsedResources(
-                    MTL(renderCmdEncoder),
-                    _viewer->_identityCamera,
-                    nullptr,
-                    imageHandler,
-                    lightHandler);
+        MTL(renderCmdEncoder),
+        _viewer->_identityCamera,
+        nullptr,
+        imageHandler,
+        lightHandler);
     _viewer->renderScreenSpaceQuad(material);
-    
+
     MTL(endCommandBuffer());
-    
+
     MTL_POP_FRAMEBUFFER();
-    
-    if(captureCommandBuffer)
+
+    if (captureCommandBuffer)
         MTL_STOP_CAPTURE;
 
     // Store albedo table image.
@@ -157,46 +156,46 @@ void MetalRenderPipeline::updateAlbedoTable(int tableSize)
 
 mx::ImagePtr MetalRenderPipeline::getShadowMap(int shadowMapSize)
 {
-    auto& genContext      = _viewer->_genContext;
-    auto& lightHandler    = _viewer->_lightHandler;
-    auto& imageHandler    = _viewer->_imageHandler;
-    auto& shadowCamera    = _viewer->_shadowCamera;
-    auto& stdLib          = _viewer->_stdLib;
+    auto& genContext = _viewer->_genContext;
+    auto& lightHandler = _viewer->_lightHandler;
+    auto& imageHandler = _viewer->_imageHandler;
+    auto& shadowCamera = _viewer->_shadowCamera;
+    auto& stdLib = _viewer->_stdLib;
     auto& geometryHandler = _viewer->_geometryHandler;
-    auto& identityCamera  = _viewer->_identityCamera;
-    
+    auto& identityCamera = _viewer->_identityCamera;
+
     mx::MetalTextureHandlerPtr mtlImageHandler =
         std::dynamic_pointer_cast<mx::MetalTextureHandler>(imageHandler);
-    
+
     id<MTLTexture> shadowMapTex[SHADOWMAP_TEX_COUNT];
-    for(int i = 0; i < SHADOWMAP_TEX_COUNT; ++i)
+    for (int i = 0; i < SHADOWMAP_TEX_COUNT; ++i)
     {
-        if(!_shadowMap[i] || _shadowMap[i]->getWidth() != shadowMapSize ||
-           !mtlImageHandler->getAssociatedMetalTexture(_shadowMap[i]))
+        if (!_shadowMap[i] || _shadowMap[i]->getWidth() != shadowMapSize ||
+            !mtlImageHandler->getAssociatedMetalTexture(_shadowMap[i]))
         {
             _shadowMap[i] = mx::Image::create(shadowMapSize, shadowMapSize, 2, mx::Image::BaseType::FLOAT);
             _viewer->_imageHandler->createRenderResources(_shadowMap[i], false);
         }
-        
+
         shadowMapTex[i] =
             mtlImageHandler->getAssociatedMetalTexture(_shadowMap[i]);
     }
-    
+
     if (!_viewer->_shadowMap)
     {
         // Create framebuffer.
-        if(!_shadowMapFramebuffer)
+        if (!_shadowMapFramebuffer)
         {
             _shadowMapFramebuffer = mx::MetalFramebuffer::create(
-                                                       MTL(device),
-                                                       shadowMapSize,
-                                                       shadowMapSize,
-                                                       2,
-                                                       mx::Image::BaseType::FLOAT,
-                                                       shadowMapTex[0]);
+                MTL(device),
+                shadowMapSize,
+                shadowMapSize,
+                2,
+                mx::Image::BaseType::FLOAT,
+                shadowMapTex[0]);
         }
         MTL_PUSH_FRAMEBUFFER(_shadowMapFramebuffer);
-        
+
         // Generate shaders for shadow rendering.
         if (!_viewer->_shadowMaterial)
         {
@@ -230,9 +229,9 @@ mx::ImagePtr MetalRenderPipeline::getShadowMap(int shadowMapSize)
         if (_viewer->_shadowMaterial && _viewer->_shadowBlurMaterial)
         {
             bool captureShadowGeneration = false;
-            if(captureShadowGeneration)
+            if (captureShadowGeneration)
                 MTL_TRIGGER_CAPTURE;
-            
+
             MTL(beginCommandBuffer());
             MTLRenderPassDescriptor* renderpassDesc = [MTLRenderPassDescriptor new];
             _shadowMapFramebuffer->setColorTexture(shadowMapTex[0]);
@@ -246,21 +245,16 @@ mx::ImagePtr MetalRenderPipeline::getShadowMap(int shadowMapSize)
             {
                 _viewer->_shadowMaterial->bindMesh(mesh);
                 _viewer->_shadowMaterial->bindViewInformation(shadowCamera);
-                std::static_pointer_cast<mx::MslMaterial>
-                (_viewer->_shadowMaterial)->prepareUsedResources(
-                            shadowCamera,
-                            geometryHandler,
-                            imageHandler,
-                            lightHandler);
+                std::static_pointer_cast<mx::MslMaterial>(_viewer->_shadowMaterial)->prepareUsedResources(shadowCamera, geometryHandler, imageHandler, lightHandler);
                 for (size_t i = 0; i < mesh->getPartitionCount(); i++)
                 {
                     mx::MeshPartitionPtr geom = mesh->getPartition(i);
                     _viewer->_shadowMaterial->drawPartition(geom);
                 }
             }
-            
+
             MTL(endCommandBuffer());
-            
+
             // Apply Gaussian blurring.
             mx::ImageSamplingProperties blurSamplingProperties;
             blurSamplingProperties.uaddressMode = mx::ImageSamplingProperties::AddressMode::CLAMP;
@@ -269,32 +263,22 @@ mx::ImagePtr MetalRenderPipeline::getShadowMap(int shadowMapSize)
             for (unsigned int i = 0; i < _viewer->_shadowSoftness; i++)
             {
                 MTL(beginCommandBuffer());
-                _shadowMapFramebuffer->setColorTexture(shadowMapTex[(i+1) % 2]);
+                _shadowMapFramebuffer->setColorTexture(shadowMapTex[(i + 1) % 2]);
                 _shadowMapFramebuffer->bind(renderpassDesc);
                 MTL(beginEncoder(renderpassDesc));
                 _shadowMapFramebuffer->bind(renderpassDesc);
                 _viewer->_shadowBlurMaterial->bindShader();
-                std::static_pointer_cast<mx::MslMaterial>
-                (_viewer->_shadowBlurMaterial)->getProgram()->bindTexture(
-                    _viewer->_imageHandler,
-                    "image_file_tex",
-                    _shadowMap[i % 2],
-                    blurSamplingProperties);
-                std::static_pointer_cast<mx::MslMaterial>
-                (_viewer->_shadowBlurMaterial)->prepareUsedResources(
-                    identityCamera,
-                    geometryHandler,
-                    imageHandler,
-                    lightHandler);
+                std::static_pointer_cast<mx::MslMaterial>(_viewer->_shadowBlurMaterial)->getProgram()->bindTexture(_viewer->_imageHandler, "image_file_tex", _shadowMap[i % 2], blurSamplingProperties);
+                std::static_pointer_cast<mx::MslMaterial>(_viewer->_shadowBlurMaterial)->prepareUsedResources(identityCamera, geometryHandler, imageHandler, lightHandler);
                 _viewer->_shadowBlurMaterial->unbindGeometry();
                 _viewer->renderScreenSpaceQuad(_viewer->_shadowBlurMaterial);
                 MTL(endCommandBuffer());
             }
-            
+
             MTL_POP_FRAMEBUFFER();
-            if(captureShadowGeneration)
+            if (captureShadowGeneration)
                 MTL_STOP_CAPTURE;
-            
+
             [renderpassDesc release];
         }
     }
@@ -305,16 +289,16 @@ mx::ImagePtr MetalRenderPipeline::getShadowMap(int shadowMapSize)
 
 void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, const char* dirLightNodeCat)
 {
-    auto& genContext    = _viewer->_genContext;
-    auto& lightHandler  = _viewer->_lightHandler;
-    auto& imageHandler  = _viewer->_imageHandler;
-    auto& viewCamera    = _viewer->_viewCamera;
-    auto& envCamera     = _viewer->_envCamera;
-    auto& shadowCamera  = _viewer->_shadowCamera;
+    auto& genContext = _viewer->_genContext;
+    auto& lightHandler = _viewer->_lightHandler;
+    auto& imageHandler = _viewer->_imageHandler;
+    auto& viewCamera = _viewer->_viewCamera;
+    auto& envCamera = _viewer->_envCamera;
+    auto& shadowCamera = _viewer->_shadowCamera;
     float lightRotation = _viewer->_lightRotation;
-    auto& searchPath    = _viewer->_searchPath;
-    auto& geometryHandler    = _viewer->_geometryHandler;
-    
+    auto& searchPath = _viewer->_searchPath;
+    auto& geometryHandler = _viewer->_geometryHandler;
+
     // Update lighting state.
     lightHandler->setLightTransform(mx::Matrix44::createRotationY(lightRotation / 180.0f * M_PI));
 
@@ -329,20 +313,20 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
         {
             shadowState.shadowMap = shadowMap;
             shadowState.shadowMatrix = viewCamera->getWorldMatrix().getInverse() *
-                shadowCamera->getWorldViewProjMatrix();
+                                       shadowCamera->getWorldViewProjMatrix();
         }
         else
         {
             genContext.getOptions().hwShadowMap = false;
         }
     }
-    
+
     bool captureFrame = false;
-    if(captureFrame)
+    if (captureFrame)
         MTL_TRIGGER_CAPTURE;
-    
+
     bool useTiledPipeline;
-    if(@available(macOS 11.0, ios 14.0, *))
+    if (@available(macOS 11.0, ios 14.0, *))
     {
         useTiledPipeline = MTL(supportsTiledPipeline);
     }
@@ -350,33 +334,33 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
     {
         useTiledPipeline = false;
     }
-    
+
     MTL(beginCommandBuffer());
     MTLRenderPassDescriptor* renderpassDesc = [MTLRenderPassDescriptor new];
-    if(useTiledPipeline)
+    if (useTiledPipeline)
     {
-        [renderpassDesc.colorAttachments[0] setTexture:(id<MTLTexture>)color_texture];
+        [renderpassDesc.colorAttachments[0] setTexture:(id<MTLTexture>) color_texture];
     }
     else
     {
         [renderpassDesc.colorAttachments[0] setTexture:MTL(currentFramebuffer())->getColorTexture()];
     }
     [renderpassDesc.colorAttachments[0] setClearColor:MTLClearColorMake(
-                                        _viewer->m_background[0],
-                                        _viewer->m_background[1],
-                                        _viewer->m_background[2],
-                                        _viewer->m_background[3])];
+                                                          _viewer->m_background[0],
+                                                          _viewer->m_background[1],
+                                                          _viewer->m_background[2],
+                                                          _viewer->m_background[3])];
     [renderpassDesc.colorAttachments[0] setLoadAction:MTLLoadActionClear];
     [renderpassDesc.colorAttachments[0] setStoreAction:MTLStoreActionStore];
-    
+
     [renderpassDesc.depthAttachment setTexture:MTL(currentFramebuffer())->getDepthTexture()];
     [renderpassDesc.depthAttachment setClearDepth:1.0];
     [renderpassDesc.depthAttachment setLoadAction:MTLLoadActionClear];
     [renderpassDesc.depthAttachment setStoreAction:MTLStoreActionStore];
     [renderpassDesc setStencilAttachment:nil];
-        
+
     MTL(beginEncoder(renderpassDesc));
-        
+
     [MTL(renderCmdEncoder) setFrontFacingWinding:MTLWindingClockwise];
 
     // Environment background
@@ -401,9 +385,9 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
                 envMaterial->bindViewInformation(envCamera);
                 envMaterial->bindImages(imageHandler, searchPath, false);
                 envMaterial->prepareUsedResources(envCamera,
-                                        _viewer->_envGeometryHandler,
-                                        imageHandler,
-                                        lightHandler);
+                                                  _viewer->_envGeometryHandler,
+                                                  imageHandler,
+                                                  lightHandler);
                 envMaterial->drawPartition(envPart);
                 [MTL(renderCmdEncoder) setCullMode:MTLCullModeNone];
             }
@@ -442,9 +426,9 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
         material->bindLighting(lightHandler, imageHandler, shadowState);
         material->bindImages(imageHandler, _viewer->_searchPath);
         material->prepareUsedResources(viewCamera,
-                             geometryHandler,
-                             imageHandler,
-                             lightHandler);
+                                       geometryHandler,
+                                       imageHandler,
+                                       lightHandler);
         material->drawPartition(geom);
         material->unbindImages(imageHandler);
     }
@@ -473,9 +457,9 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
             material->bindLighting(lightHandler, imageHandler, shadowState);
             material->bindImages(imageHandler, searchPath);
             material->prepareUsedResources(viewCamera,
-                                 geometryHandler,
-                                 imageHandler,
-                                 lightHandler);
+                                           geometryHandler,
+                                           imageHandler,
+                                           lightHandler);
             material->drawPartition(geom);
             material->unbindImages(imageHandler);
         }
@@ -499,9 +483,9 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
             wireMaterial->bindMesh(geometryHandler->findParentMesh(_viewer->getSelectedGeometry()));
             wireMaterial->bindViewInformation(viewCamera);
             wireMaterial->prepareUsedResources(viewCamera,
-                                 geometryHandler,
-                                 imageHandler,
-                                 lightHandler);
+                                               geometryHandler,
+                                               imageHandler,
+                                               lightHandler);
             wireMaterial->drawPartition(_viewer->getSelectedGeometry());
             [MTL(renderCmdEncoder) setTriangleFillMode:MTLTriangleFillModeFill];
             [MTL(renderCmdEncoder) setCullMode:MTLCullModeNone];
@@ -511,44 +495,44 @@ void MetalRenderPipeline::renderFrame(void* color_texture, int shadowMapSize, co
             _viewer->_outlineSelection = false;
         }
     }
-    
+
 #ifdef MAC_OS_VERSION_11_0
-    if(useTiledPipeline)
+    if (useTiledPipeline)
     {
-        if(@available(macOS 11.0, ios 14.0, *))
+        if (@available(macOS 11.0, ios 14.0, *))
         {
             [MTL(renderCmdEncoder) setRenderPipelineState:MTL(linearToSRGB_pso)];
             [MTL(renderCmdEncoder) dispatchThreadsPerTile:MTLSizeMake(
-                                        MTL(renderCmdEncoder).tileWidth,
-                                        MTL(renderCmdEncoder).tileHeight, 1)];
+                                                              MTL(renderCmdEncoder).tileWidth,
+                                                              MTL(renderCmdEncoder).tileHeight, 1)];
         }
     }
-    
-    if(!useTiledPipeline)
+
+    if (!useTiledPipeline)
 #endif
     {
         MTL(endEncoder());
-        [renderpassDesc.colorAttachments[0] setTexture:(id<MTLTexture>)color_texture];
+        [renderpassDesc.colorAttachments[0] setTexture:(id<MTLTexture>) color_texture];
         MTL(beginEncoder(renderpassDesc));
         [MTL(renderCmdEncoder) setRenderPipelineState:MTL(linearToSRGB_pso)];
         [MTL(renderCmdEncoder)
             setFragmentTexture:MTL(currentFramebuffer())->getColorTexture()
-            atIndex:0];
+                       atIndex:0];
         [MTL(renderCmdEncoder) drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3];
     }
-    
+
     MTL(endCommandBuffer());
-    
-    if(captureFrame)
+
+    if (captureFrame)
         MTL_STOP_CAPTURE;
-    
+
     [renderpassDesc release];
 }
 
 void MetalRenderPipeline::bakeTextures()
 {
     auto& imageHandler = _viewer->_imageHandler;
-    
+
     mx::MaterialPtr material = _viewer->getSelectedMaterial();
     mx::DocumentPtr doc = material ? material->getDocument() : nullptr;
     if (!doc)
@@ -594,32 +578,30 @@ mx::ImagePtr MetalRenderPipeline::getFrameImage()
 {
     unsigned int width = MTL(currentFramebuffer())->getWidth();
     unsigned int height = MTL(currentFramebuffer())->getHeight();
-    
+
     MTL(waitForComplition());
     mx::MetalFramebufferPtr framebuffer = mx::MetalFramebuffer::create(
-                            MTL(device),
-                            width, height, 4,
-                            mx::Image::BaseType::UINT8,
-                            MTL(supportsTiledPipeline) ?
-                                (id<MTLTexture>)_viewer->_colorTexture :
-                                MTL(currentFramebuffer())->getColorTexture(),
-                            false, MTLPixelFormatBGRA8Unorm);
+        MTL(device),
+        width, height, 4,
+        mx::Image::BaseType::UINT8,
+        MTL(supportsTiledPipeline) ? (id<MTLTexture>) _viewer->_colorTexture : MTL(currentFramebuffer())->getColorTexture(),
+        false, MTLPixelFormatBGRA8Unorm);
     mx::ImagePtr frame = framebuffer->getColorImage(MTL(cmdQueue));
-    
+
     // Flips the captured image
     std::vector<unsigned char> tmp(frame->getRowStride());
     unsigned int half_height = height / 2;
     unsigned char* resourceBuffer = static_cast<unsigned char*>(frame->getResourceBuffer());
-    for(unsigned int i = 0; i < half_height; ++i)
+    for (unsigned int i = 0; i < half_height; ++i)
     {
         memcpy(tmp.data(),
-               &resourceBuffer[i*frame->getRowStride()], frame->getRowStride());
-        memcpy(&resourceBuffer[i*frame->getRowStride()],
+               &resourceBuffer[i * frame->getRowStride()], frame->getRowStride());
+        memcpy(&resourceBuffer[i * frame->getRowStride()],
                &resourceBuffer[(height - i - 1) * frame->getRowStride()], frame->getRowStride());
         memcpy(&resourceBuffer[(height - i - 1) * frame->getRowStride()],
                tmp.data(), frame->getRowStride());
     }
-    
+
     framebuffer = nullptr;
     return frame;
 }

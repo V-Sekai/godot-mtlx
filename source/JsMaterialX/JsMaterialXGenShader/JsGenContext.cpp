@@ -30,7 +30,7 @@ void initContext(mx::GenContext& context, mx::FileSearchPath searchPath, mx::Doc
     context.getOptions().hwMaxActiveLightSources = 1;
     context.getOptions().hwSpecularEnvironmentMethod = mx::SPECULAR_ENVIRONMENT_FIS;
     context.getOptions().hwDirectionalAlbedoMethod = mx::DIRECTIONAL_ALBEDO_ANALYTIC;
- 
+
     // Initialize color management.
     mx::DefaultColorManagementSystemPtr cms = mx::DefaultColorManagementSystem::create(context.getShaderGenerator().getTarget());
     cms->loadLibrary(stdLib);
@@ -88,7 +88,7 @@ mx::DocumentPtr loadStandardLibraries(mx::GenContext& context)
         _distanceUnitOptions[location] = unitScale.first;
     }
 
-    initContext(context,searchPath, stdLib, unitRegistry);
+    initContext(context, searchPath, stdLib, unitRegistry);
 
     return stdLib;
 }
@@ -98,8 +98,7 @@ EMSCRIPTEN_BINDINGS(GenContext)
     ems::class_<mx::GenContext>("GenContext")
         .constructor<mx::ShaderGeneratorPtr>()
         .smart_ptr<std::shared_ptr<mx::GenContext>>("GenContextPtr")
-        .function("getOptions", PTR_RETURN_OVERLOAD(mx::GenOptions& (mx::GenContext::*)(), &mx::GenContext::getOptions), ems::allow_raw_pointers())
-        ;
+        .function("getOptions", PTR_RETURN_OVERLOAD(mx::GenOptions & (mx::GenContext::*) (), &mx::GenContext::getOptions), ems::allow_raw_pointers());
 
     ems::function("loadStandardLibraries", &loadStandardLibraries);
 }

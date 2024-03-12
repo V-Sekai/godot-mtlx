@@ -33,9 +33,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define _GLFW_FIND_LOADER    1
+#define _GLFW_FIND_LOADER 1
 #define _GLFW_REQUIRE_LOADER 2
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -51,17 +50,17 @@ GLFWbool _glfwInitVulkan(int mode)
         return GLFW_TRUE;
 
 #if !defined(_GLFW_VULKAN_STATIC)
-#if defined(_GLFW_VULKAN_LIBRARY)
+    #if defined(_GLFW_VULKAN_LIBRARY)
     _glfw.vk.handle = _glfw_dlopen(_GLFW_VULKAN_LIBRARY);
-#elif defined(_GLFW_WIN32)
+    #elif defined(_GLFW_WIN32)
     _glfw.vk.handle = _glfw_dlopen("vulkan-1.dll");
-#elif defined(_GLFW_COCOA)
+    #elif defined(_GLFW_COCOA)
     _glfw.vk.handle = _glfw_dlopen("libvulkan.1.dylib");
     if (!_glfw.vk.handle)
         _glfw.vk.handle = _glfwLoadLocalVulkanLoaderNS();
-#else
+    #else
     _glfw.vk.handle = _glfw_dlopen("libvulkan.so.1");
-#endif
+    #endif
     if (!_glfw.vk.handle)
     {
         if (mode == _GLFW_REQUIRE_LOADER)
@@ -122,7 +121,7 @@ GLFWbool _glfwInitVulkan(int mode)
         return GLFW_FALSE;
     }
 
-    for (i = 0;  i < count;  i++)
+    for (i = 0; i < count; i++)
     {
         if (strcmp(ep[i].extensionName, "VK_KHR_surface") == 0)
             _glfw.vk.KHR_surface = GLFW_TRUE;
@@ -216,7 +215,6 @@ const char* _glfwGetVulkanResultString(VkResult result)
             return "ERROR: UNKNOWN VULKAN ERROR";
     }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW public API                       //////
@@ -329,4 +327,3 @@ GLFWAPI VkResult glfwCreateWindowSurface(VkInstance instance,
 
     return _glfwPlatformCreateWindowSurface(instance, window, allocator, surface);
 }
-

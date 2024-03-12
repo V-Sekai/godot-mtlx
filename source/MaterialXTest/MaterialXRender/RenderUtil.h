@@ -40,10 +40,14 @@ class LanguageProfileTimes
     void print(const std::string& label, std::ostream& output) const
     {
         output << label << std::endl;
-        output << "\tTotal: " << totalTime << " seconds" << std::endl;;
-        output << "\tSetup: " << setupTime << " seconds" << std::endl;;
-        output << "\tTransparency: " << transparencyTime << " seconds" << std::endl;;
-        output << "\tGeneration: " << generationTime << " seconds" << std::endl;;
+        output << "\tTotal: " << totalTime << " seconds" << std::endl;
+        ;
+        output << "\tSetup: " << setupTime << " seconds" << std::endl;
+        ;
+        output << "\tTransparency: " << transparencyTime << " seconds" << std::endl;
+        ;
+        output << "\tGeneration: " << generationTime << " seconds" << std::endl;
+        ;
         output << "\tCompile: " << compileTime << " seconds" << std::endl;
         output << "\tRender: " << renderTime << " seconds" << std::endl;
         output << "\tI/O: " << ioTime << " seconds" << std::endl;
@@ -116,11 +120,11 @@ class ShaderRenderTester
 
     // Load dependencies
     void loadDependentLibraries(GenShaderUtil::TestSuiteOptions options, mx::FileSearchPath searchPath,
-                             mx::DocumentPtr& dependLib);
+                                mx::DocumentPtr& dependLib);
 
     // Load any additional libraries requird by the generator
     virtual void loadAdditionalLibraries(mx::DocumentPtr /*dependLib*/,
-                                         GenShaderUtil::TestSuiteOptions& /*options*/) {};
+                                         GenShaderUtil::TestSuiteOptions& /*options*/){};
 
     //
     // Code generation methods
@@ -128,8 +132,8 @@ class ShaderRenderTester
 
     // Register any lights used by the generation context
     virtual void registerLights(mx::DocumentPtr /*dependLib*/,
-                                const GenShaderUtil::TestSuiteOptions &/*options*/,
-                                mx::GenContext& /*context*/) {};
+                                const GenShaderUtil::TestSuiteOptions& /*options*/,
+                                mx::GenContext& /*context*/){};
 
     //
     // Code validation methods (compile and render)
@@ -140,18 +144,18 @@ class ShaderRenderTester
 
     // Run the renderer
     virtual bool runRenderer(const std::string& shaderName,
-        mx::TypedElementPtr element,
-        mx::GenContext& context,
-        mx::DocumentPtr doc,
-        std::ostream& log,
-        const GenShaderUtil::TestSuiteOptions& testOptions,
-        RenderProfileTimes& profileTimes,
-        const mx::FileSearchPath& imageSearchPath,
-        const std::string& outputPath = ".",
-        mx::ImageVec* imageVec = nullptr) = 0;
+                             mx::TypedElementPtr element,
+                             mx::GenContext& context,
+                             mx::DocumentPtr doc,
+                             std::ostream& log,
+                             const GenShaderUtil::TestSuiteOptions& testOptions,
+                             RenderProfileTimes& profileTimes,
+                             const mx::FileSearchPath& imageSearchPath,
+                             const std::string& outputPath = ".",
+                             mx::ImageVec* imageVec = nullptr) = 0;
 
     // Save an image
-    virtual bool saveImage(const mx::FilePath&, mx::ConstImagePtr, bool) const { return false;  };
+    virtual bool saveImage(const mx::FilePath&, mx::ConstImagePtr, bool) const { return false; };
 
     // Create a list of generation options based on unit test options
     // These options will override the original generation context options.
@@ -160,15 +164,15 @@ class ShaderRenderTester
                               std::vector<mx::GenOptions>& optionsList);
 
     // Print execution summary
-    void printRunLog(const RenderProfileTimes &profileTimes,
+    void printRunLog(const RenderProfileTimes& profileTimes,
                      const GenShaderUtil::TestSuiteOptions& options,
                      std::ostream& stream,
                      mx::DocumentPtr dependLib);
 
     virtual bool canBake() const { return false; }
     virtual void runBake(mx::DocumentPtr /*doc*/, const mx::FileSearchPath& /*codeSearchPath*/, const mx::FilePath& /*outputFilename*/,
-                         const GenShaderUtil::TestSuiteOptions::BakeSetting& /*bakeOptions*/, std::ostream& /*log*/) {};
-    
+                         const GenShaderUtil::TestSuiteOptions::BakeSetting& /*bakeOptions*/, std::ostream& /*log*/){};
+
     // If these streams don't exist add them for testing purposes
     void addAdditionalTestStreams(mx::MeshPtr mesh);
 

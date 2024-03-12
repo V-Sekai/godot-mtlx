@@ -16,7 +16,8 @@ MATERIALX_NAMESPACE_BEGIN
 class GenUserDataString : public GenUserData
 {
   public:
-    GenUserDataString(const std::string& value) : _value(value) {}
+    GenUserDataString(const std::string& value) :
+        _value(value) { }
     const string& getValue() const { return _value; }
 
   private:

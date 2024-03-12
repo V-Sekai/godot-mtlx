@@ -4,15 +4,12 @@
 #pragma once
 #define COLOR4_H
 
-
 // color4 is a color + alpha
 struct color4
 {
     color rgb;
     float a;
 };
-
-
 
 //
 // For color4, define math operators to match color
@@ -105,13 +102,13 @@ color4 __operator__div__(color4 a, color4 b)
 
 color4 __operator__div__(color4 a, int b)
 {
-    float b_inv = 1.0/b;
+    float b_inv = 1.0 / b;
     return a * color4(color(b_inv), b_inv);
 }
 
 color4 __operator__div__(color4 a, float b)
 {
-    float b_inv = 1.0/b;
+    float b_inv = 1.0 / b;
     return a * color4(color(b_inv), b_inv);
 }
 
@@ -134,8 +131,6 @@ int __operator__ne__(color4 a, color4 b)
 {
     return (a.rgb != b.rgb) || (a.a != b.a);
 }
-
-
 
 //
 // For color4, define most of the stdosl functions to match color
@@ -176,13 +171,13 @@ color4 log2(color4 a)
     return color4(log2(a.rgb), log2(a.a));
 }
 
-color4 mix(color4 a, color4 b, float x )
+color4 mix(color4 a, color4 b, float x)
 {
     return color4(mix(a.rgb, b.rgb, x),
                   mix(a.a, b.a, x));
 }
 
-color4 mix(color4 a, color4 b, color4 x )
+color4 mix(color4 a, color4 b, color4 x)
 {
     return color4(mix(a.rgb, b.rgb, x.rgb),
                   mix(a.a, b.a, x.a));
@@ -331,8 +326,7 @@ color4 atan2(color4 a, color4 b)
                   atan2(a.a, b.a));
 }
 
-
-color4 transformc (string fromspace, string tospace, color4 C)
+color4 transformc(string fromspace, string tospace, color4 C)
 {
-    return color4 (transformc (fromspace, tospace, C.rgb), C.a);
+    return color4(transformc(fromspace, tospace, C.rgb), C.a);
 }

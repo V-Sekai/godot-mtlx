@@ -36,7 +36,6 @@
 #include <stdlib.h>
 #include <limits.h>
 
-
 // Lexically compare video modes, used by qsort
 //
 static int compareVideoModes(const void* fp, const void* sp)
@@ -87,7 +86,6 @@ static GLFWbool refreshVideoModes(_GLFWmonitor* monitor)
     return GLFW_TRUE;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                         GLFW event API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -117,7 +115,7 @@ void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement)
         int i;
         _GLFWwindow* window;
 
-        for (window = _glfw.windowListHead;  window;  window = window->next)
+        for (window = _glfw.windowListHead; window; window = window->next)
         {
             if (window->monitor == monitor)
             {
@@ -129,7 +127,7 @@ void _glfwInputMonitor(_GLFWmonitor* monitor, int action, int placement)
             }
         }
 
-        for (i = 0;  i < _glfw.monitorCount;  i++)
+        for (i = 0; i < _glfw.monitorCount; i++)
         {
             if (_glfw.monitors[i] == monitor)
             {
@@ -156,7 +154,6 @@ void _glfwInputMonitorWindow(_GLFWmonitor* monitor, _GLFWwindow* window)
 {
     monitor->window = window;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -229,7 +226,7 @@ const GLFWvidmode* _glfwChooseVideoMode(_GLFWmonitor* monitor,
     if (!refreshVideoModes(monitor))
         return NULL;
 
-    for (i = 0;  i < monitor->modeCount;  i++)
+    for (i = 0; i < monitor->modeCount; i++)
     {
         current = monitor->modes + i;
 
@@ -243,9 +240,9 @@ const GLFWvidmode* _glfwChooseVideoMode(_GLFWmonitor* monitor,
             colorDiff += abs(current->blueBits - desired->blueBits);
 
         sizeDiff = abs((current->width - desired->width) *
-                       (current->width - desired->width) +
+                           (current->width - desired->width) +
                        (current->height - desired->height) *
-                       (current->height - desired->height));
+                           (current->height - desired->height));
 
         if (desired->refreshRate != GLFW_DONT_CARE)
             rateDiff = abs(current->refreshRate - desired->refreshRate);
@@ -293,7 +290,6 @@ void _glfwSplitBPP(int bpp, int* red, int* green, int* blue)
     if (delta == 2)
         *red = *red + 1;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW public API                       //////
@@ -476,7 +472,7 @@ GLFWAPI void glfwSetGamma(GLFWmonitor* handle, float gamma)
 
     values = calloc(original->size, sizeof(unsigned short));
 
-    for (i = 0;  i < original->size;  i++)
+    for (i = 0; i < original->size; i++)
     {
         float value;
 
@@ -541,4 +537,3 @@ GLFWAPI void glfwSetGammaRamp(GLFWmonitor* handle, const GLFWgammaramp* ramp)
 
     _glfwPlatformSetGammaRamp(monitor, ramp);
 }
-

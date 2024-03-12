@@ -298,7 +298,7 @@ void ShaderStage::addComment(const string& str)
 void ShaderStage::addBlock(const string& str, const FilePath& sourceFilename, GenContext& context)
 {
     const string& INCLUDE = _syntax->getIncludeStatement();
-    const string& QUOTE   = _syntax->getStringQuote();
+    const string& QUOTE = _syntax->getStringQuote();
 
     // Add each line in the block seperately to get correct indentation.
     StringStream stream(str);

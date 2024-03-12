@@ -16,15 +16,18 @@ namespace mx = MaterialX;
 // The following 3 functions should not be necessary, but due to unexpected behaviour of emscripten,
 // it reports signature mismatches if the functions are bound directly
 
-mx::LinearUnitConverterPtr LinearUnitConverterCreate(mx::UnitTypeDefPtr unitTypeDef) {
+mx::LinearUnitConverterPtr LinearUnitConverterCreate(mx::UnitTypeDefPtr unitTypeDef)
+{
     return mx::LinearUnitConverter::create(unitTypeDef);
 }
 
-mx::UnitConverterPtr UnitConverterRegistryGetUnitConverter(mx::UnitConverterRegistry& registry,mx::UnitTypeDefPtr def){
+mx::UnitConverterPtr UnitConverterRegistryGetUnitConverter(mx::UnitConverterRegistry& registry, mx::UnitTypeDefPtr def)
+{
     return registry.getUnitConverter(def);
 }
 
-mx::UnitConverterRegistryPtr UnitConverterRegistrycreate() {
+mx::UnitConverterRegistryPtr UnitConverterRegistrycreate()
+{
     return mx::UnitConverterRegistry::create();
 }
 

@@ -18,10 +18,11 @@ class GlslShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
   public:
     using ParentClass = GenShaderUtil::ShaderGeneratorTester;
 
-    GlslShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const mx::FilePathVec& testRootPaths, 
+    GlslShaderGeneratorTester(mx::ShaderGeneratorPtr shaderGenerator, const mx::FilePathVec& testRootPaths,
                               const mx::FileSearchPath& searchPath, const mx::FilePath& logFilePath, bool writeShadersToDisk) :
         GenShaderUtil::ShaderGeneratorTester(shaderGenerator, testRootPaths, searchPath, logFilePath, writeShadersToDisk)
-    {}
+    {
+    }
 
     void setTestStages() override
     {
@@ -49,9 +50,8 @@ class GlslShaderGeneratorTester : public GenShaderUtil::ShaderGeneratorTester
   protected:
     void getImplementationWhiteList(mx::StringSet& whiteList) override
     {
-        whiteList =
-        {
-            "ambientocclusion", "arrayappend", "screen", "curveadjust", "displacementshader", "volumeshader", 
+        whiteList = {
+            "ambientocclusion", "arrayappend", "screen", "curveadjust", "displacementshader", "volumeshader",
             "IM_constant_", "IM_dot_", "IM_geompropvalue_boolean", "IM_geompropvalue_string",
             "IM_light_genglsl", "IM_point_light_genglsl", "IM_spot_light_genglsl", "IM_directional_light_genglsl",
             "IM_angle", "volumematerial", "ND_volumematerial"

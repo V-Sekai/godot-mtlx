@@ -12,8 +12,7 @@ namespace mx = MaterialX;
 TEST_CASE("Geom strings", "[geom]")
 {
     // Test conversion between geometry strings and paths.
-    mx::StringVec geomStrings =
-    {
+    mx::StringVec geomStrings = {
         "",
         "/",
         "/robot1",
@@ -70,7 +69,7 @@ TEST_CASE("Geom elements", "[geom]")
 
     // Create a geominfo with an attribute.
     mx::GeomInfoPtr geominfo4 = doc->addGeomInfo("geominfo4", "/robot1");
-    mx::StringVec udimSet = {"1001", "1002", "1003", "1004"};
+    mx::StringVec udimSet = { "1001", "1002", "1003", "1004" };
     geominfo4->setGeomPropValue(mx::UDIM_SET_PROPERTY, udimSet);
     REQUIRE(doc->getGeomPropValue(mx::UDIM_SET_PROPERTY, "/robot1")->asA<mx::StringVec>() == udimSet);
     REQUIRE(doc->getGeomPropValue(mx::UDIM_SET_PROPERTY, "/robot2") == nullptr);

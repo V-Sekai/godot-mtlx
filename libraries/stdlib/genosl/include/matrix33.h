@@ -7,7 +7,6 @@
 #pragma once
 #define MATRIX33_H
 
-
 struct matrix33
 {
     matrix m;
@@ -15,7 +14,7 @@ struct matrix33
 
 int isValidAs33(matrix m44)
 {
-    return m44[0][3] == 0 && 
+    return m44[0][3] == 0 &&
            m44[1][3] == 0 &&
            m44[2][3] == 0 &&
            m44[3][0] == 0 &&
@@ -24,14 +23,14 @@ int isValidAs33(matrix m44)
            m44[3][3] == 1;
 }
 
-matrix matrix33To44 (matrix33 m33)
+matrix matrix33To44(matrix33 m33)
 {
     return m33.m;
 }
 
 // Convert an arbitrary m44 to m33 by removing the translation
-//QUESTION: should we check if it's valid to represent the 4x4 as a 3x3?
-matrix33 matrix44To33 (matrix m44)
+// QUESTION: should we check if it's valid to represent the 4x4 as a 3x3?
+matrix33 matrix44To33(matrix m44)
 {
     matrix33 m33;
     m33.m = m44;
@@ -52,7 +51,6 @@ matrix33 __operator__neg__(matrix33 a)
     m33.m = -a.m;
     return m33;
 }
-
 
 matrix33 __operator__mul__(int a, matrix33 b)
 {
@@ -134,7 +132,7 @@ int __operator__ne__(matrix33 a, matrix33 b)
     return a.m != b.m;
 }
 
-float determinant (matrix33 a)
+float determinant(matrix33 a)
 {
     return determinant(a.m);
 }
@@ -160,6 +158,3 @@ normal transform(matrix33 a, normal b)
 {
     return transform(a.m, b);
 }
-
-
-

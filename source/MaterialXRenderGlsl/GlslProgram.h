@@ -109,7 +109,7 @@ class MX_RENDERGLSL_API GlslProgram
         string path;
         /// Unit
         string unit;
-        /// Colorspace 
+        /// Colorspace
         string colorspace;
 
         /// Program input constructor
@@ -119,7 +119,8 @@ class MX_RENDERGLSL_API GlslProgram
             size(inputSize),
             isConstant(false),
             path(inputPath)
-        { }
+        {
+        }
     };
     /// Program input structure shared pointer type
     using InputPtr = std::shared_ptr<Input>;

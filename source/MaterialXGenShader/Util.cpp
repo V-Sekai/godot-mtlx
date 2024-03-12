@@ -402,8 +402,7 @@ vector<TypedElementPtr> findRenderableElements(ConstDocumentPtr doc)
         }
 
         // Filter out unconnected outputs and unsupported data types.
-        const StringSet UNSUPPORTED_TYPES =
-        {
+        const StringSet UNSUPPORTED_TYPES = {
             BSDF_TYPE_STRING,
             EDF_TYPE_STRING,
             VDF_TYPE_STRING,

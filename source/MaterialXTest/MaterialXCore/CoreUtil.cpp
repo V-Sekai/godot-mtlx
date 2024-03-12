@@ -26,8 +26,8 @@ TEST_CASE("String utilities", "[coreutil]")
     REQUIRE(mx::incrementName("1testName1") == "1testName2");
     REQUIRE(mx::incrementName("41") == "42");
 
-    REQUIRE(mx::splitString("robot1, robot2", ", ") == (std::vector<std::string>{"robot1", "robot2"}));
-    REQUIRE(mx::splitString("[one...two...three]", "[.]") == (std::vector<std::string>{"one", "two", "three"}));
+    REQUIRE(mx::splitString("robot1, robot2", ", ") == (std::vector<std::string>{ "robot1", "robot2" }));
+    REQUIRE(mx::splitString("[one...two...three]", "[.]") == (std::vector<std::string>{ "one", "two", "three" }));
 }
 
 TEST_CASE("Print utilities", "[coreutil]")
@@ -40,7 +40,7 @@ TEST_CASE("Print utilities", "[coreutil]")
     //   [constant1] [constant2]      [image2]
     //           \   /          \    /
     // [image1] [add1]          [add2]
-    //        \  /   \______      |   
+    //        \  /   \______      |
     //    [multiply]        \__ [add3]         [noise3d]
     //             \____________  |  ____________/
     //                          [mix]
@@ -76,29 +76,29 @@ TEST_CASE("Print utilities", "[coreutil]")
     REQUIRE(doc->validate());
 
     const std::string blessed =
-        "digraph {\n" \
-        "    \"image\" [shape=box];\n" \
-        "    \"image2\" [shape=box];\n" \
-        "    \"constant\" [shape=box];\n" \
-        "    \"constant2\" [shape=box];\n" \
-        "    \"noise3d\" [shape=box];\n" \
-        "    \"add\" [shape=box];\n" \
-        "    \"add2\" [shape=box];\n" \
-        "    \"multiply\" [shape=box];\n" \
-        "    \"add3\" [shape=box];\n" \
-        "    \"mix\" [shape=box];\n" \
-        "    \"mix\" -> \"output\" [label=\"\"];\n" \
-        "    \"multiply\" -> \"mix\" [label=\"fg\"];\n" \
-        "    \"image\" -> \"multiply\" [label=\"in1\"];\n" \
-        "    \"add\" -> \"multiply\" [label=\"in2\"];\n" \
-        "    \"constant\" -> \"add\" [label=\"in1\"];\n" \
-        "    \"constant2\" -> \"add\" [label=\"in2\"];\n" \
-        "    \"add3\" -> \"mix\" [label=\"bg\"];\n" \
-        "    \"add\" -> \"add3\" [label=\"in1\"];\n" \
-        "    \"add2\" -> \"add3\" [label=\"in2\"];\n" \
-        "    \"constant2\" -> \"add2\" [label=\"in1\"];\n" \
-        "    \"image2\" -> \"add2\" [label=\"in2\"];\n" \
-        "    \"noise3d\" -> \"mix\" [label=\"mask\"];\n" \
+        "digraph {\n"
+        "    \"image\" [shape=box];\n"
+        "    \"image2\" [shape=box];\n"
+        "    \"constant\" [shape=box];\n"
+        "    \"constant2\" [shape=box];\n"
+        "    \"noise3d\" [shape=box];\n"
+        "    \"add\" [shape=box];\n"
+        "    \"add2\" [shape=box];\n"
+        "    \"multiply\" [shape=box];\n"
+        "    \"add3\" [shape=box];\n"
+        "    \"mix\" [shape=box];\n"
+        "    \"mix\" -> \"output\" [label=\"\"];\n"
+        "    \"multiply\" -> \"mix\" [label=\"fg\"];\n"
+        "    \"image\" -> \"multiply\" [label=\"in1\"];\n"
+        "    \"add\" -> \"multiply\" [label=\"in2\"];\n"
+        "    \"constant\" -> \"add\" [label=\"in1\"];\n"
+        "    \"constant2\" -> \"add\" [label=\"in2\"];\n"
+        "    \"add3\" -> \"mix\" [label=\"bg\"];\n"
+        "    \"add\" -> \"add3\" [label=\"in1\"];\n"
+        "    \"add2\" -> \"add3\" [label=\"in2\"];\n"
+        "    \"constant2\" -> \"add2\" [label=\"in1\"];\n"
+        "    \"image2\" -> \"add2\" [label=\"in2\"];\n"
+        "    \"noise3d\" -> \"mix\" [label=\"mask\"];\n"
         "}\n";
 
     REQUIRE(nodeGraph->asStringDot() == blessed);

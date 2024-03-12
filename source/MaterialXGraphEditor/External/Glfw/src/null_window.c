@@ -29,7 +29,6 @@
 
 #include "internal.h"
 
-
 static int createNativeWindow(_GLFWwindow* window,
                               const _GLFWwndconfig* wndconfig)
 {
@@ -38,7 +37,6 @@ static int createNativeWindow(_GLFWwindow* window,
 
     return GLFW_TRUE;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -198,7 +196,7 @@ void _glfwPlatformSetWindowOpacity(_GLFWwindow* window, float opacity)
 {
 }
 
-void _glfwPlatformSetRawMouseMotion(_GLFWwindow *window, GLFWbool enabled)
+void _glfwPlatformSetRawMouseMotion(_GLFWwindow* window, GLFWbool enabled)
 {
 }
 
@@ -210,7 +208,6 @@ GLFWbool _glfwPlatformRawMouseMotionSupported(void)
 void _glfwPlatformShowWindow(_GLFWwindow* window)
 {
 }
-
 
 void _glfwPlatformRequestWindowAttention(_GLFWwindow* window)
 {
@@ -329,4 +326,3 @@ VkResult _glfwPlatformCreateWindowSurface(VkInstance instance,
     // This seems like the most appropriate error to return here
     return VK_ERROR_INITIALIZATION_FAILED;
 }
-

@@ -22,12 +22,8 @@ const string Syntax::SINGLE_LINE_COMMENT = "// ";
 const string Syntax::BEGIN_MULTI_LINE_COMMENT = "/* ";
 const string Syntax::END_MULTI_LINE_COMMENT = " */";
 
-const std::unordered_map<char, size_t> Syntax::CHANNELS_MAPPING =
-{
-    { 'r', 0 }, { 'x', 0 },
-    { 'g', 1 }, { 'y', 1 },
-    { 'b', 2 }, { 'z', 2 },
-    { 'a', 3 }, { 'w', 3 }
+const std::unordered_map<char, size_t> Syntax::CHANNELS_MAPPING = {
+    { 'r', 0 }, { 'x', 0 }, { 'g', 1 }, { 'y', 1 }, { 'b', 2 }, { 'z', 2 }, { 'a', 3 }, { 'w', 3 }
 };
 
 //

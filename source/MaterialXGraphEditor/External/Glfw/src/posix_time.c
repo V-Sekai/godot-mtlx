@@ -35,7 +35,6 @@
 #include <sys/time.h>
 #include <time.h>
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -59,7 +58,6 @@ void _glfwInitTimerPOSIX(void)
         _glfw.timer.posix.frequency = 1000000;
     }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -87,4 +85,3 @@ uint64_t _glfwPlatformGetTimerFrequency(void)
 {
     return _glfw.timer.posix.frequency;
 }
-

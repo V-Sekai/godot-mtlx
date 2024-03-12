@@ -68,7 +68,7 @@ TEST_CASE("Document", "[document]")
     REQUIRE(instanceRoughness->getValue()->asA<float>() == 0.5f);
     REQUIRE(instanceRoughness->getDefaultValue()->asA<float>() == 0.25f);
 
-    // Create a collection 
+    // Create a collection
     mx::CollectionPtr collection = doc->addCollection();
     REQUIRE(doc->getCollections().size() == 1);
     REQUIRE(doc->getCollection(collection->getName()));

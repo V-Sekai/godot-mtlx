@@ -26,15 +26,14 @@ void bindPyTraversal(py::module& mod)
         .def("setPruneSubtree", &mx::TreeIterator::setPruneSubtree)
         .def("getPruneSubtree", &mx::TreeIterator::getPruneSubtree)
         .def("__iter__", [](mx::TreeIterator& it) -> mx::TreeIterator&
-            {
-                return it.begin(1);
-            })
-        .def("__next__", [](mx::TreeIterator& it)
-            {
-                if (++it == it.end())
-                    throw py::stop_iteration();
-                return *it;
-            });
+    {
+        return it.begin(1);
+    }).def("__next__", [](mx::TreeIterator& it)
+    {
+        if (++it == it.end())
+            throw py::stop_iteration();
+        return *it;
+    });
 
     py::class_<mx::GraphIterator>(mod, "GraphIterator")
         .def("getDownstreamElement", &mx::GraphIterator::getDownstreamElement)
@@ -46,27 +45,25 @@ void bindPyTraversal(py::module& mod)
         .def("setPruneSubgraph", &mx::GraphIterator::setPruneSubgraph)
         .def("getPruneSubgraph", &mx::GraphIterator::getPruneSubgraph)
         .def("__iter__", [](mx::GraphIterator& it) -> mx::GraphIterator&
-            {
-                return it.begin(1);
-            })
-        .def("__next__", [](mx::GraphIterator& it)
-            {
-                if (++it == it.end())
-                    throw py::stop_iteration();
-                return *it;
-            });
+    {
+        return it.begin(1);
+    }).def("__next__", [](mx::GraphIterator& it)
+    {
+        if (++it == it.end())
+            throw py::stop_iteration();
+        return *it;
+    });
 
     py::class_<mx::InheritanceIterator>(mod, "InheritanceIterator")
         .def("__iter__", [](mx::InheritanceIterator& it) -> mx::InheritanceIterator&
-            {
-                return it.begin(1);
-            })
-        .def("__next__", [](mx::InheritanceIterator& it)
-            {
-                if (++it == it.end())
-                    throw py::stop_iteration();
-                return *it;
-            });
+    {
+        return it.begin(1);
+    }).def("__next__", [](mx::InheritanceIterator& it)
+    {
+        if (++it == it.end())
+            throw py::stop_iteration();
+        return *it;
+    });
 
     py::register_exception<mx::ExceptionFoundCycle>(mod, "ExceptionFoundCycle");
 }

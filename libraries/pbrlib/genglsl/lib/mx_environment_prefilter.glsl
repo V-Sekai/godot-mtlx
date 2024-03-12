@@ -3,7 +3,7 @@
 float mx_latlong_compute_lod(float alpha)
 {
     // Select a mip level based on input alpha.
-    float lodBias = alpha < 0.25 ? sqrt(alpha) : 0.5*alpha + 0.375;
+    float lodBias = alpha < 0.25 ? sqrt(alpha) : 0.5 * alpha + 0.375;
     return lodBias * float($envRadianceMips);
 }
 

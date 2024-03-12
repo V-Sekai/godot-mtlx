@@ -15,21 +15,21 @@ class GLRenderPipeline : public RenderPipeline
 {
   public:
     ~GLRenderPipeline() { }
-    
+
     static GLRenderPipelinePtr create(Viewer* viewer)
     {
         return std::make_shared<GLRenderPipeline>(viewer);
     }
-    
+
     void initialize(void* metal_device, void* metal_cmd_queue) override;
-    
+
     void initFramebuffer(int width, int height,
                          void* color_texture) override;
     void resizeFramebuffer(int width, int height,
-                         void* color_texture) override;
-    
+                           void* color_texture) override;
+
     mx::ImageHandlerPtr createImageHandler() override;
-    mx::MaterialPtr     createMaterial() override;
+    mx::MaterialPtr createMaterial() override;
     void updateAlbedoTable(int tableSize) override;
     std::shared_ptr<void> createTextureBaker(unsigned int width,
                                              unsigned int height,
@@ -37,12 +37,12 @@ class GLRenderPipeline : public RenderPipeline
     void renderFrame(void* color_texture, int shadowMapSize, const char* dirLightNodeCat) override;
     void bakeTextures() override;
     mx::ImagePtr getFrameImage() override;
-    
+
   public:
     GLRenderPipeline(Viewer* viewerPtr);
-    
+
   protected:
     mx::ImagePtr getShadowMap(int shadowMapSize) override;
 };
-    
+
 #endif // RENDER_PIPELINE_GL_H

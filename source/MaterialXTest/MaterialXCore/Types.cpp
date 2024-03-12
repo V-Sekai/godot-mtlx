@@ -35,7 +35,7 @@ TEST_CASE("Vectors", "[types]")
     REQUIRE((v2 /= v1) == mx::Vector3(2, 4, 6));
     REQUIRE(v1 * 2 == v2);
     REQUIRE(v2 / 2 == v1);
-    
+
     // Geometric methods
     mx::Vector4 v3(4);
     REQUIRE(v3.getMagnitude() == 8);
@@ -117,7 +117,7 @@ TEST_CASE("Matrices", "[types]")
     mx::Matrix44 rotX = mx::Matrix44::createRotationX(PI);
     mx::Matrix44 rotY = mx::Matrix44::createRotationY(PI);
     mx::Matrix44 rotZ = mx::Matrix44::createRotationZ(PI);
-    REQUIRE((rotX * rotY).isEquivalent(mx::Matrix44::createScale({-1, -1, 1}), EPSILON));
-    REQUIRE((rotX * rotZ).isEquivalent(mx::Matrix44::createScale({-1, 1, -1}), EPSILON));
-    REQUIRE((rotY * rotZ).isEquivalent(mx::Matrix44::createScale({1, -1, -1}), EPSILON));
+    REQUIRE((rotX * rotY).isEquivalent(mx::Matrix44::createScale({ -1, -1, 1 }), EPSILON));
+    REQUIRE((rotX * rotZ).isEquivalent(mx::Matrix44::createScale({ -1, 1, -1 }), EPSILON));
+    REQUIRE((rotY * rotZ).isEquivalent(mx::Matrix44::createScale({ 1, -1, -1 }), EPSILON));
 }

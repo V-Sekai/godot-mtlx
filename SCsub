@@ -1,16 +1,16 @@
 # SCsub
 
-Import('env')
+Import("env")
 
 module_env = env.Clone()
 
 module_env["disable_exceptions"] = False
 
-module_env.Prepend(CPPPATH=['source'])
-module_env.Prepend(CPPPATH=['include'])
+module_env.Prepend(CPPPATH=["source"])
+module_env.Prepend(CPPPATH=["include"])
 
 if env["platform"] == "macos" or env["platform"] == "ios":
-    module_env.Append(CPPDEFINES=["DMATERIALXVIEW_METAL_BACKEND=1"])    
+    module_env.Append(CPPDEFINES=["DMATERIALXVIEW_METAL_BACKEND=1"])
 elif env["platform"] == "linux":
     module_env.Append(CPPDEFINES=["__linux__"])
 

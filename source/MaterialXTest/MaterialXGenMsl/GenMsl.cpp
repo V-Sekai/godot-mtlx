@@ -132,7 +132,7 @@ static void generateMslCode()
 
     // Set binding context to handle resource binding layouts
     tester.addUserData(mx::HW::USER_DATA_BINDING_CONTEXT, mx::MslResourceBindingContext::create());
-    
+
     const mx::GenOptions genOptions;
     mx::FilePath optionsFilePath = searchPath.find("resources/Materials/TestSuite/_options.mtlx");
     tester.validate(genOptions, optionsFilePath);

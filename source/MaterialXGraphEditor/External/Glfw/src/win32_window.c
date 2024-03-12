@@ -82,7 +82,7 @@ static const GLFWimage* chooseImage(int count, const GLFWimage* images,
     int i, leastDiff = INT_MAX;
     const GLFWimage* closest = NULL;
 
-    for (i = 0;  i < count;  i++)
+    for (i = 0; i < count; i++)
     {
         const int currDiff = abs(images[i].width * images[i].height -
                                  width * height);
@@ -111,16 +111,16 @@ static HICON createIcon(const GLFWimage* image,
     unsigned char* source = image->pixels;
 
     ZeroMemory(&bi, sizeof(bi));
-    bi.bV5Size        = sizeof(bi);
-    bi.bV5Width       = image->width;
-    bi.bV5Height      = -image->height;
-    bi.bV5Planes      = 1;
-    bi.bV5BitCount    = 32;
+    bi.bV5Size = sizeof(bi);
+    bi.bV5Width = image->width;
+    bi.bV5Height = -image->height;
+    bi.bV5Planes = 1;
+    bi.bV5BitCount = 32;
     bi.bV5Compression = BI_BITFIELDS;
-    bi.bV5RedMask     = 0x00ff0000;
-    bi.bV5GreenMask   = 0x0000ff00;
-    bi.bV5BlueMask    = 0x000000ff;
-    bi.bV5AlphaMask   = 0xff000000;
+    bi.bV5RedMask = 0x00ff0000;
+    bi.bV5GreenMask = 0x0000ff00;
+    bi.bV5BlueMask = 0x000000ff;
+    bi.bV5AlphaMask = 0xff000000;
 
     dc = GetDC(NULL);
     color = CreateDIBSection(dc,
@@ -147,7 +147,7 @@ static HICON createIcon(const GLFWimage* image,
         return NULL;
     }
 
-    for (i = 0;  i < image->width * image->height;  i++)
+    for (i = 0; i < image->width * image->height; i++)
     {
         target[0] = source[2];
         target[1] = source[1];
@@ -158,10 +158,10 @@ static HICON createIcon(const GLFWimage* image,
     }
 
     ZeroMemory(&ii, sizeof(ii));
-    ii.fIcon    = icon;
+    ii.fIcon = icon;
     ii.xHotspot = xhot;
     ii.yHotspot = yhot;
-    ii.hbmMask  = mask;
+    ii.hbmMask = mask;
     ii.hbmColor = color;
 
     handle = CreateIconIndirect(&ii);
@@ -218,21 +218,21 @@ static void applyAspectRatio(_GLFWwindow* window, int edge, RECT* area)
     getFullWindowSize(getWindowStyle(window), getWindowExStyle(window),
                       0, 0, &xoff, &yoff, dpi);
 
-    if (edge == WMSZ_LEFT  || edge == WMSZ_BOTTOMLEFT ||
+    if (edge == WMSZ_LEFT || edge == WMSZ_BOTTOMLEFT ||
         edge == WMSZ_RIGHT || edge == WMSZ_BOTTOMRIGHT)
     {
         area->bottom = area->top + yoff +
-            (int) ((area->right - area->left - xoff) / ratio);
+                       (int) ((area->right - area->left - xoff) / ratio);
     }
     else if (edge == WMSZ_TOPLEFT || edge == WMSZ_TOPRIGHT)
     {
         area->top = area->bottom - yoff -
-            (int) ((area->right - area->left - xoff) / ratio);
+                    (int) ((area->right - area->left - xoff) / ratio);
     }
     else if (edge == WMSZ_TOP || edge == WMSZ_BOTTOM)
     {
         area->right = area->left + xoff +
-            (int) ((area->bottom - area->top - yoff) * ratio);
+                      (int) ((area->bottom - area->top - yoff) * ratio);
     }
 }
 
@@ -385,7 +385,7 @@ static void updateFramebufferTransparency(const _GLFWwindow* window)
     if (SUCCEEDED(DwmIsCompositionEnabled(&enabled)) && enabled)
     {
         HRGN region = CreateRectRgn(0, 0, -1, -1);
-        DWM_BLURBEHIND bb = {0};
+        DWM_BLURBEHIND bb = { 0 };
         bb.dwFlags = DWM_BB_ENABLE | DWM_BB_BLURREGION;
         bb.hRgnBlur = region;
         bb.fEnable = TRUE;
@@ -784,7 +784,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
             else
                 action = GLFW_RELEASE;
 
-            for (i = 0;  i <= GLFW_MOUSE_BUTTON_LAST;  i++)
+            for (i = 0; i <= GLFW_MOUSE_BUTTON_LAST; i++)
             {
                 if (window->mouseButtons[i] == GLFW_PRESS)
                     break;
@@ -795,7 +795,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
 
             _glfwInputMouseClick(window, button, action, getKeyMods());
 
-            for (i = 0;  i <= GLFW_MOUSE_BUTTON_LAST;  i++)
+            for (i = 0; i <= GLFW_MOUSE_BUTTON_LAST; i++)
             {
                 if (window->mouseButtons[i] == GLFW_PRESS)
                     break;
@@ -1096,7 +1096,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
             // Adjust the window size to keep the content area size constant
             if (_glfwIsWindows10CreatorsUpdateOrGreaterWin32())
             {
-                RECT source = {0}, target = {0};
+                RECT source = { 0 }, target = { 0 };
                 SIZE* size = (SIZE*) lParam;
 
                 AdjustWindowRectExForDpi(&source, getWindowStyle(window),
@@ -1162,7 +1162,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
             DragQueryPoint(drop, &pt);
             _glfwInputCursorPos(window, pt.x, pt.y);
 
-            for (i = 0;  i < count;  i++)
+            for (i = 0; i < count; i++)
             {
                 const UINT length = DragQueryFileW(drop, i, NULL, 0);
                 WCHAR* buffer = calloc((size_t) length + 1, sizeof(WCHAR));
@@ -1175,7 +1175,7 @@ static LRESULT CALLBACK windowProc(HWND hWnd, UINT uMsg,
 
             _glfwInputDrop(window, count, (const char**) paths);
 
-            for (i = 0;  i < count;  i++)
+            for (i = 0; i < count; i++)
                 free(paths[i]);
             free(paths);
 
@@ -1207,7 +1207,7 @@ static int createNativeWindow(_GLFWwindow* window,
         //       video mode has been picked in _glfwSetVideoModeWin32
         _glfwPlatformGetMonitorPos(window->monitor, &xpos, &ypos);
         _glfwPlatformGetVideoMode(window->monitor, &mode);
-        fullWidth  = mode.width;
+        fullWidth = mode.width;
         fullHeight = mode.height;
     }
     else
@@ -1309,7 +1309,6 @@ static int createNativeWindow(_GLFWwindow* window,
     return GLFW_TRUE;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
 //////////////////////////////////////////////////////////////////////////
@@ -1321,11 +1320,11 @@ GLFWbool _glfwRegisterWindowClassWin32(void)
     WNDCLASSEXW wc;
 
     ZeroMemory(&wc, sizeof(wc));
-    wc.cbSize        = sizeof(wc);
-    wc.style         = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-    wc.lpfnWndProc   = (WNDPROC) windowProc;
-    wc.hInstance     = GetModuleHandleW(NULL);
-    wc.hCursor       = LoadCursorW(NULL, IDC_ARROW);
+    wc.cbSize = sizeof(wc);
+    wc.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+    wc.lpfnWndProc = (WNDPROC) windowProc;
+    wc.hInstance = GetModuleHandleW(NULL);
+    wc.hCursor = LoadCursorW(NULL, IDC_ARROW);
     wc.lpszClassName = _GLFW_WNDCLASSNAME;
 
     // Load user-provided icon if available
@@ -1356,7 +1355,6 @@ void _glfwUnregisterWindowClassWin32(void)
 {
     UnregisterClassW(_GLFW_WNDCLASSNAME, GetModuleHandleW(NULL));
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -1868,7 +1866,7 @@ void _glfwPlatformSetWindowOpacity(_GLFWwindow* window, float opacity)
     }
 }
 
-void _glfwPlatformSetRawMouseMotion(_GLFWwindow *window, GLFWbool enabled)
+void _glfwPlatformSetRawMouseMotion(_GLFWwindow* window, GLFWbool enabled)
 {
     if (_glfw.win32.disabledCursorWindow != window)
         return;
@@ -1926,15 +1924,14 @@ void _glfwPlatformPollEvents(void)
         if (window)
         {
             int i;
-            const int keys[4][2] =
-            {
+            const int keys[4][2] = {
                 { VK_LSHIFT, GLFW_KEY_LEFT_SHIFT },
                 { VK_RSHIFT, GLFW_KEY_RIGHT_SHIFT },
                 { VK_LWIN, GLFW_KEY_LEFT_SUPER },
                 { VK_RWIN, GLFW_KEY_RIGHT_SUPER }
             };
 
-            for (i = 0;  i < 4;  i++)
+            for (i = 0; i < 4; i++)
             {
                 const int vk = keys[i][0];
                 const int key = keys[i][1];
@@ -2205,8 +2202,8 @@ int _glfwPlatformGetPhysicalDevicePresentationSupport(VkInstance instance,
 {
     PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR
         vkGetPhysicalDeviceWin32PresentationSupportKHR =
-        (PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)
-        vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
+            (PFN_vkGetPhysicalDeviceWin32PresentationSupportKHR)
+                vkGetInstanceProcAddr(instance, "vkGetPhysicalDeviceWin32PresentationSupportKHR");
     if (!vkGetPhysicalDeviceWin32PresentationSupportKHR)
     {
         _glfwInputError(GLFW_API_UNAVAILABLE,
@@ -2251,7 +2248,6 @@ VkResult _glfwPlatformCreateWindowSurface(VkInstance instance,
     return err;
 }
 
-
 //////////////////////////////////////////////////////////////////////////
 //////                        GLFW native API                       //////
 //////////////////////////////////////////////////////////////////////////
@@ -2262,4 +2258,3 @@ GLFWAPI HWND glfwGetWin32Window(GLFWwindow* handle)
     _GLFW_REQUIRE_INIT_OR_RETURN(NULL);
     return window->win32.handle;
 }
-

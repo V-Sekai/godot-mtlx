@@ -1020,7 +1020,7 @@ void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& co
             emitLightData(context, stage);
         }
     }
-    
+
     bool needsLightBuffer = lighting && context.getOptions().hwMaxActiveLightSources > 0;
 
     emitMathMatrixScalarMathOperators(context, stage);
@@ -1178,9 +1178,7 @@ void MslShaderGenerator::emitPixelStage(const ShaderGraph& graph, GenContext& co
             }
             else
             {
-                string outputValue = outputSocket->getValue() ?
-                                    _syntax->getValue(outputSocket->getType(), *outputSocket->getValue()) :
-                                    _syntax->getDefaultValue(outputSocket->getType());
+                string outputValue = outputSocket->getValue() ? _syntax->getValue(outputSocket->getType(), *outputSocket->getValue()) : _syntax->getDefaultValue(outputSocket->getType());
                 if (!outputSocket->getType()->isFloat4())
                 {
                     string finalOutput = outputSocket->getVariable() + "_tmp";
@@ -1322,9 +1320,7 @@ void MslShaderGenerator::emitVariableDeclaration(const ShaderPort* variable, con
 
         if (assignValue)
         {
-            const string valueStr = (variable->getValue() ?
-                                    _syntax->getValue(variable->getType(), *variable->getValue(), true) :
-                                    _syntax->getDefaultValue(variable->getType(), true));
+            const string valueStr = (variable->getValue() ? _syntax->getValue(variable->getType(), *variable->getValue(), true) : _syntax->getDefaultValue(variable->getType(), true));
             str += valueStr.empty() ? EMPTY_STRING : " = " + valueStr;
         }
 
@@ -1417,8 +1413,7 @@ namespace
 
 // List name of inputs that are not to be editable and
 // published as shader uniforms in MSL.
-const std::set<string> IMMUTABLE_INPUTS =
-{
+const std::set<string> IMMUTABLE_INPUTS = {
     // Geometric node inputs are immutable since a shader needs regeneration if they change.
     "index", "space", "attrname"
 };

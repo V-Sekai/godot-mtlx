@@ -20,9 +20,9 @@ void bindPyNode(py::module& mod)
         .def("setConnectedNodeName", &mx::Node::setConnectedNodeName)
         .def("getConnectedNodeName", &mx::Node::getConnectedNodeName)
         .def("getNodeDef", &mx::Node::getNodeDef,
-            py::arg("target") = mx::EMPTY_STRING, py::arg("allowRoughMatch") = false)
+             py::arg("target") = mx::EMPTY_STRING, py::arg("allowRoughMatch") = false)
         .def("getImplementation", &mx::Node::getImplementation,
-            py::arg("target") = mx::EMPTY_STRING)
+             py::arg("target") = mx::EMPTY_STRING)
         .def("getDownstreamPorts", &mx::Node::getDownstreamPorts)
         .def("addInputFromNodeDef", &mx::Node::addInputFromNodeDef)
         .def("addInputsFromNodeDef", &mx::Node::addInputsFromNodeDef)
@@ -30,29 +30,29 @@ void bindPyNode(py::module& mod)
 
     py::class_<mx::GraphElement, mx::GraphElementPtr, mx::InterfaceElement>(mod, "GraphElement")
         .def("addNode", &mx::GraphElement::addNode,
-            py::arg("category"), py::arg("name") = mx::EMPTY_STRING, py::arg("type") = mx::DEFAULT_TYPE_STRING)
+             py::arg("category"), py::arg("name") = mx::EMPTY_STRING, py::arg("type") = mx::DEFAULT_TYPE_STRING)
         .def("addNodeInstance", &mx::GraphElement::addNodeInstance,
-            py::arg("nodeDef"), py::arg("name") = mx::EMPTY_STRING)
+             py::arg("nodeDef"), py::arg("name") = mx::EMPTY_STRING)
         .def("getNode", &mx::GraphElement::getNode)
         .def("getNodes", &mx::GraphElement::getNodes,
-            py::arg("category") = mx::EMPTY_STRING)
+             py::arg("category") = mx::EMPTY_STRING)
         .def("removeNode", &mx::GraphElement::removeNode)
         .def("addMaterialNode", &mx::GraphElement::addMaterialNode,
-            py::arg("name") = mx::EMPTY_STRING, py::arg("shaderNode") = nullptr)
+             py::arg("name") = mx::EMPTY_STRING, py::arg("shaderNode") = nullptr)
         .def("getMaterialNodes", &mx::GraphElement::getMaterialNodes)
         .def("addBackdrop", &mx::GraphElement::addBackdrop,
-            py::arg("name") = mx::EMPTY_STRING)
+             py::arg("name") = mx::EMPTY_STRING)
         .def("getBackdrop", &mx::GraphElement::getBackdrop)
         .def("getBackdrops", &mx::GraphElement::getBackdrops)
         .def("removeBackdrop", &mx::GraphElement::removeBackdrop)
         .def("flattenSubgraphs", &mx::GraphElement::flattenSubgraphs,
-            py::arg("target") = mx::EMPTY_STRING, py::arg("filter") = nullptr)
+             py::arg("target") = mx::EMPTY_STRING, py::arg("filter") = nullptr)
         .def("topologicalSort", &mx::GraphElement::topologicalSort)
         .def("addGeomNode", &mx::GraphElement::addGeomNode)
         .def("asStringDot", &mx::GraphElement::asStringDot);
 
     py::class_<mx::NodeGraph, mx::NodeGraphPtr, mx::GraphElement>(mod, "NodeGraph")
-        .def("getMaterialOutputs", &mx::NodeGraph::getMaterialOutputs)        
+        .def("getMaterialOutputs", &mx::NodeGraph::getMaterialOutputs)
         .def("setNodeDef", &mx::NodeGraph::setNodeDef)
         .def("getNodeDef", &mx::NodeGraph::getNodeDef)
         .def("getDeclaration", &mx::NodeGraph::getDeclaration)

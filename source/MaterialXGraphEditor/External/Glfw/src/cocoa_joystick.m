@@ -39,19 +39,17 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <Kernel/IOKit/hidsystem/IOHIDUsageTables.h>
 
-
 // Joystick element information
 //
 typedef struct _GLFWjoyelementNS
 {
     IOHIDElementRef native;
-    uint32_t        usage;
-    int             index;
-    long            minimum;
-    long            maximum;
+    uint32_t usage;
+    int index;
+    long minimum;
+    long maximum;
 
 } _GLFWjoyelementNS;
-
 
 // Returns the value of the specified element of the specified joystick
 //
@@ -101,15 +99,15 @@ static void closeJoystick(_GLFWjoystick* js)
     if (!js->present)
         return;
 
-    for (i = 0;  i < CFArrayGetCount(js->ns.axes);  i++)
+    for (i = 0; i < CFArrayGetCount(js->ns.axes); i++)
         free((void*) CFArrayGetValueAtIndex(js->ns.axes, i));
     CFRelease(js->ns.axes);
 
-    for (i = 0;  i < CFArrayGetCount(js->ns.buttons);  i++)
+    for (i = 0; i < CFArrayGetCount(js->ns.buttons); i++)
         free((void*) CFArrayGetValueAtIndex(js->ns.buttons, i));
     CFRelease(js->ns.buttons);
 
-    for (i = 0;  i < CFArrayGetCount(js->ns.hats);  i++)
+    for (i = 0; i < CFArrayGetCount(js->ns.hats); i++)
         free((void*) CFArrayGetValueAtIndex(js->ns.hats, i));
     CFRelease(js->ns.hats);
 
@@ -133,15 +131,15 @@ static void matchCallback(void* context,
     _GLFWjoystick* js;
     CFMutableArrayRef axes, buttons, hats;
 
-    for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
     {
         if (_glfw.joysticks[jid].ns.device == device)
             return;
     }
 
-    axes    = CFArrayCreateMutable(NULL, 0, NULL);
+    axes = CFArrayCreateMutable(NULL, 0, NULL);
     buttons = CFArrayCreateMutable(NULL, 0, NULL);
-    hats    = CFArrayCreateMutable(NULL, 0, NULL);
+    hats = CFArrayCreateMutable(NULL, 0, NULL);
 
     property = IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
     if (property)
@@ -185,7 +183,7 @@ static void matchCallback(void* context,
     CFArrayRef elements =
         IOHIDDeviceCopyMatchingElements(device, NULL, kIOHIDOptionsTypeNone);
 
-    for (i = 0;  i < CFArrayGetCount(elements);  i++)
+    for (i = 0; i < CFArrayGetCount(elements); i++)
     {
         IOHIDElementRef native = (IOHIDElementRef)
             CFArrayGetValueAtIndex(elements, i);
@@ -252,9 +250,9 @@ static void matchCallback(void* context,
         if (target)
         {
             _GLFWjoyelementNS* element = calloc(1, sizeof(_GLFWjoyelementNS));
-            element->native  = native;
-            element->usage   = usage;
-            element->index   = (int) CFArrayGetCount(target);
+            element->native = native;
+            element->usage = usage;
+            element->index = (int) CFArrayGetCount(target);
             element->minimum = IOHIDElementGetLogicalMin(native);
             element->maximum = IOHIDElementGetLogicalMax(native);
             CFArrayAppendValue(target, element);
@@ -275,10 +273,10 @@ static void matchCallback(void* context,
                             (int) CFArrayGetCount(buttons),
                             (int) CFArrayGetCount(hats));
 
-    js->ns.device  = device;
-    js->ns.axes    = axes;
+    js->ns.device = device;
+    js->ns.axes = axes;
     js->ns.buttons = buttons;
-    js->ns.hats    = hats;
+    js->ns.hats = hats;
 
     _glfwInputJoystick(js, GLFW_CONNECTED);
 }
@@ -292,7 +290,7 @@ static void removeCallback(void* context,
 {
     int jid;
 
-    for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
     {
         if (_glfw.joysticks[jid].ns.device == device)
         {
@@ -301,7 +299,6 @@ static void removeCallback(void* context,
         }
     }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW internal API                      //////
@@ -312,8 +309,7 @@ static void removeCallback(void* context,
 void _glfwInitJoysticksNS(void)
 {
     CFMutableArrayRef matching;
-    const long usages[] =
-    {
+    const long usages[] = {
         kHIDUsage_GD_Joystick,
         kHIDUsage_GD_GamePad,
         kHIDUsage_GD_MultiAxisController
@@ -331,7 +327,7 @@ void _glfwInitJoysticksNS(void)
         return;
     }
 
-    for (size_t i = 0;  i < sizeof(usages) / sizeof(long);  i++)
+    for (size_t i = 0; i < sizeof(usages) / sizeof(long); i++)
     {
         const long page = kHIDPage_GenericDesktop;
 
@@ -391,13 +387,12 @@ void _glfwTerminateJoysticksNS(void)
 {
     int jid;
 
-    for (jid = 0;  jid <= GLFW_JOYSTICK_LAST;  jid++)
+    for (jid = 0; jid <= GLFW_JOYSTICK_LAST; jid++)
         closeJoystick(_glfw.joysticks + jid);
 
     CFRelease(_glfw.ns.hidManager);
     _glfw.ns.hidManager = NULL;
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 //////                       GLFW platform API                      //////
@@ -409,7 +404,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
     {
         CFIndex i;
 
-        for (i = 0;  i < CFArrayGetCount(js->ns.axes);  i++)
+        for (i = 0; i < CFArrayGetCount(js->ns.axes); i++)
         {
             _GLFWjoyelementNS* axis = (_GLFWjoyelementNS*)
                 CFArrayGetValueAtIndex(js->ns.axes, i);
@@ -436,7 +431,7 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
     {
         CFIndex i;
 
-        for (i = 0;  i < CFArrayGetCount(js->ns.buttons);  i++)
+        for (i = 0; i < CFArrayGetCount(js->ns.buttons); i++)
         {
             _GLFWjoyelementNS* button = (_GLFWjoyelementNS*)
                 CFArrayGetValueAtIndex(js->ns.buttons, i);
@@ -445,10 +440,9 @@ int _glfwPlatformPollJoystick(_GLFWjoystick* js, int mode)
             _glfwInputJoystickButton(js, (int) i, state);
         }
 
-        for (i = 0;  i < CFArrayGetCount(js->ns.hats);  i++)
+        for (i = 0; i < CFArrayGetCount(js->ns.hats); i++)
         {
-            const int states[9] =
-            {
+            const int states[9] = {
                 GLFW_HAT_UP,
                 GLFW_HAT_RIGHT_UP,
                 GLFW_HAT_RIGHT,
@@ -484,4 +478,3 @@ void _glfwPlatformUpdateGamepadGUID(char* guid)
                 original, original + 16);
     }
 }
-

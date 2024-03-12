@@ -11,8 +11,6 @@ struct vector2
     float y;
 };
 
-
-
 //
 // For vector2, define math operators to match vector
 //
@@ -104,13 +102,13 @@ vector2 __operator__div__(vector2 a, vector2 b)
 
 vector2 __operator__div__(vector2 a, int b)
 {
-    float b_inv = 1.0/b;
+    float b_inv = 1.0 / b;
     return a * vector2(b_inv, b_inv);
 }
 
 vector2 __operator__div__(vector2 a, float b)
 {
-    float b_inv = 1.0/b;
+    float b_inv = 1.0 / b;
     return a * vector2(b_inv, b_inv);
 }
 
@@ -134,56 +132,53 @@ int __operator__ne__(vector2 a, vector2 b)
     return (a.x != b.x) || (a.y != b.y);
 }
 
-
-
-
 //
 // For vector2, define most of the stdosl functions to match vector
 //
 
 vector2 abs(vector2 a)
 {
-    return vector2 (abs(a.x), abs(a.y));
+    return vector2(abs(a.x), abs(a.y));
 }
 
 vector2 ceil(vector2 a)
 {
-    return vector2 (ceil(a.x), ceil(a.y));
+    return vector2(ceil(a.x), ceil(a.y));
 }
 
 vector2 floor(vector2 a)
 {
-    return vector2 (floor(a.x), floor(a.y));
+    return vector2(floor(a.x), floor(a.y));
 }
 
 vector2 sqrt(vector2 a)
 {
-    return vector2 (sqrt(a.x), sqrt(a.y));
+    return vector2(sqrt(a.x), sqrt(a.y));
 }
 
 vector2 exp(vector2 a)
 {
-    return vector2 (exp(a.x), exp(a.y));
+    return vector2(exp(a.x), exp(a.y));
 }
 
 vector2 log(vector2 a)
 {
-    return vector2 (log(a.x), log(a.y));
+    return vector2(log(a.x), log(a.y));
 }
 
 vector2 log2(vector2 a)
 {
-    return vector2 (log2(a.x), log2(a.y));
+    return vector2(log2(a.x), log2(a.y));
 }
 
-vector2 mix(vector2 a, vector2 b, float x )
+vector2 mix(vector2 a, vector2 b, float x)
 {
-    return vector2 (mix(a.x, b.x, x), mix(a.y, b.y, x));
+    return vector2(mix(a.x, b.x, x), mix(a.y, b.y, x));
 }
 
-vector2 mix(vector2 a, vector2 b, vector2 x )
+vector2 mix(vector2 a, vector2 b, vector2 x)
 {
-    return vector2 (mix(a.x, b.x, x.x), mix(a.y, b.y, x.y));
+    return vector2(mix(a.x, b.x, x.x), mix(a.y, b.y, x.y));
 }
 
 float dot(vector2 a, vector2 b)
@@ -191,27 +186,27 @@ float dot(vector2 a, vector2 b)
     return (a.x * b.x + a.y * b.y);
 }
 
-float length (vector2 a)
+float length(vector2 a)
 {
-    return hypot (a.x, a.y);
+    return hypot(a.x, a.y);
 }
 
 vector2 smoothstep(vector2 low, vector2 high, vector2 in)
 {
-    return vector2 (smoothstep(low.x, high.x, in.x),
-                    smoothstep(low.y, high.y, in.y));
+    return vector2(smoothstep(low.x, high.x, in.x),
+                   smoothstep(low.y, high.y, in.y));
 }
 
 vector2 smoothstep(float low, float high, vector2 in)
 {
-    return vector2 (smoothstep(low, high, in.x),
-                    smoothstep(low, high, in.y));
+    return vector2(smoothstep(low, high, in.x),
+                   smoothstep(low, high, in.y));
 }
 
 vector2 clamp(vector2 in, vector2 low, vector2 high)
 {
-    return vector2 (clamp(in.x, low.x, high.x),
-                    clamp(in.y, low.y, high.y));
+    return vector2(clamp(in.x, low.x, high.x),
+                   clamp(in.y, low.y, high.y));
 }
 
 vector2 clamp(vector2 in, float low, float high)
@@ -221,8 +216,8 @@ vector2 clamp(vector2 in, float low, float high)
 
 vector2 max(vector2 a, vector2 b)
 {
-    return vector2 (max(a.x, b.x),
-                    max(a.y, b.y));
+    return vector2(max(a.x, b.x),
+                   max(a.y, b.y));
 }
 
 vector2 max(vector2 a, float b)
@@ -237,8 +232,8 @@ vector2 normalize(vector2 a)
 
 vector2 min(vector2 a, vector2 b)
 {
-    return vector2 (min(a.x, a.x),
-                    min(b.y, b.y));
+    return vector2(min(a.x, a.x),
+                   min(b.y, b.y));
 }
 
 vector2 min(vector2 a, float b)
@@ -259,8 +254,8 @@ vector2 mod(vector2 a, float b)
 
 vector2 fmod(vector2 a, vector2 b)
 {
-    return vector2 (fmod(a.x, b.x),
-                    fmod(a.y, b.y));
+    return vector2(fmod(a.x, b.x),
+                   fmod(a.y, b.y));
 }
 
 vector2 fmod(vector2 a, float b)
@@ -319,13 +314,11 @@ vector2 acos(vector2 a)
 vector2 atan2(vector2 a, float f)
 {
     return vector2(atan2(a.x, f),
-                  atan2(a.y, f));
+                   atan2(a.y, f));
 }
 
 vector2 atan2(vector2 a, vector2 b)
 {
     return vector2(atan2(a.x, b.x),
-                  atan2(a.y, b.y));
+                   atan2(a.y, b.y));
 }
-
-

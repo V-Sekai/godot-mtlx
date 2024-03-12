@@ -7,13 +7,13 @@
 #include <MaterialXView/RenderPipeline.h>
 
 #ifdef MATERIALXVIEW_METAL_BACKEND
-#include <MaterialXView/RenderPipelineMetal.h>
-#include <MaterialXGenMsl/MslShaderGenerator.h>
-#include <nanogui/metal.h>
+    #include <MaterialXView/RenderPipelineMetal.h>
+    #include <MaterialXGenMsl/MslShaderGenerator.h>
+    #include <nanogui/metal.h>
 #else
-#include <MaterialXRenderGlsl/GLUtil.h>
-#include <MaterialXView/RenderPipelineGL.h>
-#include <MaterialXGenGlsl/GlslShaderGenerator.h>
+    #include <MaterialXRenderGlsl/GLUtil.h>
+    #include <MaterialXView/RenderPipelineGL.h>
+    #include <MaterialXGenGlsl/GlslShaderGenerator.h>
 #endif
 
 #include <MaterialXRender/ShaderRenderer.h>
@@ -27,10 +27,10 @@
 #include <MaterialXGenShader/ShaderTranslator.h>
 
 #if MATERIALX_BUILD_GEN_MDL
-#include <MaterialXGenMdl/MdlShaderGenerator.h>
+    #include <MaterialXGenMdl/MdlShaderGenerator.h>
 #endif
 #if MATERIALX_BUILD_GEN_OSL
-#include <MaterialXGenOsl/OslShaderGenerator.h>
+    #include <MaterialXGenOsl/OslShaderGenerator.h>
 #endif
 #include <MaterialXGenGlsl/EsslShaderGenerator.h>
 
@@ -139,16 +139,16 @@ void applyModifiers(mx::DocumentPtr doc, const DocumentModifiers& modifiers)
 
 // ViewDir implementation for GLSL
 // as needed for the environment shader.
-template<typename NodeGraphImpl>
+template <typename NodeGraphImpl>
 class ViewDir : public NodeGraphImpl
 {
-public:
-    static  mx::ShaderNodeImplPtr create()
+  public:
+    static mx::ShaderNodeImplPtr create()
     {
         return std::make_shared<ViewDir>();
     }
 
-    void createVariables(const  mx::ShaderNode&, mx::GenContext&, mx::Shader& shader) const override
+    void createVariables(const mx::ShaderNode&, mx::GenContext&, mx::Shader& shader) const override
     {
         mx::ShaderStage& vs = shader.getStage(mx::Stage::VERTEX);
         mx::ShaderStage& ps = shader.getStage(mx::Stage::PIXEL);
@@ -157,7 +157,7 @@ public:
         addStageUniform(mx::HW::PRIVATE_UNIFORMS, mx::Type::VECTOR3, mx::HW::T_VIEW_POSITION, ps);
     }
 
-    void emitFunctionCall(const  mx::ShaderNode& node, mx::GenContext& context, mx::ShaderStage& stage) const override
+    void emitFunctionCall(const mx::ShaderNode& node, mx::GenContext& context, mx::ShaderStage& stage) const override
     {
         const mx::ShaderGenerator& shadergen = context.getShaderGenerator();
 
@@ -201,7 +201,7 @@ Viewer::Viewer(const std::string& materialFilename,
                int screenHeight,
                const mx::Color3& screenColor) :
     ng::Screen(ng::Vector2i(screenWidth, screenHeight), "MaterialXView",
-        true, false, true, true, false, 4, 0),
+               true, false, true, true, false, 4, 0),
     _window(nullptr),
     _materialFilename(materialFilename),
     _meshFilename(meshFilename),
@@ -301,7 +301,7 @@ Viewer::Viewer(const std::string& materialFilename,
 #else
     _renderPipeline = GLRenderPipeline::create(this);
     _genContext.getShaderGenerator().registerImplementation("IM_viewdir_vector3_" + _genContext.getShaderGenerator().getTarget(), ViewDir<mx::GlslImplementation>::create);
-    
+
     // Set Essl generator options
     _genContextEssl.getOptions().targetColorSpaceOverride = "lin_rec709";
     _genContextEssl.getOptions().fileTextureVerticalFlip = false;
@@ -388,7 +388,7 @@ void Viewer::initialize()
     loadMesh(_searchPath.find(_meshFilename));
 
     _renderPipeline->initFramebuffer(width(), height(), nullptr);
-    
+
     // Create environment geometry handler.
     _envGeometryHandler = mx::GeometryHandler::create();
     _envGeometryHandler->addLoader(objLoader);
@@ -594,11 +594,10 @@ void Viewer::createLoadMeshInterface(Widget* parent, const std::string& label)
     {
         m_process_events = false;
         std::string filename = ng::file_dialog(
-        {
-            { "obj", "Wavefront OBJ" },
-            { "gltf", "GLTF ASCII" },
-            { "glb", "GLTF Binary"}
-        }, false);
+            { { "obj", "Wavefront OBJ" },
+              { "gltf", "GLTF ASCII" },
+              { "glb", "GLTF Binary" } },
+            false);
         if (!filename.empty())
         {
             loadMesh(filename);
@@ -787,7 +786,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     mx::StringVec albedoOptions = { "Analytic", "Table", "MC" };
     ng::ComboBox* albedoBox = new ng::ComboBox(albedoGroup, albedoOptions);
     albedoBox->set_chevron_icon(-1);
-    albedoBox->set_selected_index((int) _genContext.getOptions().hwDirectionalAlbedoMethod );
+    albedoBox->set_selected_index((int) _genContext.getOptions().hwDirectionalAlbedoMethod);
     albedoBox->set_callback([this](int index)
     {
         _genContext.getOptions().hwDirectionalAlbedoMethod = (mx::HwDirectionalAlbedoMethod) index;
@@ -807,7 +806,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     }
     ng::ComboBox* sampleBox = new ng::ComboBox(sampleGroup, sampleOptions);
     sampleBox->set_chevron_icon(-1);
-    sampleBox->set_selected_index((int)std::log2(_lightHandler->getEnvSampleCount() / MIN_ENV_SAMPLE_COUNT) / 2);
+    sampleBox->set_selected_index((int) std::log2(_lightHandler->getEnvSampleCount() / MIN_ENV_SAMPLE_COUNT) / 2);
     sampleBox->set_callback([this](int index)
     {
         _lightHandler->setEnvSampleCount(MIN_ENV_SAMPLE_COUNT * (int) std::pow(4, index));
@@ -837,7 +836,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     ui.uiMin = mx::Value::createValue(0.0f);
     ui.uiMax = mx::Value::createValue(360.0f);
     ng::FloatBox<float>* lightRotationBox = createFloatWidget(lightRotationRow, "Light Rotation:",
-        _lightRotation, &ui, [this](float value)
+                                                              _lightRotation, &ui, [this](float value)
     {
         _lightRotation = value;
         invalidateShadowMap();
@@ -867,7 +866,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     ng::Widget* ambientOcclusionGainRow = new ng::Widget(advancedPopup);
     ambientOcclusionGainRow->set_layout(new ng::BoxLayout(ng::Orientation::Horizontal));
     ng::FloatBox<float>* ambientOcclusionGainBox = createFloatWidget(ambientOcclusionGainRow, "AO Gain:",
-        _ambientOcclusionGain, nullptr, [this](float value)
+                                                                     _ambientOcclusionGain, nullptr, [this](float value)
     {
         _ambientOcclusionGain = value;
     });
@@ -999,12 +998,12 @@ void Viewer::createAdvancedSettings(Widget* parent)
         _bakeOptimize = enable;
     });
 
-    ng::CheckBox* bakeDocumentPerMaterial= new ng::CheckBox(advancedPopup, "Bake Document Per Material");
+    ng::CheckBox* bakeDocumentPerMaterial = new ng::CheckBox(advancedPopup, "Bake Document Per Material");
     bakeDocumentPerMaterial->set_checked(_bakeDocumentPerMaterial);
     bakeDocumentPerMaterial->set_callback([this](bool enable)
     {
         _bakeDocumentPerMaterial = enable;
-    });    
+    });
 
     ng::Label* wedgeLabel = new ng::Label(advancedPopup, "Wedge Render Options (W)");
     wedgeLabel->set_font_size(20);
@@ -1028,7 +1027,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     wedgeProp.uiSoftMin = mx::Value::createValue(0.0f);
     wedgeProp.uiSoftMax = mx::Value::createValue(1.0f);
     ng::FloatBox<float>* wedgeMinBox = createFloatWidget(wedgeMinGroup, "Property Min:",
-        _wedgePropertyMax, &wedgeProp, [this](float value)
+                                                         _wedgePropertyMax, &wedgeProp, [this](float value)
     {
         _wedgePropertyMin = value;
     });
@@ -1038,7 +1037,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     ng::Widget* wedgeMaxGroup = new ng::Widget(advancedPopup);
     wedgeMaxGroup->set_layout(new ng::BoxLayout(ng::Orientation::Horizontal));
     ng::FloatBox<float>* wedgeMaxBox = createFloatWidget(wedgeMaxGroup, "Property Max:",
-        _wedgePropertyMax, &wedgeProp, [this](float value)
+                                                         _wedgePropertyMax, &wedgeProp, [this](float value)
     {
         _wedgePropertyMax = value;
     });
@@ -1052,7 +1051,7 @@ void Viewer::createAdvancedSettings(Widget* parent)
     wedgeCountProp.uiSoftMax = mx::Value::createValue(8);
     wedgeCountProp.uiStep = mx::Value::createValue(1);
     ng::IntBox<int>* wedgeCountBox = createIntWidget(wedgeCountGroup, "Image Count:",
-        _wedgeImageCount, &wedgeCountProp, [this](int value)
+                                                     _wedgeImageCount, &wedgeCountProp, [this](int value)
     {
         _wedgeImageCount = value;
     });
@@ -1101,9 +1100,7 @@ void Viewer::updateMaterialSelections()
     std::vector<std::string> items;
     for (const auto& material : _materials)
     {
-        mx::ElementPtr displayElem = material->getMaterialNode() ?
-                                     material->getMaterialNode() :
-                                     material->getElement();
+        mx::ElementPtr displayElem = material->getMaterialNode() ? material->getMaterialNode() : material->getElement();
         std::string displayName = displayElem->getName();
         if (displayName == "out")
         {
@@ -1292,7 +1289,7 @@ void Viewer::loadDocument(const mx::FilePath& filename, mx::DocumentPtr librarie
 
         // Create new materials.
         mx::TypedElementPtr udimElement;
-        for (size_t i=0; i<renderablePaths.size(); i++)
+        for (size_t i = 0; i < renderablePaths.size(); i++)
         {
             const auto& renderablePath = renderablePaths[i];
             mx::ElementPtr elem = doc->getDescendant(renderablePath);
@@ -1311,7 +1308,7 @@ void Viewer::loadDocument(const mx::FilePath& filename, mx::DocumentPtr librarie
                     mat->setMaterialNode(materialNodes[i]);
                     mat->setUdim(udim);
                     newMaterials.push_back(mat);
-                    
+
                     udimElement = typedElem;
                 }
             }
@@ -1370,7 +1367,7 @@ void Viewer::loadDocument(const mx::FilePath& filename, mx::DocumentPtr librarie
                     mat->generateShader(_genContext);
                 }
             }
-       
+
             // Apply material assignments in the order in which they are declared within the document,
             // with later assignments superseding earlier ones.
             for (mx::LookPtr look : doc->getLooks())
@@ -1513,7 +1510,7 @@ void Viewer::saveShaderSource(mx::GenContext& context)
                 writeTextFile(pixelShader, sourceFilename.asString() + "_ps.glsl");
                 writeTextFile(vertexShader, sourceFilename.asString() + "_vs.glsl");
                 new ng::MessageDialog(this, ng::MessageDialog::Type::Information, "Saved GLSL source: ",
-                    sourceFilename.asString() + "_*.glsl");
+                                      sourceFilename.asString() + "_*.glsl");
             }
             else if (context.getShaderGenerator().getTarget() == mx::EsslShaderGenerator::TARGET)
             {
@@ -1523,7 +1520,7 @@ void Viewer::saveShaderSource(mx::GenContext& context)
                 writeTextFile(vertexShader, sourceFilename.asString() + "_essl_vs.glsl");
                 writeTextFile(pixelShader, sourceFilename.asString() + "_essl_ps.glsl");
                 new ng::MessageDialog(this, ng::MessageDialog::Type::Information, "Saved ESSL source: ",
-                    sourceFilename.asString() + "_essl_*.glsl");
+                                      sourceFilename.asString() + "_essl_*.glsl");
             }
 #else
             if (context.getShaderGenerator().getTarget() == mx::MslShaderGenerator::TARGET)
@@ -1534,7 +1531,7 @@ void Viewer::saveShaderSource(mx::GenContext& context)
                 writeTextFile(pixelShader, sourceFilename.asString() + "_ps.metal");
                 writeTextFile(vertexShader, sourceFilename.asString() + "_vs.metal");
                 new ng::MessageDialog(this, ng::MessageDialog::Type::Information, "Saved GLSL source: ",
-                    sourceFilename.asString() + "_*.metal");
+                                      sourceFilename.asString() + "_*.metal");
             }
 #endif
 #if MATERIALX_BUILD_GEN_OSL
@@ -2057,7 +2054,7 @@ void Viewer::renderScreenSpaceQuad(mx::MaterialPtr material)
     {
         _quadMesh = mx::GeometryHandler::createQuadMesh();
     }
-    
+
     material->bindMesh(_quadMesh);
     material->drawPartition(_quadMesh->getPartition(0));
 }
@@ -2104,7 +2101,7 @@ void Viewer::draw_contents()
         else
         {
             new ng::MessageDialog(this, ng::MessageDialog::Type::Information,
-                "Failed to write wedge to disk: ", _wedgeFilename.asString());
+                                  "Failed to write wedge to disk: ", _wedgeFilename.asString());
         }
     }
 
@@ -2118,7 +2115,7 @@ void Viewer::draw_contents()
     catch (std::exception& e)
     {
         new ng::MessageDialog(this, ng::MessageDialog::Type::Warning,
-            "Failed to render frame: ", e.what());
+                              "Failed to render frame: ", e.what());
         _materialAssignments.clear();
 #ifndef MATERIALXVIEW_METAL_BACKEND
         glDisable(GL_FRAMEBUFFER_SRGB);
@@ -2137,7 +2134,7 @@ void Viewer::draw_contents()
         else
         {
             new ng::MessageDialog(this, ng::MessageDialog::Type::Information,
-                "Failed to write frame to disk: ", _captureFilename.asString());
+                                  "Failed to write frame to disk: ", _captureFilename.asString());
         }
     }
 
@@ -2230,7 +2227,7 @@ bool Viewer::mouse_button_event(const ng::Vector2i& p, int button, bool down, in
         _viewCamera->arcballButtonEvent(pos, down);
     }
     else if (button == GLFW_MOUSE_BUTTON_2 ||
-            (button == GLFW_MOUSE_BUTTON_1 && modifiers == GLFW_MOD_SHIFT))
+             (button == GLFW_MOUSE_BUTTON_1 && modifiers == GLFW_MOD_SHIFT))
     {
         _userTranslationStart = _userTranslation;
         _userTranslationActive = true;

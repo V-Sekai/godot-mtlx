@@ -46,7 +46,7 @@ void ShaderRenderTester::getGenerationOptions(const GenShaderUtil::TestSuiteOpti
     }
 }
 
-void ShaderRenderTester::printRunLog(const RenderProfileTimes &profileTimes,
+void ShaderRenderTester::printRunLog(const RenderProfileTimes& profileTimes,
                                      const GenShaderUtil::TestSuiteOptions& options,
                                      std::ostream& stream,
                                      mx::DocumentPtr dependLib)
@@ -246,7 +246,7 @@ bool ShaderRenderTester::validate(const mx::FilePath optionsFilePath)
 
             mx::FileSearchPath imageSearchPath(dir);
             imageSearchPath.append(searchPath);
-            
+
             // Resolve file names if specified
             if (_resolveImageFilenames)
             {
@@ -290,9 +290,10 @@ bool ShaderRenderTester::validate(const mx::FilePath optionsFilePath)
                 const mx::string elementName = mx::createValidName(mx::replaceSubstrings(element->getNamePath(), pathMap));
 
                 auto it = std::find_if(options.wedgeSettings.begin(), options.wedgeSettings.end(),
-                    [&file] (const GenShaderUtil::TestSuiteOptions::WedgeSetting& setting) {
-                        return (file.asString() == setting.wedgeFile);
-                    });
+                                       [&file](const GenShaderUtil::TestSuiteOptions::WedgeSetting& setting)
+                {
+                    return (file.asString() == setting.wedgeFile);
+                });
 
                 const bool performWedge = (it != options.wedgeSettings.end()) ? true : false;
                 if (!performWedge)
@@ -301,7 +302,7 @@ bool ShaderRenderTester::validate(const mx::FilePath optionsFilePath)
                 }
                 else
                 {
-                    for (auto &wedgesetting: options.wedgeSettings)
+                    for (auto& wedgesetting : options.wedgeSettings)
                     {
                         mx::ImageVec imageVec;
 
@@ -364,14 +365,14 @@ bool ShaderRenderTester::validate(const mx::FilePath optionsFilePath)
                                 setValue = true;
                             }
                             else if (origPropertyValue->isA<mx::Color3>() ||
-                                origPropertyValue->isA<mx::Vector3>())
+                                     origPropertyValue->isA<mx::Vector3>())
                             {
                                 mx::Vector3 val(propertyValue, propertyValue, propertyValue);
                                 valueElement->setValue(val);
                                 setValue = true;
                             }
                             else if (origPropertyValue->isA<mx::Color4>() ||
-                                origPropertyValue->isA<mx::Vector4>())
+                                     origPropertyValue->isA<mx::Vector4>())
                             {
                                 mx::Vector4 val(propertyValue, propertyValue, propertyValue, origPropertyValue->isA<mx::Color4>() ? 1.0f : propertyValue);
                                 valueElement->setValue(val);
@@ -542,7 +543,8 @@ void ShaderRenderTester::addAdditionalTestStreams(mx::MeshPtr mesh)
         mesh->addStream(geomColor4Stream);
     }
 
-    auto sineData = [](float uv, float freq){
+    auto sineData = [](float uv, float freq)
+    {
         const float PI = std::acos(-1.0f);
         float angle = uv * 2 * PI * freq;
         return std::sin(angle) / 2.0f + 1.0f;

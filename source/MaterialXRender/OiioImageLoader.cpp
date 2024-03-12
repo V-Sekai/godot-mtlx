@@ -7,18 +7,18 @@
 
 #if defined(_MSC_VER)
     #pragma warning(push)
-    #pragma warning(disable: 4100)
-    #pragma warning(disable: 4244)
-    #pragma warning(disable: 4800)
+    #pragma warning(disable : 4100)
+    #pragma warning(disable : 4244)
+    #pragma warning(disable : 4800)
 #endif
 
 #if defined(MATERIALX_OIIO)
 
-#include <OpenImageIO/imageio.h>
+    #include <OpenImageIO/imageio.h>
 
-#if defined(_WIN32)
-    #pragma warning(pop)
-#endif
+    #if defined(_WIN32)
+        #pragma warning(pop)
+    #endif
 
 MATERIALX_NAMESPACE_BEGIN
 
@@ -58,7 +58,7 @@ bool OiioImageLoader::saveImage(const FilePath& filePath,
                 written = imageOutput->write_image(
                     format,
                     static_cast<char*>(image->getResourceBuffer()) + (image->getHeight() - 1) * scanlinesize,
-                    OIIO::AutoStride, // default x stride
+                    OIIO::AutoStride,                           // default x stride
                     static_cast<OIIO::stride_t>(-scanlinesize), // special y stride
                     OIIO::AutoStride);
             }
@@ -68,10 +68,10 @@ bool OiioImageLoader::saveImage(const FilePath& filePath,
             }
             imageOutput->close();
 
-            // Handle deallocation in OpenImageIO 1.x
-            #if OIIO_VERSION < 10903
+    // Handle deallocation in OpenImageIO 1.x
+    #if OIIO_VERSION < 10903
             OIIO::ImageOutput::destroy(imageOutput);
-            #endif
+    #endif
         }
     }
     return written;

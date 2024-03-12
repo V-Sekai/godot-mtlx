@@ -17,7 +17,7 @@ void bindPyVariant(py::module& mod)
 
     py::class_<mx::VariantSet, mx::VariantSetPtr, mx::Element>(mod, "VariantSet")
         .def("addVariant", &mx::VariantSet::addVariant,
-            py::arg("name") = mx::EMPTY_STRING)
+             py::arg("name") = mx::EMPTY_STRING)
         .def("getVariant", &mx::VariantSet::getVariant)
         .def("getVariants", &mx::VariantSet::getVariants)
         .def("removeVariant", &mx::VariantSet::removeVariant)

@@ -33,21 +33,20 @@ void bindPyShaderRenderer(py::module& mod)
 
     py::register_exception_translator(
         [](std::exception_ptr errPtr)
+    {
+        try
         {
-            try
-            {
-                if (errPtr != NULL)
-                    std::rethrow_exception(errPtr);
-            }
-            catch (const mx::ExceptionRenderError& err)
-            {
-                std::string errorMsg = err.what();
-                for (std::string error : err.errorLog())
-                {
-                    errorMsg += "\n" + error;
-                }
-                PyErr_SetString(PyExc_LookupError, errorMsg.c_str());
-            }
+            if (errPtr != NULL)
+                std::rethrow_exception(errPtr);
         }
-    );
+        catch (const mx::ExceptionRenderError& err)
+        {
+            std::string errorMsg = err.what();
+            for (std::string error : err.errorLog())
+            {
+                errorMsg += "\n" + error;
+            }
+            PyErr_SetString(PyExc_LookupError, errorMsg.c_str());
+        }
+    });
 }
