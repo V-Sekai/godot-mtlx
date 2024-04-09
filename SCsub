@@ -2,6 +2,11 @@ Import("env")
 
 module_env = env.Clone()
 
+if env.msvc:
+    module_env.Append(CCFLAGS="/EHsc")
+else:
+    module_env.Append(CCFLAGS="-fexceptions")
+
 module_env.Prepend(CPPPATH=["thirdparty/mtlx/source", "#modules/mtlx", "thirdparty/mtlx/include"])
 
 if env["platform"] == "macos" or env["platform"] == "ios":
@@ -13,13 +18,6 @@ module_env.Append(CPPDEFINES=["GL_SILENCE_DEPRECATION"])
 
 env_thirdparty = module_env.Clone()
 env_thirdparty.disable_warnings()
-if env["disable_exceptions"]:
-    # MTLX hard-requires exceptions, so we re-enable them here.
-    if env.msvc and ("_HAS_EXCEPTIONS", 0) in env_thirdparty["CPPDEFINES"]:
-        env_thirdparty["CPPDEFINES"].remove(("_HAS_EXCEPTIONS", 0))
-        env_thirdparty.AppendUnique(CCFLAGS=["/EHsc"])
-    elif not env.msvc and "-fno-exceptions" in env_thirdparty["CCFLAGS"]:
-        env_thirdparty["CCFLAGS"].remove("-fno-exceptions")
 
 exclude_files = ["thirdparty/mtlx/source/MaterialXRender/OiioImageLoader.cpp"]
 
@@ -33,7 +31,6 @@ def add_source_files_with_exclusion(env, sources, pattern):
             env.add_source_files(sources, file)
 
 
-add_source_files_with_exclusion(env_thirdparty, env.modules_sources, "thirdparty/mtlx/source/MaterialXRender/*.cpp")
 add_source_files_with_exclusion(env_thirdparty, env.modules_sources, "thirdparty/mtlx/source/MaterialXCore/*.cpp")
 add_source_files_with_exclusion(env_thirdparty, env.modules_sources, "thirdparty/mtlx/source/MaterialXFormat/*.cpp")
 add_source_files_with_exclusion(
@@ -47,15 +44,4 @@ add_source_files_with_exclusion(
     env_thirdparty, env.modules_sources, "thirdparty/mtlx/source/MaterialXRenderHw/WindowWrapper.cpp"
 )
 
-if env["platform"] == "linuxbsd":
-    env.Append(LIBS=["libXt"])
-    env_thirdparty.add_source_files(
-        env.modules_sources, "thirdparty/mtlx/source/MaterialXRenderHw/SimpleWindowLinux.cpp"
-    )
-elif env["platform"] == "macos":
-    env_thirdparty.add_source_files(env.modules_sources, "thirdparty/mtlx/source/MaterialXRenderHw/SimpleWindowMac.cpp")
-elif env["platform"] == "windows":
-    env_thirdparty.add_source_files(
-        env.modules_sources, "thirdparty/mtlx/source/MaterialXRenderHw/SimpleWindowWindows.cpp"
-    )
 module_env.add_source_files(env.modules_sources, "*.cpp")

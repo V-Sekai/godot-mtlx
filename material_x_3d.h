@@ -28,8 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef MATERIAL_X_H
-#define MATERIAL_X_H
+#ifndef MATERIAL_X_3D_H
+#define MATERIAL_X_3D_H
 
 #include "MaterialXCore/Generated.h"
 
@@ -37,14 +37,8 @@
 #include "scene/resources/material.h"
 #include "scene/resources/visual_shader.h"
 
-#include <MaterialXGenShader/DefaultColorManagementSystem.h>
-#include <MaterialXGenShader/ShaderTranslator.h>
-
-#include <MaterialXFormat/Environ.h>
-#include <MaterialXFormat/Util.h>
-
 #include <MaterialXCore/Util.h>
-
+#include <MaterialXFormat/Util.h>
 #include <MaterialXGenGlsl/EsslShaderGenerator.h>
 
 #include <iostream>
@@ -54,30 +48,20 @@ using namespace godot;
 namespace mx = MaterialX;
 class MTLXLoader : public Resource {
 	GDCLASS(MTLXLoader, Resource);
-	mx::DocumentPtr _stdLib;
-	void create_node(const mx::NodePtr &node, int depth, Ref<VisualShader> &shader, std::set<mx::NodePtr> &processed_nodes,
-			int &id, std::map<mx::NodePtr, int> &node_ids) const;
-	void connect_node(const mx::NodePtr &node, int depth, Ref<VisualShader> &shader, std::set<mx::NodePtr> &processed_nodes,
-			int &id, const std::map<mx::NodePtr, int> &node_ids) const;
-	int get_node_id(const mx::NodePtr &node, const std::map<mx::NodePtr, int> &node_ids) const;
+	void process_node_graph(mx::DocumentPtr doc, Ref<VisualShader> shader) const;
+	void process_node(const mx::NodePtr &node, Ref<VisualShader> shader, int node_i) const;
+	void add_input_port(mx::InputPtr input, Ref<VisualShaderNodeExpression> expression_node, int input_port_i) const;
+	void add_output_port(mx::OutputPtr output, Ref<VisualShaderNodeExpression> expression_node) const;
+	static Variant get_value_as_variant(const mx::ValuePtr &value);
 
 protected:
-	static void _bind_methods() {
-		ClassDB::bind_method(D_METHOD("_load", "path", "original_path", "use_sub_threads", "cache_mode"), &MTLXLoader::_load);
-	}
+	static void _bind_methods();
 
 public:
 	virtual Variant _load(const String &p_save_path, const String &p_original_path, bool p_use_sub_threads, int64_t p_cache_mode) const;
 	MTLXLoader() {
 	}
 };
-
 using MaterialPtr = std::shared_ptr<class Material>;
 
-class DocumentModifiers {
-public:
-	mx::StringMap remapElements;
-	mx::StringSet skipElements;
-	std::string filePrefixTerminator;
-};
-#endif
+#endif // MATERIAL_X_3D_H
