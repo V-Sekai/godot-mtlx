@@ -46,8 +46,8 @@
 
 using namespace godot;
 namespace mx = MaterialX;
-class MTLXLoader : public Resource {
-	GDCLASS(MTLXLoader, Resource);
+class MTLXLoader : public RefCounted {
+	GDCLASS(MTLXLoader, RefCounted);
 	void process_node_graph(mx::DocumentPtr doc, Ref<VisualShader> shader) const;
 	void process_node(const mx::NodePtr &node, Ref<VisualShader> shader, int node_i) const;
 	void add_input_port(mx::InputPtr input, Ref<VisualShaderNodeExpression> expression_node, int input_port_i) const;
