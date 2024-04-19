@@ -28,8 +28,8 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef EDITOR_IMPORTER_MATERIALX_PLUGIN_H
-#define EDITOR_IMPORTER_MATERIALX_PLUGIN_H
+#ifndef EDITOR_MATERIAL_MATERIAL_X_PLUGIN_H
+#define EDITOR_MATERIAL_MATERIAL_X_PLUGIN_H
 
 #ifdef TOOLS_ENABLED
 
@@ -53,4 +53,4 @@ public:
 
 #endif // TOOLS_ENABLED
 
-#endif // EDITOR_SCENE_EXPORTER_GLTF_PLUGIN_H
+#endif // EDITOR_MATERIAL_MATERIAL_X_PLUGIN_H

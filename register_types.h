@@ -28,12 +28,12 @@
 /* SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.                 */
 /**************************************************************************/
 
-#ifndef REGISTER_MATERIALX_H
-#define REGISTER_MATERIALX_H
+#ifndef MTLX_REGISTER_TYPES_H
+#define MTLX_REGISTER_TYPES_H
 
 #include "modules/register_module_types.h"
 
 void initialize_mtlx_module(ModuleInitializationLevel p_level);
 void uninitialize_mtlx_module(ModuleInitializationLevel p_level);
 
-#endif
+#endif // MTLX_REGISTER_TYPES_H

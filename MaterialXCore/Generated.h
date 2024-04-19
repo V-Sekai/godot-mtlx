@@ -33,8 +33,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-#ifndef MATERIALX_GENERATED_H
-#define MATERIALX_GENERATED_H
+#ifndef GENERATED_H
+#define GENERATED_H
 
 #define MATERIALX_MAJOR_VERSION 1
 #define MATERIALX_MINOR_VERSION 38
@@ -49,4 +49,4 @@ namespace MaterialX {
 #define MATERIALX_NAMESPACE_BEGIN namespace MaterialX {
 #define MATERIALX_NAMESPACE_END }
 
-#endif
+#endif // GENERATED_H
